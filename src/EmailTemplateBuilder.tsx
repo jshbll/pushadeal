@@ -52,16 +52,26 @@ const EmailTemplateBuilder = () => {
     const [phoneNumber] = useState('904-335-8553');
 
     // Features & Repairs States
-    const [items, setItems] = useState([
-        { id: '1', name: 'Roof', type: 'repair', checked: false, category: 'Exterior' },
-        { id: '2', name: 'HVAC', type: 'feature', checked: false, category: 'Systems' },
-        { id: '3', name: 'Windows', type: 'repair', checked: false, category: 'Exterior' },
-        { id: '4', name: 'Kitchen', type: 'feature', checked: false, category: 'Interior' },
-        { id: '5', name: 'Bathrooms', type: 'repair', checked: false, category: 'Interior' },
-        { id: '6', name: 'Electrical', type: 'repair', checked: false, category: 'Systems' },
-        { id: '7', name: 'Plumbing', type: 'repair', checked: false, category: 'Systems' },
-        { id: '8', name: 'Large backyard', type: 'feature', checked: false, category: 'Exterior' }
+    const [items, setItems] = useState<Item[]>([
+        { id: '1', name: 'Roof', type: 'repair', checked: false, category: 'Exterior', year: '', details: '' },
+        { id: '2', name: 'HVAC', type: 'feature', checked: false, category: 'Systems', year: '', details: '' },
+        { id: '3', name: 'Windows', type: 'repair', checked: false, category: 'Exterior', year: '', details: '' },
+        { id: '4', name: 'Kitchen', type: 'feature', checked: false, category: 'Interior', year: '', details: '' },
+        { id: '5', name: 'Bathrooms', type: 'repair', checked: false, category: 'Interior', year: '', details: '' },
+        { id: '6', name: 'Electrical', type: 'repair', checked: false, category: 'Systems', year: '', details: '' },
+        { id: '7', name: 'Plumbing', type: 'repair', checked: false, category: 'Systems', year: '', details: '' },
+        { id: '8', name: 'Large backyard', type: 'feature', checked: false, category: 'Exterior', year: '', details: '' }
     ]);
+
+    const handleItemChange = (id: string, field: keyof Item, value: string | boolean) => {
+        setItems(prevItems => 
+            prevItems.map(item => 
+                item.id === id 
+                    ? { ...item, [field]: value }
+                    : item
+            )
+        );
+    };
 
     // Group items by category
     const groupedItems = items.reduce((acc, item) => {
@@ -133,6 +143,13 @@ const EmailTemplateBuilder = () => {
         <table class="container" border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
           <!-- Header -->
           <tr>
+            <td style="padding: 20px 0; text-align: center; border-bottom: 1px solid #eee;">
+              <div style="width: 100%; display: flex; justify-content: center; align-items: center;">
+                <img src="${logoUrl}" alt="Company Logo" style="max-width: 200px; height: auto;" />
+              </div>
+            </td>
+          </tr>
+          <tr>
             <td style="padding: 40px 40px 20px 40px;">
               <h1 style="margin: 0; color: #2C3E50; font-size: 36px; font-weight: bold;">${marketValue}</h1>
               <p style="margin: 10px 0 0 0; color: #7F8C8D; font-size: 16px;">${address}</p>
@@ -195,48 +212,106 @@ const EmailTemplateBuilder = () => {
           <tr>
             <td style="padding: 0 40px;">
               <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                  <td width="50%" style="padding-right: 10px; vertical-align: top;">
-                    <h3 style="color: #2C3E50; margin: 0 0 15px 0;">Required Repairs</h3>
-                    <ul style="margin: 0; padding: 0 0 0 20px; color: #7F8C8D;">
-                      ${items.filter(item => item.type === 'repair' && item.checked)
-                        .map(item => `<li style="margin-bottom: 8px;">${item.name}</li>`)
-                        .join('')}
-                    </ul>
-                  </td>
-                  <td width="50%" style="padding-left: 10px; vertical-align: top;">
-                    <h3 style="color: #2C3E50; margin: 0 0 15px 0;">Positive Features</h3>
-                    <ul style="margin: 0; padding: 0 0 0 20px; color: #7F8C8D;">
-                      ${items.filter(item => item.type === 'feature' && item.checked)
-                        .map(item => `<li style="margin-bottom: 8px;">${item.name}</li>`)
-                        .join('')}
-                    </ul>
-                  </td>
-                </tr>
+                ${(() => {
+                  const hasRepairs = items.filter(item => item.type === 'repair' && item.checked).length > 0;
+                  const hasFeatures = items.filter(item => item.type === 'feature' && item.checked).length > 0;
+                  
+                  if (hasRepairs && hasFeatures) {
+                    return `
+                    <tr>
+                      <td width="50%" style="padding-right: 10px; vertical-align: top;">
+                        <h2 style="color: #2C3E50; margin: 0 0 15px 0; font-size: 24px; font-weight: bold;">Required Repairs</h2>
+                        <ul style="margin: 0; padding: 0 0 0 20px; color: #2C3E50;">
+                          ${items.filter(item => item.type === 'repair' && item.checked)
+                            .map(item => `<li style="margin-bottom: 8px;">
+                              <strong>${item.name}</strong>
+                              ${item.year ? ` (${item.year})` : ''}
+                              ${item.details ? `<br><span style="font-size: 15px; color: #2C3E50; margin-top: 4px; display: block;">${item.details}</span>` : ''}
+                            </li>`)
+                            .join('')}
+                        </ul>
+                      </td>
+                      <td width="50%" style="padding-left: 10px; vertical-align: top;">
+                        <h2 style="color: #2C3E50; margin: 0 0 15px 0; font-size: 24px; font-weight: bold;">Positive Features</h2>
+                        <ul style="margin: 0; padding: 0 0 0 20px; color: #2C3E50;">
+                          ${items.filter(item => item.type === 'feature' && item.checked)
+                            .map(item => `<li style="margin-bottom: 8px;">
+                              <strong>${item.name}</strong>
+                              ${item.year ? ` (${item.year})` : ''}
+                              ${item.details ? `<br><span style="font-size: 15px; color: #2C3E50; margin-top: 4px; display: block;">${item.details}</span>` : ''}
+                            </li>`)
+                            .join('')}
+                        </ul>
+                      </td>
+                    </tr>`;
+                  } else {
+                    return `
+                    <tr>
+                      <td style="padding: 0 40px; vertical-align: top;">
+                        ${hasRepairs ? `
+                          <h2 style="color: #2C3E50; margin: 0 0 15px 0; font-size: 24px; font-weight: bold; text-align: center;">Required Repairs</h2>
+                          <ul style="margin: 0 auto; padding: 0 0 0 20px; color: #2C3E50; max-width: 400px;">
+                            ${items.filter(item => item.type === 'repair' && item.checked)
+                              .map(item => `<li style="margin-bottom: 8px;">
+                                <strong>${item.name}</strong>
+                                ${item.year ? ` (${item.year})` : ''}
+                                ${item.details ? `<br><span style="font-size: 15px; color: #2C3E50; margin-top: 4px; display: block;">${item.details}</span>` : ''}
+                              </li>`)
+                              .join('')}
+                          </ul>
+                        ` : ''}
+                        ${hasFeatures ? `
+                          <h2 style="color: #2C3E50; margin: 0 0 15px 0; font-size: 24px; font-weight: bold; text-align: center;">Positive Features</h2>
+                          <ul style="margin: 0 auto; padding: 0 0 0 20px; color: #2C3E50; max-width: 400px;">
+                            ${items.filter(item => item.type === 'feature' && item.checked)
+                              .map(item => `<li style="margin-bottom: 8px;">
+                                <strong>${item.name}</strong>
+                                ${item.year ? ` (${item.year})` : ''}
+                                ${item.details ? `<br><span style="font-size: 15px; color: #2C3E50; margin-top: 4px; display: block;">${item.details}</span>` : ''}
+                              </li>`)
+                              .join('')}
+                          </ul>
+                        ` : ''}
+                      </td>
+                    </tr>`;
+                  }
+                })()}
               </table>
             </td>
           </tr>
 
           <!-- Investment Potential -->
+          ${(repairCosts || profitMargin || marketTrends) ? `
           <tr>
             <td style="padding: 30px 40px;">
-              <h3 style="color: #2C3E50; margin: 0 0 15px 0;">Investment Potential</h3>
+              <h2 style="color: #2C3E50; margin: 0 0 15px 0;">Investment Potential</h2>
               <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #F8F9FA; border-radius: 4px; padding: 20px;">
                 <tr>
                   <td>
-                    <p style="margin: 0 0 10px 0; color: #2C3E50;"><strong>Estimated Repair Costs:</strong> ${repairCosts}</p>
-                    <p style="margin: 0 0 10px 0; color: #2C3E50;"><strong>Potential Profit Margin:</strong> ${profitMargin}</p>
-                    <p style="margin: 0 0 10px 0; color: #2C3E50;"><strong>Comparable Properties:</strong> ${comparableProperties}</p>
-                    <p style="margin: 0; color: #2C3E50;"><strong>Market Trends:</strong> ${marketTrends}</p>
+                    ${repairCosts ? `
+                    <p style="margin: 0 0 10px 0;">
+                      <strong style="color: #2C3E50;">Estimated Repair Costs:</strong>
+                      <span style="color: #2C3E50;">${repairCosts}</span>
+                    </p>` : ''}
+                    ${profitMargin ? `
+                    <p style="margin: 0 0 10px 0;">
+                      <strong style="color: #2C3E50;">Potential Profit Margin:</strong>
+                      <span style="color: #2C3E50;">${profitMargin}</span>
+                    </p>` : ''}
+                    ${marketTrends ? `
+                    <p style="margin: 0;">
+                      <strong style="color: #2C3E50;">Market Trends:</strong>
+                      <span style="color: #2C3E50;">${marketTrends}</span>
+                    </p>` : ''}
                   </td>
                 </tr>
               </table>
             </td>
           </tr>
-
+          ` : ''}
           <!-- Image Gallery -->
           <tr>
-            <td style="padding: 0 40px;">
+            <td style="padding: 40px 40px 0 40px;">
               <table class="gallery" border="0" cellpadding="0" cellspacing="0" width="100%">
                 ${galleryImages.map(image => `
                 <tr>
@@ -275,6 +350,27 @@ const EmailTemplateBuilder = () => {
   </table>
 </body>
 </html>`;
+
+    const formatCurrency = (value: string): string => {
+        // Remove any non-digit characters
+        const numericValue = value.replace(/\D/g, '');
+        
+        // Convert to number and format with commas and dollar sign
+        const formattedValue = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(parseInt(numericValue) || 0);
+
+        return formattedValue;
+    };
+
+    const handleMarketValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const rawValue = e.target.value;
+        const formattedValue = formatCurrency(rawValue);
+        setMarketValue(formattedValue);
+    };
 
     const handleSubmit = async () => {
         const emailTemplate = generateEmailTemplate();
@@ -316,7 +412,7 @@ const EmailTemplateBuilder = () => {
                                 <input
                                     type="text"
                                     value={marketValue}
-                                    onChange={(e) => setMarketValue(e.target.value)}
+                                    onChange={handleMarketValueChange}
                                     placeholder="Current market value"
                                     className="input"
                                 />
@@ -463,12 +559,7 @@ const EmailTemplateBuilder = () => {
                                                 <input
                                                     type="checkbox"
                                                     checked={item.checked}
-                                                    onChange={(e) => {
-                                                        const updatedItems = items.map((i) =>
-                                                            i.id === item.id ? { ...i, checked: e.target.checked } : i
-                                                        );
-                                                        setItems(updatedItems);
-                                                    }}
+                                                    onChange={(e) => handleItemChange(item.id, 'checked', e.target.checked)}
                                                     className="toggle-input"
                                                 />
                                                 <span className="toggle-slider"></span>
@@ -480,23 +571,13 @@ const EmailTemplateBuilder = () => {
                                                 <div className="type-selector">
                                                     <button
                                                         className={`type-button ${item.type === 'feature' ? 'active' : ''}`}
-                                                        onClick={() => {
-                                                            const updatedItems = items.map((i) =>
-                                                                i.id === item.id ? { ...i, type: 'feature' } : i
-                                                            );
-                                                            setItems(updatedItems);
-                                                        }}
+                                                        onClick={() => handleItemChange(item.id, 'type', 'feature')}
                                                     >
                                                         Feature
                                                     </button>
                                                     <button
                                                         className={`type-button ${item.type === 'repair' ? 'active' : ''}`}
-                                                        onClick={() => {
-                                                            const updatedItems = items.map((i) =>
-                                                                i.id === item.id ? { ...i, type: 'repair' } : i
-                                                            );
-                                                            setItems(updatedItems);
-                                                        }}
+                                                        onClick={() => handleItemChange(item.id, 'type', 'repair')}
                                                     >
                                                         Repair
                                                     </button>
@@ -505,24 +586,14 @@ const EmailTemplateBuilder = () => {
                                                     <input
                                                         type="text"
                                                         value={item.year || ''}
-                                                        onChange={(e) => {
-                                                            const updatedItems = items.map((i) =>
-                                                                i.id === item.id ? { ...i, year: e.target.value } : i
-                                                            );
-                                                            setItems(updatedItems);
-                                                        }}
+                                                        onChange={(e) => handleItemChange(item.id, 'year', e.target.value)}
                                                         placeholder="Year"
                                                         className="input year-input"
                                                     />
                                                     <input
                                                         type="text"
                                                         value={item.details || ''}
-                                                        onChange={(e) => {
-                                                            const updatedItems = items.map((i) =>
-                                                                i.id === item.id ? { ...i, details: e.target.value } : i
-                                                            );
-                                                            setItems(updatedItems);
-                                                        }}
+                                                        onChange={(e) => handleItemChange(item.id, 'details', e.target.value)}
                                                         placeholder="Details"
                                                         className="input details-input"
                                                     />
