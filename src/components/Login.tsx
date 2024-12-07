@@ -11,7 +11,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Simple password check - you can change this password
-    if (password === 'dealdispo2023') {
+    if (password === 'Getmoney$!') {
       onLogin();
       localStorage.setItem('isAuthenticated', 'true');
     } else {
@@ -24,7 +24,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
         <div className="text-center mb-8">
           <img
-            src="/deal-dispo-logo.svg"
+            src="https://staged.page/dealdispo/Dispo-Logo-Do-Not-Move-Delete.png"
             alt="Deal Dispo Logo"
             className="mx-auto h-12 mb-4"
           />
