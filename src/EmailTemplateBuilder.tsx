@@ -307,7 +307,7 @@ const EmailTemplateBuilder = () => {
     return (
         <div className="email-template-builder">
             <div className="form-container">
-                <div className="form-inner">
+                <div className="form-inner" style={{ overflowY: 'scroll' }}>
                     <div className="form-section">
                         <h2>Property Value & Location</h2>
                         <div className="form-grid">
@@ -683,14 +683,8 @@ const EmailTemplateBuilder = () => {
             </div>
 
             <div className="preview-container">
-                <div className="preview-inner">
-                    <h2>Email Preview</h2>
-                    <div className="preview-content">
-                        <iframe
-                            srcDoc={generateEmailTemplate()}
-                            style={{ width: '100%', height: '800px', border: 'none' }}
-                        />
-                    </div>
+                <div className="preview-inner" style={{ height: '100%', overflowY: 'auto' }}>
+                    <div dangerouslySetInnerHTML={{ __html: generateEmailTemplate() }} />
                 </div>
             </div>
         </div>
