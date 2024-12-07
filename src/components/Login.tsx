@@ -29,7 +29,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             className="mx-auto h-12 mb-4"
           />
           <h2 className="text-2xl font-bold text-gray-900">
-            Email Template Generator
+            Deal Dispo Email Generator
           </h2>
         </div>
         <form onSubmit={handleSubmit} className="space-y-6">
