@@ -1,5 +1,6 @@
                     import React, { useState } from 'react';
 import './EmailTemplateBuilder.css';
+import { githubService } from './services/github';
 
 interface Item {
     id: string;
@@ -82,34 +83,45 @@ const EmailTemplateBuilder = () => {
         return acc;
     }, {} as Record<string, Item[]>);
 
-    const handleMainImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleMainImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
-            setMainImageFile(file);
-            const imageUrl = URL.createObjectURL(file);
-            setMainImageUrl(imageUrl);
+            try {
+                setMainImageFile(file);
+                const imageUrl = await githubService.uploadImage(file);
+                setMainImageUrl(imageUrl);
+            } catch (error) {
+                console.error('Error uploading main image:', error);
+                alert('Failed to upload image. Please try again.');
+            }
         }
     };
 
-    const handleGalleryImageUpload = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const handleGalleryImageUpload = async (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const file = event.target.files?.[0];
         if (file) {
-            const newImages = [...galleryImages];
-            newImages[index] = {
-                ...newImages[index],
-                file: file,
-                url: URL.createObjectURL(file)
-            };
-            setGalleryImages(newImages);
+            try {
+                const newImages = [...galleryImages];
+                const imageUrl = await githubService.uploadImage(file);
+                newImages[index] = {
+                    ...newImages[index],
+                    file: file,
+                    url: imageUrl
+                };
+                setGalleryImages(newImages);
+            } catch (error) {
+                console.error('Error uploading gallery image:', error);
+                alert('Failed to upload image. Please try again.');
+            }
         }
     };
 
-    const generateEmailTemplate = () => `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+    const generateEmailTemplate = () => {
+        return `<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Off-Market Investment Property</title>
+  <title>${subject}</title>
   <style type="text/css">
     @media screen and (max-width: 600px) {
       .container {
@@ -136,7 +148,7 @@ const EmailTemplateBuilder = () => {
     }
   </style>
 </head>
-<body style="margin: 0; padding: 0; background-color: #f4f4f4; font-family: Arial, sans-serif; -webkit-font-smoothing: antialiased;">[[trackingImage]]
+<body style="margin: 0; padding: 0; background-color: #f4f4f4; font-family: Arial, sans-serif; -webkit-font-smoothing: antialiased;">
   <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f4f4f4;">
     <tr>
       <td align="center" style="padding: 20px 0;">
@@ -159,7 +171,7 @@ const EmailTemplateBuilder = () => {
           <!-- Main Property Image -->
           <tr>
             <td style="padding: 0 40px;">
-              <img src="${mainImageUrl}" alt="Property Front View" style="width: 100%; height: auto; border-radius: 4px;" />
+              <img src="${mainImageUrl}" alt="Property Front View" style="width: 100%; height: auto;" />
             </td>
           </tr>
           
@@ -216,99 +228,47 @@ const EmailTemplateBuilder = () => {
                   const hasRepairs = items.filter(item => item.type === 'repair' && item.checked).length > 0;
                   const hasFeatures = items.filter(item => item.type === 'feature' && item.checked).length > 0;
                   
-                  if (hasRepairs && hasFeatures) {
-                    return `
-                    <tr>
-                      <td width="50%" style="padding-right: 10px; vertical-align: top;">
-                        <h2 style="color: #2C3E50; margin: 0 0 15px 0; font-size: 24px; font-weight: bold;">Required Repairs</h2>
-                        <ul style="margin: 0; padding: 0 0 0 20px; color: #2C3E50;">
-                          ${items.filter(item => item.type === 'repair' && item.checked)
-                            .map(item => `<li style="margin-bottom: 8px;">
-                              <strong>${item.name}</strong>
-                              ${item.year ? ` (${item.year})` : ''}
-                              ${item.details ? `<br><span style="font-size: 15px; color: #2C3E50; margin-top: 4px; display: block;">${item.details}</span>` : ''}
-                            </li>`)
-                            .join('')}
-                        </ul>
-                      </td>
-                      <td width="50%" style="padding-left: 10px; vertical-align: top;">
-                        <h2 style="color: #2C3E50; margin: 0 0 15px 0; font-size: 24px; font-weight: bold;">Positive Features</h2>
-                        <ul style="margin: 0; padding: 0 0 0 20px; color: #2C3E50;">
-                          ${items.filter(item => item.type === 'feature' && item.checked)
-                            .map(item => `<li style="margin-bottom: 8px;">
-                              <strong>${item.name}</strong>
-                              ${item.year ? ` (${item.year})` : ''}
-                              ${item.details ? `<br><span style="font-size: 15px; color: #2C3E50; margin-top: 4px; display: block;">${item.details}</span>` : ''}
-                            </li>`)
-                            .join('')}
-                        </ul>
-                      </td>
-                    </tr>`;
-                  } else {
+                  if (hasRepairs || hasFeatures) {
                     return `
                     <tr>
                       <td style="padding: 0 40px; vertical-align: top;">
                         ${hasRepairs ? `
-                          <h2 style="color: #2C3E50; margin: 0 0 15px 0; font-size: 24px; font-weight: bold; text-align: center;">Required Repairs</h2>
-                          <ul style="margin: 0 auto; padding: 0 0 0 20px; color: #2C3E50; max-width: 400px;">
+                        <div>
+                          <h2 style="color: #2C3E50; margin: 0 0 15px 0; font-size: 24px; font-weight: bold;">Required Repairs</h2>
+                          <ul style="margin: 0; padding: 0 0 0 20px; color: #2C3E50;">
                             ${items.filter(item => item.type === 'repair' && item.checked)
-                              .map(item => `<li style="margin-bottom: 8px;">
+                              .map(item => `<li style="margin-bottom: 12px;">
                                 <strong>${item.name}</strong>
                                 ${item.year ? ` (${item.year})` : ''}
                                 ${item.details ? `<br><span style="font-size: 15px; color: #2C3E50; margin-top: 4px; display: block;">${item.details}</span>` : ''}
                               </li>`)
                               .join('')}
                           </ul>
+                        </div>
                         ` : ''}
                         ${hasFeatures ? `
-                          <h2 style="color: #2C3E50; margin: 0 0 15px 0; font-size: 24px; font-weight: bold; text-align: center;">Positive Features</h2>
-                          <ul style="margin: 0 auto; padding: 0 0 0 20px; color: #2C3E50; max-width: 400px;">
+                        <div>
+                          <h2 style="color: #2C3E50; margin: 0 0 15px 0; font-size: 24px; font-weight: bold;">Positive Features</h2>
+                          <ul style="margin: 0; padding: 0 0 0 20px; color: #2C3E50;">
                             ${items.filter(item => item.type === 'feature' && item.checked)
-                              .map(item => `<li style="margin-bottom: 8px;">
+                              .map(item => `<li style="margin-bottom: 12px;">
                                 <strong>${item.name}</strong>
                                 ${item.year ? ` (${item.year})` : ''}
                                 ${item.details ? `<br><span style="font-size: 15px; color: #2C3E50; margin-top: 4px; display: block;">${item.details}</span>` : ''}
                               </li>`)
                               .join('')}
                           </ul>
+                        </div>
                         ` : ''}
                       </td>
                     </tr>`;
                   }
+                  return '';
                 })()}
               </table>
             </td>
           </tr>
 
-          <!-- Investment Potential -->
-          ${(repairCosts || profitMargin || marketTrends) ? `
-          <tr>
-            <td style="padding: 30px 40px;">
-              <h2 style="color: #2C3E50; margin: 0 0 15px 0;">Investment Potential</h2>
-              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #F8F9FA; border-radius: 4px; padding: 20px;">
-                <tr>
-                  <td>
-                    ${repairCosts ? `
-                    <p style="margin: 0 0 10px 0;">
-                      <strong style="color: #2C3E50;">Estimated Repair Costs:</strong>
-                      <span style="color: #2C3E50;">${repairCosts}</span>
-                    </p>` : ''}
-                    ${profitMargin ? `
-                    <p style="margin: 0 0 10px 0;">
-                      <strong style="color: #2C3E50;">Potential Profit Margin:</strong>
-                      <span style="color: #2C3E50;">${profitMargin}</span>
-                    </p>` : ''}
-                    ${marketTrends ? `
-                    <p style="margin: 0;">
-                      <strong style="color: #2C3E50;">Market Trends:</strong>
-                      <span style="color: #2C3E50;">${marketTrends}</span>
-                    </p>` : ''}
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          ` : ''}
           <!-- Image Gallery -->
           <tr>
             <td style="padding: 40px 40px 0 40px;">
@@ -316,7 +276,7 @@ const EmailTemplateBuilder = () => {
                 ${galleryImages.map(image => `
                 <tr>
                   <td style="padding: 5px;">
-                    <img src="${image.url}" alt="${image.alt}" style="width: 100%; height: auto; border-radius: 4px;" />
+                    <img src="${image.url}" />
                   </td>
                 </tr>`).join('')}
               </table>
@@ -329,7 +289,7 @@ const EmailTemplateBuilder = () => {
               <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
                 <tr>
                   <td style="background-color: #2ECC71; border-radius: 4px; padding: 15px 30px;">
-                    <a href="#" style="color: #ffffff; text-decoration: none; font-size: 18px; font-weight: bold;">Schedule Viewing</a>
+                    <a href="tel:+19043358553" style="color: #ffffff; text-decoration: none; font-size: 18px; font-weight: bold;">Make An Offer</a>
                   </td>
                 </tr>
               </table>
@@ -348,8 +308,10 @@ const EmailTemplateBuilder = () => {
       </td>
     </tr>
   </table>
+  [[trackingImage]]
 </body>
 </html>`;
+    };
 
     const formatCurrency = (value: string): string => {
         // Remove any non-digit characters
@@ -491,59 +453,58 @@ const EmailTemplateBuilder = () => {
 
                     <div className="form-section">
                         <h2>Property Details</h2>
-                        <div className="form-grid">
-                            <div className="form-group">
-                                <label>Square Footage</label>
-                                <input
-                                    type="text"
-                                    value={squareFootage}
-                                    onChange={(e) => setSquareFootage(e.target.value)}
-                                    placeholder="Square footage"
-                                    className="input"
-                                />
+                        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="bg-gray-800 rounded-lg shadow-md p-6">
+                                <h3 className="text-xl font-semibold mb-4 text-white">Property Details</h3>
+                                <div className="space-y-3">
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-400">Address:</span>
+                                        <span className="font-medium text-white">{address}</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-400">Square Footage:</span>
+                                        <span className="font-medium text-white">{squareFootage}</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-400">Bedrooms/Baths:</span>
+                                        <span className="font-medium text-white">{bedroomsBaths}</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-400">Lot Size:</span>
+                                        <span className="font-medium text-white">{lotSize}</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-400">Year Built:</span>
+                                        <span className="font-medium text-white">{yearBuilt}</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="form-group">
-                                <label>Bedrooms/Baths</label>
-                                <input
-                                    type="text"
-                                    value={bedroomsBaths}
-                                    onChange={(e) => setBedroomsBaths(e.target.value)}
-                                    placeholder="e.g., 3 bed / 2 bath"
-                                    className="input"
-                                />
+
+                            <div className="bg-gray-800 rounded-lg shadow-md p-6">
+                                <h3 className="text-xl font-semibold mb-4 text-white">Investment Overview</h3>
+                                <div className="space-y-3">
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-400">Market Value:</span>
+                                        <span className="font-medium text-white">{marketValue}</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-400">ARV:</span>
+                                        <span className="font-medium text-white">{arv}</span>
+                                    </div>
+                                    {showInvestmentDetails && (
+                                        <>
+                                            <div className="flex justify-between">
+                                                <span className="text-gray-400">Repair Costs:</span>
+                                                <span className="font-medium text-white">{repairCosts}</span>
+                                            </div>
+                                            <div className="flex justify-between">
+                                                <span className="text-gray-400">Profit Margin:</span>
+                                                <span className="font-medium text-green-400">{profitMargin}</span>
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                        <div className="form-grid">
-                            <div className="form-group">
-                                <label>Lot Size</label>
-                                <input
-                                    type="text"
-                                    value={lotSize}
-                                    onChange={(e) => setLotSize(e.target.value)}
-                                    placeholder="e.g., 0.25 acres"
-                                    className="input"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Year Built</label>
-                                <input
-                                    type="text"
-                                    value={yearBuilt}
-                                    onChange={(e) => setYearBuilt(e.target.value)}
-                                    placeholder="Year built"
-                                    className="input"
-                                />
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <label>ARV (After Repair Value)</label>
-                            <input
-                                type="text"
-                                value={arv}
-                                onChange={(e) => setArv(e.target.value)}
-                                placeholder="After Repair Value"
-                                className="input"
-                            />
                         </div>
                     </div>
 
@@ -754,7 +715,7 @@ const EmailTemplateBuilder = () => {
             </div>
 
             <div className="preview-container">
-                <div className="preview-inner" style={{ height: '100%', overflowY: 'auto' }}>
+                <div className="preview-inner">
                     <div dangerouslySetInnerHTML={{ __html: generateEmailTemplate() }} />
                 </div>
             </div>
