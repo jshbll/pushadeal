@@ -334,32 +334,18 @@ const EmailTemplateBuilder = () => {
         setMarketValue(formattedValue);
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = () => {
         const emailTemplate = generateEmailTemplate();
-        const payload = {
-            subject: subject,
-            preheader: preheader,
-            htmlContent: emailTemplate
-        };
-
-        try {
-            const response = await fetch('https://hook.us2.make.com/i77q65mtf72ipg5w7p8wfma1bn64waak', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload)
-            });
-
-            if (response.ok) {
-                alert('Template submitted successfully!');
-            } else {
-                throw new Error('Failed to submit template');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Failed to submit template. Please try again.');
-        }
+        
+        // Create a temporary textarea element to copy the HTML
+        const el = document.createElement('textarea');
+        el.value = emailTemplate;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        
+        alert('HTML template copied to clipboard! You can now paste it into Constant Contact.');
     };
 
     return (
