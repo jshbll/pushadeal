@@ -31,7 +31,7 @@ const EmailTemplateBuilder = () => {
     const [lotSize, setLotSize] = useState('0.25 acres');
     const [yearBuilt, setYearBuilt] = useState('1985');
     const [marketValue, setMarketValue] = useState('$875,000');
-    const [arv, setArv] = useState('$1,200,000');
+    const [arv, setArv] = useState('');
 
     // Media States
     const [mainImageUrl, setMainImageUrl] = useState('');
@@ -40,10 +40,10 @@ const EmailTemplateBuilder = () => {
 
     // Investment Details States
     const [showInvestmentDetails, setShowInvestmentDetails] = useState(true);
-    const [repairCosts, setRepairCosts] = useState('$150,000');
-    const [profitMargin, setProfitMargin] = useState('$175,000');
-    const [comparableProperties, setComparableProperties] = useState('$1.1M - $1.3M');
-    const [marketTrends, setMarketTrends] = useState('8% annual appreciation');
+    const [repairCosts, setRepairCosts] = useState('');
+    const [profitMargin, setProfitMargin] = useState('');
+    const [comparableProperties, setComparableProperties] = useState('');
+    const [marketTrends, setMarketTrends] = useState('');
     const [phoneNumber] = useState('904-335-8553');
 
     // Features & Repairs States
@@ -359,6 +359,44 @@ const EmailTemplateBuilder = () => {
         setMarketValue(formattedValue);
     };
 
+    const handleArvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        if (value === '') {
+            setArv('');
+        } else {
+            const numericValue = value.replace(/[^0-9]/g, '');
+            const formattedValue = numericValue ? `$${parseInt(numericValue).toLocaleString()}` : '';
+            setArv(formattedValue);
+        }
+    };
+
+    const handleRepairCostsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        if (value === '') {
+            setRepairCosts('');
+        } else {
+            const numericValue = value.replace(/[^0-9]/g, '');
+            const formattedValue = numericValue ? `$${parseInt(numericValue).toLocaleString()}` : '';
+            setRepairCosts(formattedValue);
+        }
+    };
+
+    const handleProfitMarginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        if (value === '') {
+            setProfitMargin('');
+        } else {
+            const numericValue = value.replace(/[^0-9]/g, '');
+            const formattedValue = numericValue ? `$${parseInt(numericValue).toLocaleString()}` : '';
+            setProfitMargin(formattedValue);
+        }
+    };
+
+    // Helper function to check if a value is empty or zero
+    const isEmptyOrZero = (value: string) => {
+        return !value || value.trim() === '' || value === '$0' || value === '0' || value === '$0.00';
+    };
+
     const generatePreviewTemplate = (groupedItems: Record<string, typeof items>, bedroomsBaths: string) => {
         return `
             <div style="max-width: 800px; margin: 0 auto; font-family: Arial, sans-serif; color: #333;">
@@ -368,6 +406,12 @@ const EmailTemplateBuilder = () => {
                 <p style="margin: 0; padding: 0 40px 20px; color: #7F8C8D; font-size: 16px; text-align: center;">
                     ${address}
                 </p>
+                
+                ${logoUrl ? `
+                    <div style="text-align: center; padding: 20px; margin: 0 auto;">
+                        <img src="${logoUrl}" alt="Company Logo" style="max-width: 200px; height: auto; display: block; margin: 0 auto;" />
+                    </div>
+                ` : ''}
                 
                 ${mainImageUrl ? `
                     <div style="padding: 0 40px;">
@@ -382,21 +426,75 @@ const EmailTemplateBuilder = () => {
                 ` : ''}
 
                 <div style="padding: 20px 40px; background: #f8f9fa; margin: 20px 0;">
-                    <div style="display: flex; justify-content: space-around; text-align: center;">
-                        <div style="flex: 1; padding: 10px;">
-                            <div style="color: #666; font-size: 14px; margin-bottom: 5px;">Bedrooms/Baths</div>
-                            <div style="color: #333; font-size: 18px; font-weight: bold;">${bedroomsBaths}</div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                        ${bedroomsBaths ? `
+                            <div style="padding: 15px; text-align: center;">
+                                <div style="color: #666; font-size: 14px; margin-bottom: 8px;">Bedrooms/Baths</div>
+                                <div style="color: #333; font-size: 18px; font-weight: bold;">${bedroomsBaths}</div>
+                            </div>
+                        ` : ''}
+                        ${squareFootage ? `
+                            <div style="padding: 15px; text-align: center;">
+                                <div style="color: #666; font-size: 14px; margin-bottom: 8px;">Square Feet</div>
+                                <div style="color: #333; font-size: 18px; font-weight: bold;">${squareFootage}</div>
+                            </div>
+                        ` : ''}
+                        ${yearBuilt ? `
+                            <div style="padding: 15px; text-align: center;">
+                                <div style="color: #666; font-size: 14px; margin-bottom: 8px;">Year Built</div>
+                                <div style="color: #333; font-size: 18px; font-weight: bold;">${yearBuilt}</div>
+                            </div>
+                        ` : ''}
+                    </div>
+                    ${(lotSize || arv) ? `
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px;">
+                            ${lotSize ? `
+                                <div style="padding: 15px; text-align: center;">
+                                    <div style="color: #666; font-size: 14px; margin-bottom: 8px;">Lot Size</div>
+                                    <div style="color: #333; font-size: 18px; font-weight: bold;">${lotSize}</div>
+                                </div>
+                            ` : ''}
+                            ${arv ? `
+                                <div style="padding: 15px; text-align: center;">
+                                    <div style="color: #666; font-size: 14px; margin-bottom: 8px;">ARV</div>
+                                    <div style="color: #333; font-size: 18px; font-weight: bold;">${arv}</div>
+                                </div>
+                            ` : ''}
                         </div>
-                        <div style="flex: 1; padding: 10px;">
-                            <div style="color: #666; font-size: 14px; margin-bottom: 5px;">Square Feet</div>
-                            <div style="color: #333; font-size: 18px; font-weight: bold;">${squareFootage}</div>
-                        </div>
-                        <div style="flex: 1; padding: 10px;">
-                            <div style="color: #666; font-size: 14px; margin-bottom: 5px;">Year Built</div>
-                            <div style="color: #333; font-size: 18px; font-weight: bold;">${yearBuilt}</div>
+                    ` : ''}
+                </div>
+
+                ${(!isEmptyOrZero(repairCosts) || !isEmptyOrZero(profitMargin) || !isEmptyOrZero(comparableProperties) || !isEmptyOrZero(marketTrends)) ? `
+                    <div style="padding: 20px 40px; background: #f8f9fa; margin: 20px 0;">
+                        <h2 style="text-align: center; color: #333; font-size: 24px; margin: 0 0 20px;">Investment Details</h2>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                            ${!isEmptyOrZero(repairCosts) ? `
+                                <div style="padding: 15px; text-align: center;">
+                                    <div style="color: #666; font-size: 14px; margin-bottom: 8px;">Repair Costs</div>
+                                    <div style="color: #333; font-size: 18px; font-weight: bold;">${repairCosts}</div>
+                                </div>
+                            ` : ''}
+                            ${!isEmptyOrZero(profitMargin) ? `
+                                <div style="padding: 15px; text-align: center;">
+                                    <div style="color: #666; font-size: 14px; margin-bottom: 8px;">Profit Margin</div>
+                                    <div style="color: #333; font-size: 18px; font-weight: bold;">${profitMargin}</div>
+                                </div>
+                            ` : ''}
+                            ${!isEmptyOrZero(comparableProperties) ? `
+                                <div style="padding: 15px; text-align: center;">
+                                    <div style="color: #666; font-size: 14px; margin-bottom: 8px;">Comparable Properties</div>
+                                    <div style="color: #333; font-size: 18px; font-weight: bold;">${comparableProperties}</div>
+                                </div>
+                            ` : ''}
+                            ${!isEmptyOrZero(marketTrends) ? `
+                                <div style="padding: 15px; text-align: center;">
+                                    <div style="color: #666; font-size: 14px; margin-bottom: 8px;">Market Trends</div>
+                                    <div style="color: #333; font-size: 18px; font-weight: bold;">${marketTrends}</div>
+                                </div>
+                            ` : ''}
                         </div>
                     </div>
-                </div>
+                ` : ''}
 
                 ${Object.entries(groupedItems).map(([title, items]) => `
                     <div style="padding: 20px 40px; border-top: 1px solid #eee;">
@@ -662,6 +760,11 @@ const EmailTemplateBuilder = () => {
 </head>
 <body>
     <div class="email-container">
+        ${logoUrl ? `
+            <div style="text-align: center; padding: 20px; margin: 0 auto;">
+                <img src="${logoUrl}" alt="Company Logo" style="max-width: 200px; height: auto; display: block; margin: 0 auto;" />
+            </div>
+        ` : ''}
         <h1 class="property-title">${marketValue}</h1>
         <p class="property-address">${address}</p>
 
@@ -711,6 +814,38 @@ const EmailTemplateBuilder = () => {
                 </div>
             </div>
         </div>
+
+        ${(!isEmptyOrZero(repairCosts) || !isEmptyOrZero(profitMargin) || !isEmptyOrZero(comparableProperties) || !isEmptyOrZero(marketTrends)) ? `
+            <div class="section">
+                <h2 class="section-title">Investment Details</h2>
+                <div class="items-grid">
+                    ${!isEmptyOrZero(repairCosts) ? `
+                        <div class="item">
+                            <div class="item-name">Repair Costs</div>
+                            <div class="item-value">${repairCosts}</div>
+                        </div>
+                    ` : ''}
+                    ${!isEmptyOrZero(profitMargin) ? `
+                        <div class="item">
+                            <div class="item-name">Profit Margin</div>
+                            <div class="item-value">${profitMargin}</div>
+                        </div>
+                    ` : ''}
+                    ${!isEmptyOrZero(comparableProperties) ? `
+                        <div class="item">
+                            <div class="item-name">Comparable Properties</div>
+                            <div class="item-value">${comparableProperties}</div>
+                        </div>
+                    ` : ''}
+                    ${!isEmptyOrZero(marketTrends) ? `
+                        <div class="item">
+                            <div class="item-name">Market Trends</div>
+                            <div class="item-value">${marketTrends}</div>
+                        </div>
+                    ` : ''}
+                </div>
+            </div>
+        ` : ''}
 
         ${Object.entries(groupedItems).length > 0 ? `
             ${Object.entries(groupedItems).map(([title, groupItems]) => `
@@ -824,9 +959,43 @@ const EmailTemplateBuilder = () => {
 
     const [showHtmlModal, setShowHtmlModal] = useState(false);
     const [generatedHtml, setGeneratedHtml] = useState('');
+    const [copiedHtml, setCopiedHtml] = useState(false);
 
     const handleCopyHtml = () => {
-        navigator.clipboard.writeText(generatedHtml);
+        const emailHtml = generateEmailHtml(groupedItems, `${bedrooms} bed, ${baths} bath`);
+        navigator.clipboard.writeText(emailHtml).then(() => {
+            setCopiedHtml(true);
+            setTimeout(() => setCopiedHtml(false), 2000);
+        });
+    };
+
+    const Modal = ({ isOpen, onClose, children }: { isOpen: boolean; onClose: () => void; children: React.ReactNode }) => {
+        if (!isOpen) return null;
+
+        return (
+            <div className="modal-overlay">
+                <div className="modal-content" style={{ color: '#333', background: '#fff', position: 'relative', padding: '20px', maxWidth: '800px', width: '90%', maxHeight: '90vh', overflowY: 'auto' }}>
+                    <button 
+                        onClick={onClose}
+                        style={{
+                            position: 'absolute',
+                            right: '10px',
+                            top: '10px',
+                            background: 'none',
+                            border: 'none',
+                            fontSize: '24px',
+                            cursor: 'pointer',
+                            color: '#333'
+                        }}
+                    >
+                        ×
+                    </button>
+                    <div style={{ marginTop: '20px' }}>
+                        {children}
+                    </div>
+                </div>
+            </div>
+        );
     };
 
     return (
@@ -959,7 +1128,7 @@ const EmailTemplateBuilder = () => {
                                 <input
                                     type="text"
                                     value={arv}
-                                    onChange={(e) => setArv(formatCurrency(e.target.value))}
+                                    onChange={handleArvChange}
                                     placeholder="e.g., $1,200,000"
                                     className="input"
                                 />
@@ -1034,7 +1203,7 @@ const EmailTemplateBuilder = () => {
                                 <input
                                     type="text"
                                     value={repairCosts}
-                                    onChange={(e) => setRepairCosts(formatCurrency(e.target.value))}
+                                    onChange={handleRepairCostsChange}
                                     placeholder="e.g., $150,000"
                                     className="input"
                                 />
@@ -1044,7 +1213,7 @@ const EmailTemplateBuilder = () => {
                                 <input
                                     type="text"
                                     value={profitMargin}
-                                    onChange={(e) => setProfitMargin(formatCurrency(e.target.value))}
+                                    onChange={handleProfitMarginChange}
                                     placeholder="e.g., $175,000"
                                     className="input"
                                 />
@@ -1070,70 +1239,6 @@ const EmailTemplateBuilder = () => {
                                 />
                             </div>
                         </div>
-                    </div>
-
-                    <div className="form-section investment-details">
-                        <div className="section-header">
-                            <h2>Investment Details</h2>
-                            <label className="toggle-switch">
-                                <input
-                                    type="checkbox"
-                                    checked={showInvestmentDetails}
-                                    onChange={(e) => setShowInvestmentDetails(e.target.checked)}
-                                    className="toggle-input"
-                                />
-                                <span className="toggle-slider"></span>
-                            </label>
-                        </div>
-
-                        {showInvestmentDetails && (
-                            <div className="investment-fields">
-                                <div className="form-grid">
-                                    <div className="form-group">
-                                        <label>Repair Costs</label>
-                                        <input
-                                            type="text"
-                                            value={repairCosts}
-                                            onChange={(e) => setRepairCosts(e.target.value)}
-                                            placeholder="Estimated repair costs"
-                                            className="input"
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Profit Margin</label>
-                                        <input
-                                            type="text"
-                                            value={profitMargin}
-                                            onChange={(e) => setProfitMargin(e.target.value)}
-                                            placeholder="Potential profit margin"
-                                            className="input"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="form-grid">
-                                    <div className="form-group">
-                                        <label>Comparable Properties</label>
-                                        <input
-                                            type="text"
-                                            value={comparableProperties}
-                                            onChange={(e) => setComparableProperties(e.target.value)}
-                                            placeholder="Comparable property values"
-                                            className="input"
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Market Trends</label>
-                                        <input
-                                            type="text"
-                                            value={marketTrends}
-                                            onChange={(e) => setMarketTrends(e.target.value)}
-                                            placeholder="Current market trends"
-                                            className="input"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        )}
                     </div>
 
                     <div className="form-section">
@@ -1182,16 +1287,18 @@ const EmailTemplateBuilder = () => {
                             Add Gallery Image
                         </button>
                     </div>
+
                     <div className="button-container">
-                        <button onClick={handleGenerateClick} className="generate-button">
+                        <button onClick={() => setShowHtmlModal(true)} className="generate-button">
                             Generate HTML
                         </button>
                     </div>
                 </div>
             </div>
+
             <div className="preview-container">
                 <div className="preview-content">
-                    <h2>Preview</h2>
+                    <h2>Email Preview</h2>
                     <div 
                         className="preview-wrapper"
                         dangerouslySetInnerHTML={{ 
@@ -1201,29 +1308,33 @@ const EmailTemplateBuilder = () => {
                 </div>
             </div>
 
-            {showHtmlModal && (
-                <div className="modal-overlay" onClick={() => setShowHtmlModal(false)}>
-                    <div className="modal-content" onClick={e => e.stopPropagation()}>
-                        <div className="modal-header">
-                            <h3>Generated HTML</h3>
-                            <button onClick={() => setShowHtmlModal(false)} className="close-button">×</button>
-                        </div>
-                        <div className="modal-body">
-                            <div className="html-container">
-                                <pre>{generatedHtml}</pre>
-                            </div>
-                            <div className="modal-footer">
-                                <button onClick={handleCopyHtml} className="copy-button">
-                                    Copy HTML
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+            <Modal isOpen={showHtmlModal} onClose={() => setShowHtmlModal(false)}>
+                <div style={{ marginBottom: '20px', position: 'sticky', top: '0', background: '#fff', padding: '10px 0', borderBottom: '1px solid #eee' }}>
+                    <button 
+                        onClick={handleCopyHtml}
+                        style={{
+                            padding: '8px 16px',
+                            background: '#007bff',
+                            color: '#fff',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: 'pointer'
+                        }}
+                    >
+                        {copiedHtml ? 'Copied!' : 'Copy HTML'}
+                    </button>
                 </div>
-            )}
-            <button onClick={downloadHtml} className="download-button">
-                Download HTML Template
-            </button>
+                <pre style={{ 
+                    background: '#f8f9fa',
+                    padding: '15px',
+                    borderRadius: '4px',
+                    color: '#333',
+                    whiteSpace: 'pre-wrap',
+                    wordBreak: 'break-word'
+                }}>
+                    {generateEmailHtml(groupedItems, `${bedrooms} bed, ${baths} bath`)}
+                </pre>
+            </Modal>
         </div>
     );
 };
