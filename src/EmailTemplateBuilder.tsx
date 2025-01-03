@@ -143,15 +143,32 @@ const EmailTemplateBuilder = () => {
         });
     };
 
-    const uploadImageToServer = async (file: File): Promise<string> => {
-        try {
-            const { githubService } = await import('./services/github');
-            return await githubService.uploadImage(file);
-        } catch (error) {
-            console.error('Error uploading image:', error);
-            throw new Error('Failed to upload image');
-        }
-    };
+ // services/cloudinary.ts
+const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dyvlwsrdl/image/upload';
+const UPLOAD_PRESET = 'email-template';
+
+export const uploadToCloudinary = async (file: File): Promise<string> => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', UPLOAD_PRESET);
+
+  try {
+    const response = await fetch(CLOUDINARY_URL, {
+      method: 'POST',
+      body: formData
+    });
+
+    if (!response.ok) {
+      throw new Error('Upload failed');
+    }
+
+    const data = await response.json();
+    return data.secure_url;
+  } catch (error) {
+    console.error('Cloudinary upload error:', error);
+    throw error;
+  }
+};
 
     const handleMainImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -246,78 +263,42 @@ const EmailTemplateBuilder = () => {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         try {
-            // Create an object with only the fields that have values
             const templateData: any = {};
             
-            // Only include fields that have actual values
-            if (mainImageUrl && mainImageUrl.trim() !== '') templateData.mainImage = mainImageUrl;
+            if (mainImageUrl?.trim()) templateData.mainImage = mainImageUrl;
+            const validGalleryImages = galleryImages.filter(img => img?.trim());
+            if (validGalleryImages.length) templateData.galleryImages = validGalleryImages;
+            if (marketValue?.trim()) templateData.marketValue = marketValue;
+            if (address?.trim()) templateData.address = address;
+            if (customMessage?.trim()) templateData.customMessage = customMessage;
+            if (squareFootage?.trim()) templateData.squareFootage = squareFootage;
             
-            // Only include gallery images that have valid URLs
-            const validGalleryImages = galleryImages.filter(img => img && img.trim() !== '');
-            if (validGalleryImages.length > 0) templateData.galleryImages = validGalleryImages;
-            
-            if (marketValue && marketValue.trim() !== '') templateData.marketValue = marketValue;
-            if (address && address.trim() !== '') templateData.address = address;
-            if (customMessage && customMessage.trim() !== '') templateData.customMessage = customMessage;
-            if (squareFootage && squareFootage.trim() !== '') templateData.squareFootage = squareFootage;
-            
-            // Only include bedrooms/baths if both are present
-            if (bedrooms && bedrooms.trim() !== '' && baths && baths.trim() !== '') {
+            if (bedrooms?.trim() && baths?.trim()) {
                 templateData.bedrooms = bedrooms;
                 templateData.baths = baths;
             }
             
-            if (lotSize && lotSize.trim() !== '') templateData.lotSize = lotSize;
-            if (yearBuilt && yearBuilt.trim() !== '') templateData.yearBuilt = yearBuilt;
-            if (arv && arv.trim() !== '') templateData.arv = arv;
+            if (lotSize?.trim()) templateData.lotSize = lotSize;
+            if (yearBuilt?.trim()) templateData.yearBuilt = yearBuilt;
+            if (arv?.trim()) templateData.arv = arv;
             
-            // Only include checked items with required fields
-            const checkedItems = items.filter(item => {
-                if (!item.checked) return false;
-                if (!item.name || item.name.trim() === '') return false;
-                return true;
-            });
+            const checkedItems = items.filter(item => item.checked && item.name?.trim());
+            if (checkedItems.length) templateData.items = checkedItems;
+            if (footerMessage?.trim()) templateData.footerMessage = footerMessage;
+    
+            console.log('Template data:', templateData);
+    
+            const groupedItems = checkedItems.reduce((acc, item) => {
+                const title = item.type === 'feature' ? 'Features' : 'Required Repairs';
+                if (!acc[title]) acc[title] = [];
+                acc[title].push(item);
+                return acc;
+            }, {} as Record<string, typeof items>);
+    
+            const html = generateEmailHtml(groupedItems, `${bedrooms} bed, ${baths} bath`);
             
-            if (checkedItems.length > 0) templateData.items = checkedItems;
-            if (footerMessage && footerMessage.trim() !== '') templateData.footerMessage = footerMessage;
-
-            console.log('Raw data:', {
-                mainImageUrl,
-                galleryImages,
-                marketValue,
-                address,
-                customMessage,
-                squareFootage,
-                bedrooms,
-                baths,
-                lotSize,
-                yearBuilt,
-                arv,
-                items,
-                footerMessage
-            });
-            console.log('Sending template data:', JSON.stringify(templateData, null, 2));
-
-            const response = await fetch('http://localhost:3000/generate-template', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(templateData),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('Server error response:', errorData);
-                console.error('Server error details:', errorData.details);
-                throw new Error(`Failed to generate template: ${errorData.details || 'Unknown error'}`);
-            }
-
-            const data = await response.json();
-            
-            // Copy to clipboard
             const textarea = document.createElement('textarea');
-            textarea.value = data.html;
+            textarea.value = html;
             document.body.appendChild(textarea);
             textarea.select();
             document.execCommand('copy');
@@ -325,8 +306,7 @@ const EmailTemplateBuilder = () => {
             
             alert('Email template copied to clipboard!');
         } catch (error) {
-            console.error('Error generating template:', error);
-            console.error('Error stack:', error.stack);
+            console.error('Error:', error);
             alert('Error generating email template');
         }
     };
