@@ -19,18 +19,18 @@
 
     const EmailTemplateBuilder = () => {
         // Email Content States
-        const [customMessage, setCustomMessage] = useState('Welcome to this exceptional investment opportunity. This property offers a perfect blend of current income potential and future appreciation. With its prime location and strong market fundamentals, it represents an ideal addition to your investment portfolio.');
-        const [footerMessage, setFooterMessage] = useState('This is an exclusive off-market investment opportunity.\nContact us for more information.');
+        const [customMessage, setCustomMessage] = useState('Insert Custom Message');
+        const [footerMessage, setFooterMessage] = useState('Insert Footer Message.');
         const [logoUrl] = useState('https://staged.page/dealdispo/Dispo-Logo-Do-Not-Move-Delete.png');
 
         // Property Info States
-        const [address, setAddress] = useState('123 Investment Avenue, Beverly Hills, CA 90210');
-        const [squareFootage, setSquareFootage] = useState('3,200 sq ft');
-        const [bedrooms, setBedrooms] = useState('4');
-        const [baths, setBaths] = useState('3');
-        const [lotSize, setLotSize] = useState('0.25 acres');
-        const [yearBuilt, setYearBuilt] = useState('1985');
-        const [marketValue, setMarketValue] = useState('$875,000');
+        const [address, setAddress] = useState('Insert Property Address');
+        const [squareFootage, setSquareFootage] = useState('Insert Sq Footage');
+        const [bedrooms, setBedrooms] = useState('0');
+        const [baths, setBaths] = useState('0');
+        const [lotSize, setLotSize] = useState('Insert Acres');
+        const [yearBuilt, setYearBuilt] = useState('0000');
+        const [marketValue, setMarketValue] = useState('$000,000');
         const [arv, setArv] = useState('');
 
         // Media States
