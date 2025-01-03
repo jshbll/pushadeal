@@ -30,8 +30,8 @@
         const [baths, setBaths] = useState('0');
         const [lotSize, setLotSize] = useState('Insert Acres');
         const [yearBuilt, setYearBuilt] = useState('0000');
-        const [marketValue, setMarketValue] = useState('$000,000');
-        const [arv, setArv] = useState('');
+        const [marketValue, setMarketValue] = useState('000,000');
+        const [arv, setArv] = useState('0');
 
         // Media States
         const [mainImageUrl, setMainImageUrl] = useState('');

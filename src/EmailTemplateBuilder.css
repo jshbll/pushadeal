@@ -306,7 +306,7 @@ label {
 
 input[type="text"],
 input[type="number"],
-textarea,
+textarea.textarea,
 select {
     width: 100%;
     padding: 0.75rem 1rem;
