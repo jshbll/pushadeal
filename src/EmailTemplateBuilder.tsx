@@ -379,7 +379,7 @@
                         <table class="container" border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 8px;">
                             <!-- Header -->
                             <tr>
-                                <td style="padding: 40px 40px 20px 40px; background-color: #FFFF00;">
+                                <td style="padding: 40px 40px 20px 40px;">
                                     <h1 style="margin: 0; color: #000000; font-size: 48px; font-weight: bold; text-align: center;">
                                         ${marketValue}
                                     </h1>
@@ -393,7 +393,7 @@
                             ${logoUrl ? `
                             <tr>
                                 <td style="padding: 20px; text-align: center;">
-                                    <img src="${logoUrl}" alt="Company Logo" style="max-width: 200px; height: auto;"/>
+                                    <img src="${logoUrl}" alt="Company Logo" style="max-width: 200px; height: auto; margin: 0 auto;"/>
                                 </td>
                             </tr>
                             ` : ''}
@@ -1251,7 +1251,7 @@
                             ))}
                             <button
                                 onClick={() => setGalleryImages([...galleryImages, ''])}
-                                className="button"
+                                className="upload-button"
                             >
                                 Add Gallery Image
                             </button>
