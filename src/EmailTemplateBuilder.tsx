@@ -825,7 +825,7 @@ const EmailTemplateBuilder = () => {
                 <div class="section">
                     <h2 class="section-title">${title === 'Features' ? 'Positive Features' : 'Required Repairs'}</h2>
                     <div class="items-grid">
-                        ${groupItems.map(item => `
+                        ${groupItems.filter(item => item.checked).map(item => `
                             <div class="item ${item.type === 'feature' ? 'feature' : 'repair'}">
                                 <div class="item-name">${item.name}</div>
                                 ${item.year ? `<div class="item-year">(${item.year})</div>` : ''}
