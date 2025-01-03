@@ -472,7 +472,7 @@
                                                         ${checkedItems.map(item => `
                                                         <tr>
                                                             <td style="padding: 15px; background-color: ${item.type === 'feature' ? '#E8F5E9' : '#FFF3E0'}; border-radius: 8px; text-align: center; margin-bottom: 10px;">
-                                                                <div style="font-weight: bold; text-color: #0000000; margin-bottom: 5px;">${item.name}</div>
+                                                                <div style="font-weight: bold; color: #0000000; margin-bottom: 5px;">${item.name}</div>
                                                                 ${item.year ? `<div style="color: #666666; font-size: 14px;">Year: ${item.year}</div>` : ''}
                                                                 ${item.details ? `<div style="margin-top: 8px; font-size: 14px;">${item.details}</div>` : ''}
                                                             </td>
