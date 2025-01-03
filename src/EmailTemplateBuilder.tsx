@@ -873,9 +873,7 @@ const EmailTemplateBuilder = () => {
         const checkedItems = items.filter(item => item.checked);
         const groupedItems = checkedItems.reduce((acc, item) => {
             const title = item.type === 'feature' ? 'Features' : 'Required Repairs';
-            if (!acc[title]) {
-                acc[title] = [];
-            }
+            if (!acc[title]) acc[title] = [];
             acc[title].push(item);
             return acc;
         }, {} as Record<string, typeof items>);
@@ -891,9 +889,7 @@ const EmailTemplateBuilder = () => {
         const checkedItems = items.filter(item => item.checked);
         const groupedItems = checkedItems.reduce((acc, item) => {
             const title = item.type === 'feature' ? 'Features' : 'Required Repairs';
-            if (!acc[title]) {
-                acc[title] = [];
-            }
+            if (!acc[title]) acc[title] = [];
             acc[title].push(item);
             return acc;
         }, {} as Record<string, typeof items>);
@@ -916,9 +912,7 @@ const EmailTemplateBuilder = () => {
         const checkedItems = items.filter(item => item.checked);
         const groupedItems = checkedItems.reduce((acc, item) => {
             const title = item.type === 'feature' ? 'Features' : 'Required Repairs';
-            if (!acc[title]) {
-                acc[title] = [];
-            }
+            if (!acc[title]) acc[title] = [];
             acc[title].push(item);
             return acc;
         }, {} as Record<string, typeof items>);
