@@ -820,12 +820,13 @@ const EmailTemplateBuilder = () => {
             </div>
         ` : ''}
 
-        ${Object.entries(groupedItems).length > 0 ? `
-            ${Object.entries(groupedItems).map(([title, groupItems]) => `
+        ${Object.entries(groupedItems).map(([title, groupItems]) => {
+            const checkedItems = groupItems.filter(item => item.checked);
+            return checkedItems.length > 0 ? `
                 <div class="section">
                     <h2 class="section-title">${title === 'Features' ? 'Positive Features' : 'Required Repairs'}</h2>
                     <div class="items-grid">
-                        ${groupItems.filter(item => item.checked).map(item => `
+                        ${checkedItems.map(item => `
                             <div class="item ${item.type === 'feature' ? 'feature' : 'repair'}">
                                 <div class="item-name">${item.name}</div>
                                 ${item.year ? `<div class="item-year">(${item.year})</div>` : ''}
@@ -834,8 +835,8 @@ const EmailTemplateBuilder = () => {
                         `).join('')}
                     </div>
                 </div>
-            `).join('')}
-        ` : ''}
+            ` : '';
+        }).join('')}
 
         ${galleryImages.length > 0 ? `
             <div class="section">
