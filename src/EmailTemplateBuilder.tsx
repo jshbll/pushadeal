@@ -373,147 +373,144 @@
 
         const generatePreviewTemplate = (groupedItems: Record<string, typeof items>, bedroomsBaths: string) => {
             return `
-                <div style="max-width: 800px; margin: 0 auto; font-family: Arial, sans-serif; color: #333;">
-                    <h1 style="margin: 0; padding: 40px 40px 10px; color: #2C3E50; font-size: 36px; font-weight: bold; text-align: center;">
-                        ${marketValue.toLocaleString()}
-                    </h1>
-                    <p style="margin: 0; padding: 0 40px 20px; color: #7F8C8D; font-size: 16px; text-align: center;">
-                        ${address}
-                    </p>
-                    
-                    ${logoUrl ? `
-                        <div style="text-align: center; padding: 20px; margin: 0 auto;">
-                            <img src="${logoUrl}" alt="Company Logo" style="max-width: 200px; height: auto; display: block; margin: 0 auto;" />
-                        </div>
-                    ` : ''}
-                    
-                    ${mainImageUrl ? `
-                        <div style="padding: 0 40px;">
-                            <img src="${mainImageUrl}" alt="Property" style="width: 100%; max-width: 720px; height: auto; display: block; border-radius: 4px; margin: 0 auto;">
-                        </div>
-                    ` : ''}
-
-                    ${customMessage ? `
-                        <div style="padding: 20px 40px; color: #333; line-height: 1.6;">
-                            ${customMessage}
-                        </div>
-                    ` : ''}
-
-                    <div style="padding: 20px 40px; background: #f8f9fa; margin: 20px 0;">
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-                            ${bedroomsBaths ? `
-                                <div style="padding: 15px; text-align: center;">
-                                    <div style="color: #666; font-size: 14px; margin-bottom: 8px;">Bedrooms/Baths</div>
-                                    <div style="color: #333; font-size: 18px; font-weight: bold;">${bedroomsBaths}</div>
-                                </div>
+            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #000000;">
+                <tr>
+                    <td align="center" style="padding: 20px 0;">
+                        <table class="container" border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 8px;">
+                            <!-- Header -->
+                            <tr>
+                                <td style="padding: 40px 40px 20px 40px; background-color: #FFFF00;">
+                                    <h1 style="margin: 0; color: #000000; font-size: 48px; font-weight: bold; text-align: center;">
+                                        ${marketValue}
+                                    </h1>
+                                    <p style="margin: 10px 0 0 0; color: #000000; font-size: 18px; text-align: center;">
+                                        ${address}
+                                    </p>
+                                </td>
+                            </tr>
+         
+                            <!-- Logo -->
+                            ${logoUrl ? `
+                            <tr>
+                                <td style="padding: 20px; text-align: center;">
+                                    <img src="${logoUrl}" alt="Company Logo" style="max-width: 200px; height: auto;"/>
+                                </td>
+                            </tr>
                             ` : ''}
-                            ${squareFootage ? `
-                                <div style="padding: 15px; text-align: center;">
-                                    <div style="color: #666; font-size: 14px; margin-bottom: 8px;">Square Feet</div>
-                                    <div style="color: #333; font-size: 18px; font-weight: bold;">${squareFootage}</div>
-                                </div>
+         
+                            <!-- Main Image -->
+                            ${mainImageUrl ? `
+                            <tr>
+                                <td style="padding: 0 40px;">
+                                    <img src="${mainImageUrl}" alt="Property" style="width: 100%; height: auto; border-radius: 4px;"/>
+                                </td>
+                            </tr>
                             ` : ''}
-                            ${yearBuilt ? `
-                                <div style="padding: 15px; text-align: center;">
-                                    <div style="color: #666; font-size: 14px; margin-bottom: 8px;">Year Built</div>
-                                    <div style="color: #333; font-size: 18px; font-weight: bold;">${yearBuilt}</div>
-                                </div>
+         
+                            <!-- Custom Message -->
+                            ${customMessage ? `
+                            <tr>
+                                <td style="padding: 20px 40px; color: #333333; line-height: 1.6;">
+                                    ${customMessage}
+                                </td>
+                            </tr>
                             ` : ''}
-                        </div>
-                        ${(lotSize || arv) ? `
-                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px;">
-                                ${lotSize ? `
-                                    <div style="padding: 15px; text-align: center;">
-                                        <div style="color: #666; font-size: 14px; margin-bottom: 8px;">Lot Size</div>
-                                        <div style="color: #333; font-size: 18px; font-weight: bold;">${lotSize}</div>
-                                    </div>
-                                ` : ''}
-                                ${arv ? `
-                                    <div style="padding: 15px; text-align: center;">
-                                        <div style="color: #666; font-size: 14px; margin-bottom: 8px;">ARV</div>
-                                        <div style="color: #333; font-size: 18px; font-weight: bold;">${arv}</div>
-                                    </div>
-                                ` : ''}
-                            </div>
-                        ` : ''}
-                    </div>
-
-                    ${(!isEmptyOrZero(repairCosts) || !isEmptyOrZero(profitMargin) || !isEmptyOrZero(comparableProperties) || !isEmptyOrZero(marketTrends)) ? `
-                        <div style="padding: 20px 40px; background: #f8f9fa; margin: 20px 0;">
-                            <h2 style="text-align: center; color: #333; font-size: 24px; margin: 0 0 20px;">Investment Details</h2>
-                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
-                                ${!isEmptyOrZero(repairCosts) ? `
-                                    <div style="padding: 15px; text-align: center;">
-                                        <div style="color: #666; font-size: 14px; margin-bottom: 8px;">Repair Costs</div>
-                                        <div style="color: #333; font-size: 18px; font-weight: bold;">${repairCosts}</div>
-                                    </div>
-                                ` : ''}
-                                ${!isEmptyOrZero(profitMargin) ? `
-                                    <div style="padding: 15px; text-align: center;">
-                                        <div style="color: #666; font-size: 14px; margin-bottom: 8px;">Profit Margin</div>
-                                        <div style="color: #333; font-size: 18px; font-weight: bold;">${profitMargin}</div>
-                                    </div>
-                                ` : ''}
-                                ${!isEmptyOrZero(comparableProperties) ? `
-                                    <div style="padding: 15px; text-align: center;">
-                                        <div style="color: #666; font-size: 14px; margin-bottom: 8px;">Comparable Properties</div>
-                                        <div style="color: #333; font-size: 18px; font-weight: bold;">${comparableProperties}</div>
-                                    </div>
-                                ` : ''}
-                                ${!isEmptyOrZero(marketTrends) ? `
-                                    <div style="padding: 15px; text-align: center;">
-                                        <div style="color: #666; font-size: 14px; margin-bottom: 8px;">Market Trends</div>
-                                        <div style="color: #333; font-size: 18px; font-weight: bold;">${marketTrends}</div>
-                                    </div>
-                                ` : ''}
-                            </div>
-                        </div>
-                    ` : ''}
-
-                    ${Object.entries(groupedItems).map(([title, items]) => {
-                        const checkedItems = items.filter(item => item.checked);
-                        return checkedItems.length > 0 ? `
-                            <div style="padding: 20px 40px; border-top: 1px solid #eee;">
-                                <h2 style="text-align: center; color: #333; font-size: 24px; margin: 0 0 20px;">${title === 'Features' ? 'Positive Features' : 'Required Repairs'}</h2>
-                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
-                                    ${checkedItems.map(item => `
-                                        <div style="padding: 15px; border-radius: 8px; text-align: center; background-color: ${item.type === 'feature' ? '#E8F5E9' : '#FFF3E0'};">
-                                            <div style="font-weight: bold; margin-bottom: 5px;">${item.name}</div>
-                                            ${item.year ? `<div style="color: #666; font-size: 14px;">Year: ${item.year}</div>` : ''}
-                                            ${item.details ? `<div style="margin-top: 8px; font-size: 14px;">${item.details}</div>` : ''}
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        ` : '';
-                    }).join('')}
-
-                    ${galleryImages.length > 0 ? `
-                        <div style="padding: 20px 40px;">
-                            <h2 style="text-align: center; color: #333; font-size: 24px; margin: 0 0 20px;">Property Gallery</h2>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-                                ${galleryImages.map(image => `
-                                    <div style="text-align: center;">
-                                        <img src="${image}" alt="Property gallery image" style="width: 100%; height: auto; border-radius: 4px; margin-bottom: 10px;">
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
-                    ` : ''}
-
-                    <div style="text-align: center; padding: 30px 40px;">
-                        <h2 style="color: #333; font-size: 24px; margin-bottom: 10px;">Ready to make an offer?</h2>
-                        <div style="color: #333; font-size: 32px; font-weight: bold;">Call ${phoneNumber}</div>
-                    </div>
-
-                    ${footerMessage ? `
-                        <div style="padding: 20px 40px; background: #f8f9fa; text-align: center; color: #666; font-size: 14px; margin-top: 20px;">
-                            ${footerMessage}
-                        </div>
-                    ` : ''}
-                </div>
+         
+                            <!-- Property Details -->
+                            <tr>
+                                <td style="padding: 30px 40px;">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                            <td width="33%" style="padding: 15px; background-color: #F8F9FA; border-radius: 4px; text-align: center;">
+                                                <p style="margin: 0; color: #666666; font-size: 14px;">Bedrooms/Baths</p>
+                                                <p style="margin: 5px 0 0 0; color: #333333; font-size: 18px; font-weight: bold;">${bedroomsBaths}</p>
+                                            </td>
+                                            <td width="33%" style="padding: 15px; background-color: #F8F9FA; border-radius: 4px; text-align: center;">
+                                                <p style="margin: 0; color: #666666; font-size: 14px;">Square Feet</p>
+                                                <p style="margin: 5px 0 0 0; color: #333333; font-size: 18px; font-weight: bold;">${squareFootage}</p>
+                                            </td>
+                                            <td width="33%" style="padding: 15px; background-color: #F8F9FA; border-radius: 4px; text-align: center;">
+                                                <p style="margin: 0; color: #666666; font-size: 14px;">Year Built</p>
+                                                <p style="margin: 5px 0 0 0; color: #333333; font-size: 18px; font-weight: bold;">${yearBuilt}</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="33%" style="padding: 15px; background-color: #F8F9FA; border-radius: 4px; text-align: center;">
+                                                <p style="margin: 0; color: #666666; font-size: 14px;">Lot Size</p>
+                                                <p style="margin: 5px 0 0 0; color: #333333; font-size: 18px; font-weight: bold;">${lotSize}</p>
+                                            </td>
+                                            <td width="33%" style="padding: 15px; background-color: #F8F9FA; border-radius: 4px; text-align: center;">
+                                                <p style="margin: 0; color: #666666; font-size: 14px;">Market Value</p>
+                                                <p style="margin: 5px 0 0 0; color: #333333; font-size: 18px; font-weight: bold;">${marketValue}</p>
+                                            </td>
+                                            <td width="33%" style="padding: 15px; background-color: #F8F9FA; border-radius: 4px; text-align: center;">
+                                                <p style="margin: 0; color: #666666; font-size: 14px;">ARV</p>
+                                                <p style="margin: 5px 0 0 0; color: #333333; font-size: 18px; font-weight: bold;">${arv}</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+         
+                            <!-- Features & Repairs -->
+                            ${Object.entries(groupedItems).map(([title, items]) => {
+                                const checkedItems = items.filter(item => item.checked);
+                                return checkedItems.length > 0 ? `
+                                <tr>
+                                    <td style="padding: 0 40px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td>
+                                                    <h3 style="color: #333333; margin: 0 0 15px 0; text-align: center; font-size: 24px;">
+                                                        ${title === 'Features' ? 'Positive Features' : 'Required Repairs'}
+                                                    </h3>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                        ${checkedItems.map(item => `
+                                                        <tr>
+                                                            <td style="padding: 15px; background-color: ${item.type === 'feature' ? '#E8F5E9' : '#FFF3E0'}; border-radius: 8px; text-align: center; margin-bottom: 10px;">
+                                                                <div style="font-weight: bold; margin-bottom: 5px;">${item.name}</div>
+                                                                ${item.year ? `<div style="color: #666666; font-size: 14px;">Year: ${item.year}</div>` : ''}
+                                                                ${item.details ? `<div style="margin-top: 8px; font-size: 14px;">${item.details}</div>` : ''}
+                                                            </td>
+                                                        </tr>
+                                                        `).join('')}
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                ` : '';
+                            }).join('')}
+         
+                            <!-- CTA Section -->
+                            <tr>
+                                <td style="padding: 30px 40px; text-align: center;">
+                                    <h2 style="color: #333333; font-size: 24px; margin-bottom: 10px;">Ready to make an offer?</h2>
+                                    <div style="color: #333333; font-size: 32px; font-weight: bold;">Call ${phoneNumber}</div>
+                                </td>
+                            </tr>
+         
+                            <!-- Footer -->
+                            ${footerMessage ? `
+                            <tr>
+                                <td style="padding: 20px 40px; background-color: #F8F9FA; text-align: center;">
+                                    <p style="margin: 0; color: #666666; font-size: 14px;">
+                                        ${footerMessage.split('\n').join('<br/>')}
+                                    </p>
+                                </td>
+                            </tr>
+                            ` : ''}
+                        </table>
+                    </td>
+                </tr>
+            </table>
             `;
-        };
+         };
 
         const generateEmailStyles = () => {
             return `
