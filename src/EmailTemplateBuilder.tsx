@@ -79,10 +79,10 @@ const EmailTemplateBuilder = () => {
 
     // Image validation functions
     const validateImage = async (file: File, type: 'main' | 'gallery' | 'header' | 'background'): Promise<{ isValid: boolean; message?: string }> => {
-        // Check file size (5MB = 5 * 1024 * 1024 bytes)
-        const maxSize = 5 * 1024 * 1024;
+        // Check file size (1MB = 5 * 1024 * 1024 bytes)
+        const maxSize = 1 * 1024 * 1024;
         if (file.size > maxSize) {
-            return { isValid: false, message: 'Image must be under 5MB in size' };
+            return { isValid: false, message: 'Image must be under 1MB in size' };
         }
 
         // Create an image object to check dimensions
@@ -144,20 +144,13 @@ const EmailTemplateBuilder = () => {
     };
 
     const uploadImageToServer = async (file: File): Promise<string> => {
-        const formData = new FormData();
-        formData.append('image', file);
-
-        const response = await fetch('http://localhost:3000/upload', {
-            method: 'POST',
-            body: formData,
-        });
-
-        if (!response.ok) {
-            throw new Error('Upload failed');
+        try {
+            const { githubService } = await import('./services/github');
+            return await githubService.uploadImage(file);
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            throw new Error('Failed to upload image');
         }
-
-        const data = await response.json();
-        return data.url;
     };
 
     const handleMainImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -177,8 +170,8 @@ const EmailTemplateBuilder = () => {
                     return;
                 }
                 
-                if (file.size > 5 * 1024 * 1024) {
-                    alert('Image must be under 5MB');
+                if (file.size > 1 * 1024 * 1024) {
+                    alert('Image must be under 1MB');
                     return;
                 }
 
