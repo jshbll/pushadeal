@@ -373,146 +373,6 @@
             return !value || value.trim() === '' || value === '$0' || value === '0' || value === '$0.00';
         };
 
-        const generatePreviewTemplate = (groupedItems: Record<string, typeof items>, bedroomsBaths: string) => {
-            return `
-            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #000000;">
-                <tr>
-                    <td align="center" style="padding: 20px 0;">
-                        <table class="container" border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 8px;">
-                            <!-- Header -->
-                            <tr>
-                                <td style="padding: 40px 40px 20px 40px;">
-                                    <h1 style="margin: 0; color: #000000; font-size: 48px; font-weight: bold; text-align: center;">
-                                        ${marketValue}
-                                    </h1>
-                                    <p style="margin: 10px 0 0 0; color: #000000; font-size: 18px; text-align: center;">
-                                        ${address}
-                                    </p>
-                                </td>
-                            </tr>
-         
-                            <!-- Logo -->
-                            ${logoUrl ? `
-                            <tr>
-                                <td style="padding: 20px; text-align: center;">
-                                    <img src="${logoUrl}" alt="Company Logo" style="max-width: 200px; height: auto; margin: 0 auto;"/>
-                                </td>
-                            </tr>
-                            ` : ''}
-         
-                            <!-- Main Image -->
-                            ${mainImageUrl ? `
-                            <tr>
-                                <td style="padding: 0 40px;">
-                                    <img src="${mainImageUrl}" alt="Property" style="width: 100%; height: auto; border-radius: 4px;"/>
-                                </td>
-                            </tr>
-                            ` : ''}
-         
-                            <!-- Custom Message -->
-                            ${customMessage ? `
-                            <tr>
-                                <td style="padding: 20px 40px; color: #333333; line-height: 1.6;">
-                                    ${customMessage}
-                                </td>
-                            </tr>
-                            ` : ''}
-         
-                            <!-- Property Details -->
-                            <tr>
-                                <td style="padding: 30px 40px;">
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                        <tr>
-                                            <td width="33%" style="padding: 15px; background-color: #F8F9FA; border-radius: 4px; text-align: center;">
-                                                <p style="margin: 0; color: #666666; font-size: 14px;">Bedrooms/Baths</p>
-                                                <p style="margin: 5px 0 0 0; color: #333333; font-size: 18px; font-weight: bold;">${bedroomsBaths}</p>
-                                            </td>
-                                            <td width="33%" style="padding: 15px; background-color: #F8F9FA; border-radius: 4px; text-align: center;">
-                                                <p style="margin: 0; color: #666666; font-size: 14px;">Square Feet</p>
-                                                <p style="margin: 5px 0 0 0; color: #333333; font-size: 18px; font-weight: bold;">${squareFootage}</p>
-                                            </td>
-                                            <td width="33%" style="padding: 15px; background-color: #F8F9FA; border-radius: 4px; text-align: center;">
-                                                <p style="margin: 0; color: #666666; font-size: 14px;">Year Built</p>
-                                                <p style="margin: 5px 0 0 0; color: #333333; font-size: 18px; font-weight: bold;">${yearBuilt}</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="33%" style="padding: 15px; background-color: #F8F9FA; border-radius: 4px; text-align: center;">
-                                                <p style="margin: 0; color: #666666; font-size: 14px;">Lot Size</p>
-                                                <p style="margin: 5px 0 0 0; color: #333333; font-size: 18px; font-weight: bold;">${lotSize}</p>
-                                            </td>
-                                            <td width="33%" style="padding: 15px; background-color: #F8F9FA; border-radius: 4px; text-align: center;">
-                                                <p style="margin: 0; color: #666666; font-size: 14px;">Market Value</p>
-                                                <p style="margin: 5px 0 0 0; color: #333333; font-size: 18px; font-weight: bold;">${marketValue}</p>
-                                            </td>
-                                            <td width="33%" style="padding: 15px; background-color: #F8F9FA; border-radius: 4px; text-align: center;">
-                                                <p style="margin: 0; color: #666666; font-size: 14px;">ARV</p>
-                                                <p style="margin: 5px 0 0 0; color: #333333; font-size: 18px; font-weight: bold;">${arv}</p>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-         
-                            <!-- Features & Repairs -->
-                            ${Object.entries(groupedItems).map(([title, items]) => {
-                                const checkedItems = items.filter(item => item.checked);
-                                return checkedItems.length > 0 ? `
-                                <tr>
-                                    <td style="padding: 0 40px;">
-                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                            <tr>
-                                                <td>
-                                                    <h3 style="color: #333333; margin: 0 0 15px 0; text-align: center; font-size: 24px;">
-                                                        ${title === 'Features' ? 'Positive Features' : 'Required Repairs'}
-                                                    </h3>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                                        ${checkedItems.map(item => `
-                                                        <tr>
-                                                            <td style="padding: 15px; background-color: ${item.type === 'feature' ? '#E8F5E9' : '#FFF3E0'}; border-radius: 8px; text-align: center; margin-bottom: 10px;">
-                                                                <div style="font-weight: bold; color: #000; margin-bottom: 5px;">${item.name}</div>
-                                                                ${item.year ? `<div style="color: #666666; font-size: 14px;">Year: ${item.year}</div>` : ''}
-                                                                ${item.details ? `<div style="margin-top: 8px; color: #000; font-size: 14px;">${item.details}</div>` : ''}
-                                                            </td>
-                                                        </tr>
-                                                        `).join('')}
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                ` : '';
-                            }).join('')}
-         
-                            <!-- CTA Section -->
-                            <tr>
-                                <td style="padding: 30px 40px; text-align: center;">
-                                    <h2 style="color: #333333; font-size: 24px; margin-bottom: 10px;">Ready to make an offer?</h2>
-                                    <div style="color: #333333; font-size: 32px; font-weight: bold;">Call ${phoneNumber}</div>
-                                </td>
-                            </tr>
-         
-                            <!-- Footer -->
-                            ${footerMessage ? `
-                            <tr>
-                                <td style="padding: 20px 40px; background-color: #F8F9FA; text-align: center;">
-                                    <p style="margin: 0; color: #666666; font-size: 14px;">
-                                        ${footerMessage.split('\n').join('<br/>')}
-                                    </p>
-                                </td>
-                            </tr>
-                            ` : ''}
-                        </table>
-                    </td>
-                </tr>
-            </table>
-            `;
-         };
 
         const generateEmailStyles = () => {
             return `
@@ -878,7 +738,6 @@
         };
 
         const handleGenerateClick = () => {
-            // Group checked items by type
             const checkedItems = items.filter(item => item.checked);
             const groupedItems = checkedItems.reduce((acc, item) => {
                 const title = item.type === 'feature' ? 'Features' : 'Required Repairs';
@@ -887,8 +746,8 @@
                 return acc;
             }, {} as Record<string, typeof items>);
 
-            const bedroomsBaths = `${bedrooms} bed / ${baths} bath`;
-            const html = generatePreviewTemplate(groupedItems, bedroomsBaths);
+            const bedroomsBaths = `${bedrooms} bed, ${baths} bath`;
+            const html = generateEmailHtml(groupedItems, bedroomsBaths);
             setGeneratedHtml(html);
             setShowHtmlModal(true);
         };
@@ -925,8 +784,8 @@
                 return acc;
             }, {} as Record<string, typeof items>);
 
-            const bedroomsBaths = `${bedrooms} bed / ${baths} bath`;
-            return generatePreviewTemplate(groupedItems, bedroomsBaths);
+            const bedroomsBaths = `${bedrooms} bed, ${baths} bath`;
+            return generateEmailHtml(groupedItems, bedroomsBaths);
         };
 
         const [showHtmlModal, setShowHtmlModal] = useState(false);
