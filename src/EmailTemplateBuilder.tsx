@@ -592,6 +592,7 @@
                 <title>Investment Property</title>
             </head>
             <body style="margin: 0; padding: 20px; background-color: #f8fafc; font-family: Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+            [[trackingImage]]
                 <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); overflow: hidden;">
                     ${logoUrl ? `
                     <tr>
