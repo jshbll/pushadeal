@@ -736,112 +736,114 @@ import '@types/react';
         </style>
     </head>
     <body>
-        <div class="email-container">
-            ${logoUrl ? `
-                <div style="text-align: center; padding: 20px; margin: 0 auto;">
-                    <img src="${logoUrl}" alt="Company Logo" style="max-width: 200px; height: auto; display: block; margin: 0 auto;" />
-                </div>
-            ` : ''}
+<table class="email-container" style="width: 100%;">
+    ${logoUrl ? `
+        <tr>
+            <td style="text-align: center; padding: 20px; margin: 0 auto;">
+                <img src="${logoUrl}" alt="Company Logo" style="max-width: 200px; height: auto; display: block; margin: 0 auto;" />
+            </td>
+        </tr>
+    ` : ''}
+    <tr>
+        <td>
             <h1 class="property-title">${marketValue}</h1>
             <p class="property-address">${address}</p>
+        </td>
+    </tr>
+    ${mainImageUrl ? `
+        <tr>
+            <td class="main-image">
+                <img src="${mainImageUrl}" alt="Main property image" style="width: 100%; height: auto;" />
+            </td>
+        </tr>
+    ` : ''}
+    ${customMessage ? `
+        <tr>
+            <td class="content-section">
+                ${customMessage.split('\n').map(paragraph => 
+                    paragraph ? `<p>${paragraph}</p>` : ''
+                ).join('')}
+            </td>
+        </tr>
+    ` : ''}
 
-            ${mainImageUrl ? `
-                <div class="main-image">
-                    <img src="${mainImageUrl}" alt="Main property image" />
-                </div>
-            ` : ''}
-
-            ${customMessage ? `
-                <div class="content-section">
-                    ${customMessage.split('\n').map(paragraph => 
-                        paragraph ? `<p>${paragraph}</p>` : ''
-                    ).join('')}
-                </div>
-            ` : ''}
-
-            <div class="property-details">
-                <div class="detail-row">
-                    <div class="detail-item">
-                        <div class="detail-label">Square Footage</div>
-                        <div class="detail-value">${squareFootage}</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">Bedrooms/Baths</div>
-                        <div class="detail-value">${bedroomsBaths}</div>
-                    </div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-item">
-                        <div class="detail-label">Lot Size</div>
-                        <div class="detail-value">${lotSize}</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">Year Built</div>
-                        <div class="detail-value">${yearBuilt}</div>
-                    </div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-item">
-                        <div class="detail-label">Market Value</div>
-                        <div class="detail-value">${marketValue}</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">ARV</div>
-                        <div class="detail-value">${arv}</div>
-                    </div>
-                </div>
-            </div>
+            <table class="property-details">
+                <tr>
+                    <td class="detail-label">Square Footage</td>
+                    <td class="detail-value">${squareFootage}</td>
+                </tr>
+                <tr>
+                    <td class="detail-label">Bedrooms/Baths</td>
+                    <td class="detail-value">${bedroomsBaths}</td>
+                </tr>
+                <tr>
+                    <td class="detail-label">Lot Size</td>
+                    <td class="detail-value">${lotSize}</td>
+                </tr>
+                <tr>
+                    <td class="detail-label">Year Built</td>
+                    <td class="detail-value">${yearBuilt}</td>
+                </tr>
+                <tr>
+                    <td class="detail-label">Market Value</td>
+                    <td class="detail-value">${marketValue}</td>
+                </tr>
+                <tr>
+                    <td class="detail-label">ARV</td>
+                    <td class="detail-value">${arv}</td>
+                </tr>
+            </table>
 
             ${(!isEmptyOrZero(repairCosts) || !isEmptyOrZero(profitMargin) || !isEmptyOrZero(comparableProperties) || !isEmptyOrZero(marketTrends)) ? `
-                <div class="section">
-                    <h2 class="section-title">Investment Details</h2>
-                    <div class="items-grid">
-                        ${!isEmptyOrZero(repairCosts) ? `
-                            <div class="item">
-                                <div class="item-name">Repair Costs</div>
-                                <div class="item-value">${repairCosts}</div>
-                            </div>
-                        ` : ''}
-                        ${!isEmptyOrZero(profitMargin) ? `
-                            <div class="item">
-                                <div class="item-name">Profit Margin</div>
-                                <div class="item-value">${profitMargin}</div>
-                            </div>
-                        ` : ''}
-                        ${!isEmptyOrZero(comparableProperties) ? `
-                            <div class="item">
-                                <div class="item-name">Comparable Properties</div>
-                                <div class="item-value">${comparableProperties}</div>
-                            </div>
-                        ` : ''}
-                        ${!isEmptyOrZero(marketTrends) ? `
-                            <div class="item">
-                                <div class="item-name">Market Trends</div>
-                                <div class="item-value">${marketTrends}</div>
-                            </div>
-                        ` : ''}
-                    </div>
-                </div>
+                <table class="section">
+                    <tr>
+                        <th class="section-title" colspan="2">Investment Details</th>
+                    </tr>
+                    ${!isEmptyOrZero(repairCosts) ? `
+                        <tr>
+                            <td class="item-name">Repair Costs</td>
+                            <td class="item-value">${repairCosts}</td>
+                        </tr>
+                    ` : ''}
+                    ${!isEmptyOrZero(profitMargin) ? `
+                        <tr>
+                            <td class="item-name">Profit Margin</td>
+                            <td class="item-value">${profitMargin}</td>
+                        </tr>
+                    ` : ''}
+                    ${!isEmptyOrZero(comparableProperties) ? `
+                        <tr>
+                            <td class="item-name">Comparable Properties</td>
+                            <td class="item-value">${comparableProperties}</td>
+                        </tr>
+                    ` : ''}
+                    ${!isEmptyOrZero(marketTrends) ? `
+                        <tr>
+                            <td class="item-name">Market Trends</td>
+                            <td class="item-value">${marketTrends}</td>
+                        </tr>
+                    ` : ''}
+                </table>
             ` : ''}
 
             ${Object.entries(groupedItems).map(([title, groupItems]) => {
                 const checkedItems = groupItems.filter(item => item.checked);
                 return checkedItems.length > 0 ? `
-                    <div class="section">
-                        <h2 class="section-title">${title === 'Features' ? 'Positive Features' : 'Required Repairs'}</h2>
-                        <div class="items-grid">
-                            ${checkedItems.map(item => `
-                                <div class="item ${item.type === 'feature' ? 'feature' : 'repair'}">
-                                    <div class="item-name">${item.name}</div>
-                                    ${item.year ? `<div class="item-year">(${item.year})</div>` : ''}
-                                    ${item.details ? `<div class="item-details">${item.details}</div>` : ''}
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
+                    <table class="section">
+                        <tr>
+                            <th class="section-title" colspan="2">${title === 'Features' ? 'Positive Features' : 'Required Repairs'}</th>
+                        </tr>
+                        ${checkedItems.map(item => `
+                            <tr class="${item.type === 'feature' ? 'feature' : 'repair'}">
+                                <td class="item-name">${item.name}</td>
+                                ${item.year ? `<td class="item-year">(${item.year})</td>` : ''}
+                                ${item.details ? `<td class="item-details">${item.details}</td>` : ''}
+                            </tr>
+                        `).join('')}
+                    </table>
                 ` : '';
             }).join('')}
-
+            
             ${galleryImages.length > 0 ? `
                 <div class="section">
                     <h2 class="section-title">Property Gallery</h2>
@@ -861,13 +863,17 @@ import '@types/react';
             </div>
 
             ${footerMessage ? `
-                <div class="footer-section">
-                    ${footerMessage.split('\n').map(line => 
-                        line ? `<p>${line}</p>` : ''
-                    ).join('')}
-                </div>
+                <table class="footer-section">
+                    <tr>
+                        <td>
+                            ${footerMessage.split('\n').map(line => 
+                                line ? `<p>${line}</p>` : ''
+                            ).join('')}
+                        </td>
+                    </tr>
+                </table>
             ` : ''}
-        </div>
+</table>
     </body>
     </html>`;
         };
