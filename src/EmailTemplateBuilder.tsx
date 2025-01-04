@@ -585,156 +585,174 @@
 
         const generateEmailHtml = (groupedItems: Record<string, typeof items>, bedroomsBaths: string) => {
             return `<!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Investment Property</title>
-        <style>
-            ${generateEmailStyles()}
-        </style>
-    </head>
-    <body>
-<table class="email-container" style="width: 100%;">
-    ${logoUrl ? `
-        <tr>
-            <td style="text-align: center; padding: 20px; margin: 0 auto;">
-                <img src="${logoUrl}" alt="Company Logo" style="max-width: 200px; height: auto; display: block; margin: 0 auto;" />
-            </td>
-        </tr>
-    ` : ''}
-    <tr>
-        <td>
-            <h1 class="property-title">${marketValue}</h1>
-            <p class="property-address">${address}</p>
-        </td>
-    </tr>
-    ${mainImageUrl ? `
-        <tr>
-            <td class="main-image">
-                <img src="${mainImageUrl}" alt="Main property image" style="width: 100%; height: auto;" />
-            </td>
-        </tr>
-    ` : ''}
-    ${customMessage ? `
-        <tr>
-            <td class="content-section">
-                ${customMessage.split('\n').map(paragraph => 
-                    paragraph ? `<p>${paragraph}</p>` : ''
-                ).join('')}
-            </td>
-        </tr>
-    ` : ''}
-
-            <table class="property-details">
-                <tr>
-                    <td class="detail-label">Square Footage</td>
-                    <td class="detail-value">${squareFootage}</td>
-                </tr>
-                <tr>
-                    <td class="detail-label">Bedrooms/Baths</td>
-                    <td class="detail-value">${bedroomsBaths}</td>
-                </tr>
-                <tr>
-                    <td class="detail-label">Lot Size</td>
-                    <td class="detail-value">${lotSize}</td>
-                </tr>
-                <tr>
-                    <td class="detail-label">Year Built</td>
-                    <td class="detail-value">${yearBuilt}</td>
-                </tr>
-                <tr>
-                    <td class="detail-label">Market Value</td>
-                    <td class="detail-value">${marketValue}</td>
-                </tr>
-                <tr>
-                    <td class="detail-label">ARV</td>
-                    <td class="detail-value">${arv}</td>
-                </tr>
-            </table>
-
-            ${(!isEmptyOrZero(repairCosts) || !isEmptyOrZero(profitMargin) || !isEmptyOrZero(comparableProperties) || !isEmptyOrZero(marketTrends)) ? `
-                <table class="section">
+            <html>
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Investment Property</title>
+            </head>
+            <body style="margin: 0; padding: 20px; background-color: #f8fafc; font-family: Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+                <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); overflow: hidden;">
+                    ${logoUrl ? `
                     <tr>
-                        <th class="section-title" colspan="2">Investment Details</th>
+                        <td style="text-align: center; padding: 32px 20px;">
+                            <img src="${logoUrl}" alt="Company Logo" style="max-width: 200px; height: auto; display: block; margin: 0 auto;" />
+                        </td>
                     </tr>
-                    ${!isEmptyOrZero(repairCosts) ? `
-                        <tr>
-                            <td class="item-name">Repair Costs</td>
-                            <td class="item-value">${repairCosts}</td>
-                        </tr>
                     ` : ''}
-                    ${!isEmptyOrZero(profitMargin) ? `
-                        <tr>
-                            <td class="item-name">Profit Margin</td>
-                            <td class="item-value">${profitMargin}</td>
-                        </tr>
-                    ` : ''}
-                    ${!isEmptyOrZero(comparableProperties) ? `
-                        <tr>
-                            <td class="item-name">Comparable Properties</td>
-                            <td class="item-value">${comparableProperties}</td>
-                        </tr>
-                    ` : ''}
-                    ${!isEmptyOrZero(marketTrends) ? `
-                        <tr>
-                            <td class="item-name">Market Trends</td>
-                            <td class="item-value">${marketTrends}</td>
-                        </tr>
-                    ` : ''}
-                </table>
-            ` : ''}
-
-            ${Object.entries(groupedItems).map(([title, groupItems]) => {
-                const checkedItems = groupItems.filter(item => item.checked);
-                return checkedItems.length > 0 ? `
-                    <table class="section">
-                        <tr>
-                            <th class="section-title" colspan="2">${title === 'Features' ? 'Positive Features' : 'Required Repairs'}</th>
-                        </tr>
-                        ${checkedItems.map(item => `
-                            <tr class="${item.type === 'feature' ? 'feature' : 'repair'}">
-                                <td class="item-name">${item.name}</td>
-                                ${item.year ? `<td class="item-year">(${item.year})</td>` : ''}
-                                ${item.details ? `<td class="item-details">${item.details}</td>` : ''}
-                            </tr>
-                        `).join('')}
-                    </table>
-                ` : '';
-            }).join('')}
-            
-            ${galleryImages.length > 0 ? `
-                <div class="section">
-                    <h2 class="section-title">Property Gallery</h2>
-                    <div class="items-grid">
-                        ${galleryImages.map(image => `
-                            <div class="item">
-                                <img src="${image}" alt="Property gallery image" />
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            ` : ''}
-
-            <div class="cta-section">
-                <div class="cta-title">Call To Make An Offer</div>
-                <div class="cta-phone">${phoneNumber}</div>
-            </div>
-
-            ${footerMessage ? `
-                <table class="footer-section">
+                    
                     <tr>
-                        <td>
-                            ${footerMessage.split('\n').map(line => 
-                                line ? `<p>${line}</p>` : ''
+                        <td style="padding: 0 32px;">
+                            <h1 style="margin: 0; color: #1e293b; font-size: 36px; font-weight: bold; text-align: center;">${marketValue}</h1>
+                            <p style="margin: 8px 0 24px; color: #64748b; font-size: 18px; text-align: center;">${address}</p>
+                        </td>
+                    </tr>
+        
+                    ${mainImageUrl ? `
+                    <tr>
+                        <td style="padding: 0 32px 24px;">
+                            <img src="${mainImageUrl}" alt="Main property image" style="width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);" />
+                        </td>
+                    </tr>
+                    ` : ''}
+        
+                    ${customMessage ? `
+                    <tr>
+                        <td style="padding: 0 32px 24px;">
+                            ${customMessage.split('\n').map(paragraph => 
+                                paragraph ? `<p style="margin: 0 0 16px; color: #334155; font-size: 16px; line-height: 1.6;">${paragraph}</p>` : ''
                             ).join('')}
                         </td>
                     </tr>
+                    ` : ''}
+        
+                    <tr>
+                        <td style="padding: 0 32px 24px;">
+                            <table style="width: 100%; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <tr>
+                                    <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px; width: 40%;">Square Footage</td>
+                                    <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${squareFootage}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Bedrooms/Baths</td>
+                                    <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${bedroomsBaths}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Lot Size</td>
+                                    <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${lotSize}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Year Built</td>
+                                    <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${yearBuilt}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Market Value</td>
+                                    <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${marketValue}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 16px; color: #64748b; font-size: 14px;">ARV</td>
+                                    <td style="padding: 16px; color: #1e293b; font-size: 16px; font-weight: 500;">${arv}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+        
+                    ${(!isEmptyOrZero(repairCosts) || !isEmptyOrZero(profitMargin) || !isEmptyOrZero(comparableProperties) || !isEmptyOrZero(marketTrends)) ? `
+                    <tr>
+                        <td style="padding: 0 32px 24px;">
+                            <table style="width: 100%; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <tr>
+                                    <th colspan="2" style="padding: 20px 16px; text-align: left; background-color: #f8fafc; color: #1e293b; font-size: 18px; font-weight: 600; border-top-left-radius: 8px; border-top-right-radius: 8px;">Investment Details</th>
+                                </tr>
+                                ${!isEmptyOrZero(repairCosts) ? `
+                                <tr>
+                                    <td style="padding: 16px; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 14px; width: 40%;">Repair Costs</td>
+                                    <td style="padding: 16px; border-top: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${repairCosts}</td>
+                                </tr>
+                                ` : ''}
+                                ${!isEmptyOrZero(profitMargin) ? `
+                                <tr>
+                                    <td style="padding: 16px; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Profit Margin</td>
+                                    <td style="padding: 16px; border-top: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${profitMargin}</td>
+                                </tr>
+                                ` : ''}
+                                ${!isEmptyOrZero(comparableProperties) ? `
+                                <tr>
+                                    <td style="padding: 16px; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Comparable Properties</td>
+                                    <td style="padding: 16px; border-top: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${comparableProperties}</td>
+                                </tr>
+                                ` : ''}
+                                ${!isEmptyOrZero(marketTrends) ? `
+                                <tr>
+                                    <td style="padding: 16px; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Market Trends</td>
+                                    <td style="padding: 16px; border-top: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${marketTrends}</td>
+                                </tr>
+                                ` : ''}
+                            </table>
+                        </td>
+                    </tr>
+                    ` : ''}
+        
+                    ${Object.entries(groupedItems).map(([title, groupItems]) => {
+                        const checkedItems = groupItems.filter(item => item.checked);
+                        return checkedItems.length > 0 ? `
+                        <tr>
+                            <td style="padding: 0 32px 24px;">
+                                <table style="width: 100%; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                    <tr>
+                                        <th colspan="2" style="padding: 20px 16px; text-align: left; background-color: #f8fafc; color: #1e293b; font-size: 18px; font-weight: 600; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+                                            ${title === 'Features' ? 'Positive Features' : 'Required Repairs'}
+                                        </th>
+                                    </tr>
+                                    ${checkedItems.map(item => `
+                                    <tr>
+                                        <td colspan="2" style="padding: 16px; border-top: 1px solid #e2e8f0; background-color: ${item.type === 'feature' ? '#f0fdf4' : '#fff7ed'};">
+                                            <div style="font-weight: 600; color: #1e293b; margin-bottom: 4px;">${item.name}</div>
+                                            ${item.year ? `<div style="color: #64748b; font-size: 14px; margin-bottom: 4px;">Year: ${item.year}</div>` : ''}
+                                            ${item.details ? `<div style="color: #334155; font-size: 14px;">${item.details}</div>` : ''}
+                                        </td>
+                                    </tr>
+                                    `).join('')}
+                                </table>
+                            </td>
+                        </tr>
+                        ` : '';
+                    }).join('')}
+                    
+                    ${galleryImages.length > 0 ? `
+                    <tr>
+                        <td style="padding: 0 32px 24px;">
+                            <h2 style="margin: 0 0 16px; color: #1e293b; font-size: 24px; font-weight: 600;">Property Gallery</h2>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;">
+                                ${galleryImages.map(image => `
+                                <div style="background-color: #ffffff; padding: 8px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                    <img src="${image}" alt="Property gallery image" style="width: 100%; height: auto; border-radius: 4px;" />
+                                </div>
+                                `).join('')}
+                            </div>
+                        </td>
+                    </tr>
+                    ` : ''}
+        
+                    <tr>
+                        <td style="padding: 32px; text-align: center; background-color: #f8fafc;">
+                            <h2 style="margin: 0 0 16px; color: #1e293b; font-size: 24px; font-weight: 600;">Ready to make an offer?</h2>
+                            <div style="color: #1e293b; font-size: 32px; font-weight: bold;">${phoneNumber}</div>
+                        </td>
+                    </tr>
+        
+                    ${footerMessage ? `
+                    <tr>
+                        <td style="padding: 24px 32px; background-color: #f1f5f9; text-align: center;">
+                            ${footerMessage.split('\n').map(line => 
+                                line ? `<p style="margin: 0 0 8px; color: #64748b; font-size: 14px;">${line}</p>` : ''
+                            ).join('')}
+                        </td>
+                    </tr>
+                    ` : ''}
                 </table>
-            ` : ''}
-</table>
-    </body>
-    </html>`;
+            </body>
+            </html>`;
         };
 
         const handleGenerateClick = () => {
