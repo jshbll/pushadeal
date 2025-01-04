@@ -1,10 +1,13 @@
-                        import React, { useState } from 'react';
+                        import React, { useState, ReactNode, ChangeEvent } from 'react';
+import '@types/react';
     import './EmailTemplateBuilder.css';
+
+    type ItemType = 'feature' | 'repair';
 
     interface Item {
         id: string;
         name: string;
-        type: 'feature' | 'repair';
+        type: ItemType;
         checked: boolean;
         year?: string;
         details?: string;
@@ -59,8 +62,8 @@
         ]);
 
         const handleItemChange = (id: string, field: keyof Item, value: string | boolean) => {
-            setItems(prevItems => 
-                prevItems.map(item => 
+            setItems((prevItems: Item[]) => 
+                prevItems.map((item: Item) => 
                     item.id === id 
                         ? { ...item, [field]: value }
                         : item
@@ -909,7 +912,6 @@
         };
 
         const renderPreview = () => {
-            // Group checked items by type
             const checkedItems = items.filter(item => item.checked);
             const groupedItems = checkedItems.reduce((acc, item) => {
                 const title = item.type === 'feature' ? 'Features' : 'Required Repairs';
@@ -919,11 +921,7 @@
             }, {} as Record<string, typeof items>);
 
             const bedroomsBaths = `${bedrooms} bed / ${baths} bath`;
-            return `
-                <div style="padding: 20px;">
-                    ${generatePreviewTemplate(groupedItems, bedroomsBaths)}
-                </div>
-            `;
+            return generatePreviewTemplate(groupedItems, bedroomsBaths);
         };
 
         const [showHtmlModal, setShowHtmlModal] = useState(false);
@@ -938,7 +936,13 @@
             });
         };
 
-        const Modal = ({ isOpen, onClose, children }: { isOpen: boolean; onClose: () => void; children: React.ReactNode }) => {
+        interface ModalProps {
+            isOpen: boolean;
+            onClose: () => void;
+            children: ReactNode;
+        }
+
+        const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
             if (!isOpen) return null;
 
             return (
