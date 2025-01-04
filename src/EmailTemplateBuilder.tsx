@@ -1,5 +1,5 @@
                         import React, { useState, ReactNode, ChangeEvent } from 'react';
-import '@types/react';
+    import '@types/react';
     import './EmailTemplateBuilder.css';
 
     type ItemType = 'feature' | 'repair';
