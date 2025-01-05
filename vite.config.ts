@@ -9,7 +9,7 @@ export default defineConfig({
   server: {
     port: 5174,
   },
-  base: process.env.NODE_ENV === 'production' ? '/email-template-generator/' : '/',
+  base: process.env.NODE_ENV === 'production' ? '/emaildispo.github.io/' : '/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
