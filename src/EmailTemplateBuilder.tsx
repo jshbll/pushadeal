@@ -623,12 +623,12 @@
                         <td style="padding: 0 32px 24px;">
                             <table style="width: 100%; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                                 <tr>
-                                    <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px; width: 40%;">Square Footage</td>
-                                    <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${squareFootage}</td>
-                                </tr>
-                                <tr>
                                     <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Bedrooms/Baths</td>
                                     <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${bedroomsBaths}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px; width: 40%;">Square Footage</td>
+                                    <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${squareFootage}</td>
                                 </tr>
                                 <tr>
                                     <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Lot Size</td>
@@ -637,16 +637,22 @@
                                 <tr>
                                     <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Year Built</td>
                                     <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${yearBuilt}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Market Value</td>
-                                    <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${marketValue}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 16px; color: #64748b; font-size: 14px;">ARV</td>
-                                    <td style="padding: 16px; color: #1e293b; font-size: 16px; font-weight: 500;">${arv}</td>
-                                </tr>
+                                </tr>                                
                             </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0 32px 24px;">
+                                <table style="width: 100%; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                    <tr>
+                                        <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Sale Price</td>
+                                        <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${marketValue}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 16px; color: #64748b; font-size: 14px;">ARV</td>
+                                        <td style="padding: 16px; color: #1e293b; font-size: 16px; font-weight: 500;">${arv}</td>
+                                    </tr>
+                                </table>
                         </td>
                     </tr>
         
@@ -667,12 +673,6 @@
                                 <tr>
                                     <td style="padding: 16px; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Profit Margin</td>
                                     <td style="padding: 16px; border-top: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${profitMargin}</td>
-                                </tr>
-                                ` : ''}
-                                ${!isEmptyOrZero(comparableProperties) ? `
-                                <tr>
-                                    <td style="padding: 16px; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Comparable Properties</td>
-                                    <td style="padding: 16px; border-top: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${comparableProperties}</td>
                                 </tr>
                                 ` : ''}
                                 ${!isEmptyOrZero(marketTrends) ? `
