@@ -645,7 +645,7 @@
                         </td>
                     </tr>
         
-                    ${(!isEmptyOrZero(repairCosts) || !isEmptyOrZero(profitMargin) || !isEmptyOrZero(comparableProperties) || !isEmptyOrZero(marketTrends)) ? `
+                    ${(!isEmptyOrZero(repairCosts) || !isEmptyOrZero(profitMargin) || !isEmptyOrZero(comparableProperties) || !isEmptyOrZero(marketTrends) || !isEmptyOrZero(marketValue) || !isEmptyOrZero(arv))  ? `
                     <tr>
                         <td style="padding: 0 32px 24px;">
                             <table style="width: 100%; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
