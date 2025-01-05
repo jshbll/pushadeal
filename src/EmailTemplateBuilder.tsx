@@ -623,6 +623,9 @@
                         <td style="padding: 0 32px 24px;">
                             <table style="width: 100%; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                                 <tr>
+                                    <th colspan="2" style="padding: 20px 16px; text-align: left; background-color: #f8fafc; color: #1e293b; font-size: 18px; font-weight: 600; border-top-left-radius: 8px; border-top-right-radius: 8px;">Property Details</th>
+                                </tr>    
+                                <tr>
                                     <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Bedrooms/Baths</td>
                                     <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${bedroomsBaths}</td>
                                 </tr>
