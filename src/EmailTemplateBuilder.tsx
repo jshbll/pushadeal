@@ -286,12 +286,9 @@
         
                 console.log('Template data:', templateData);
         
-                const groupedItems = checkedItems.reduce((acc, item) => {
-                    const title = item.type === 'feature' ? 'Features' : 'Required Repairs';
-                    if (!acc[title]) acc[title] = [];
-                    acc[title].push(item);
-                    return acc;
-                }, {} as Record<string, typeof items>);
+                const groupedItems = {
+                    'Features': checkedItems
+                } as Record<string, typeof items>;
         
                 const html = generateEmailHtml(groupedItems, `${bedrooms} bed, ${baths} bath`);
                 
@@ -770,12 +767,9 @@
         const downloadHtml = () => {
             // Group checked items by type
             const checkedItems = items.filter(item => item.checked);
-            const groupedItems = checkedItems.reduce((acc, item) => {
-                const title = item.type === 'feature' ? 'Features' : 'Required Repairs';
-                if (!acc[title]) acc[title] = [];
-                acc[title].push(item);
-                return acc;
-            }, {} as Record<string, typeof items>);
+            const groupedItems = {
+                'Features': checkedItems
+            } as Record<string, typeof items>;
 
             const bedroomsBaths = `${bedrooms} bed / ${baths} bath`;
             const template = generatePreviewTemplate(groupedItems, bedroomsBaths);
@@ -792,12 +786,9 @@
 
         const renderPreview = () => {
             const checkedItems = items.filter(item => item.checked);
-            const groupedItems = checkedItems.reduce((acc, item) => {
-                const title = item.type === 'feature' ? 'Features' : 'Required Repairs';
-                if (!acc[title]) acc[title] = [];
-                acc[title].push(item);
-                return acc;
-            }, {} as Record<string, typeof items>);
+            const groupedItems = {
+                'Features': checkedItems
+            } as Record<string, typeof items>;
 
             const bedroomsBaths = `${bedrooms} bed, ${baths} bath`;
             return generateEmailHtml(groupedItems, bedroomsBaths);
@@ -989,49 +980,45 @@
                         </div>
 
                         <div className="form-section features-repairs">
-                            <h2>Features & Repairs</h2>
-                            {Object.entries(groupedItems).map(([category, categoryItems]) => (
-                                <div key={category} className="category-section">
-                                    <h3>{category}</h3>
-                                    {categoryItems.map((item) => (
-                                        <div key={item.id} className="item-row">
-                                            <div className="item-header">
-                                                <label className="toggle-switch">
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={item.checked}
-                                                        onChange={(e) => handleItemChange(item.id, 'checked', e.target.checked)}
-                                                        className="toggle-input"
-                                                    />
-                                                    <span className="toggle-slider"></span>
-                                                </label>
-                                                <span className="item-name">{item.name}</span>
-                                            </div>
-                                            // New code
-                                            {item.checked && (
-                                                <div className="item-details">
-                                                    <div className="details-grid">
-                                                        <input
-                                                            type="text"
-                                                            value={item.year || ''}
-                                                            onChange={(e) => handleItemChange(item.id, 'year', e.target.value)}
-                                                            placeholder="Year"
-                                                            className="input year-input"
-                                                        />
-                                                        <input
-                                                            type="text"
-                                                            value={item.details || ''}
-                                                            onChange={(e) => handleItemChange(item.id, 'details', e.target.value)}
-                                                            placeholder="Details"
-                                                            className="input details-input"
-                                                        />
-                                                    </div>
-                                                </div>
-                                            )}
+                            <h2>Features</h2>
+                            <div className="category-section">
+                                {items.map((item) => (
+                                    <div key={item.id} className="item-row">
+                                        <div className="item-header">
+                                            <label className="toggle-switch">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={item.checked}
+                                                    onChange={(e) => handleItemChange(item.id, 'checked', e.target.checked)}
+                                                    className="toggle-input"
+                                                />
+                                                <span className="toggle-slider"></span>
+                                            </label>
+                                            <span className="item-name">{item.name}</span>
                                         </div>
-                                    ))}
-                                </div>
-                            ))}
+                                        {item.checked && (
+                                            <div className="item-details">
+                                                <div className="details-grid">
+                                                    <input
+                                                        type="text"
+                                                        value={item.year || ''}
+                                                        onChange={(e) => handleItemChange(item.id, 'year', e.target.value)}
+                                                        placeholder="Year"
+                                                        className="input year-input"
+                                                    />
+                                                    <input
+                                                        type="text"
+                                                        value={item.details || ''}
+                                                        onChange={(e) => handleItemChange(item.id, 'details', e.target.value)}
+                                                        placeholder="Details"
+                                                        className="input details-input"
+                                                    />
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
 
                         <div className="form-section">
