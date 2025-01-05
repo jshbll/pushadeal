@@ -70,15 +70,10 @@
             );
         };
 
-        // Group items by category
-        const groupedItems = items.reduce((acc, item) => {
-            const title = item.type === 'feature' ? 'Features' : 'Required Repairs';
-            if (!acc[title]) {
-                acc[title] = [];
-            }
-            acc[title].push(item);
-            return acc;
-        }, {} as Record<string, Item[]>);
+        // New code
+        const groupedItems = {
+            'Features': items
+        } as Record<string, Item[]>;
 
         // Image validation functions
         const validateImage = async (file: File, type: 'main' | 'gallery' | 'header' | 'background'): Promise<{ isValid: boolean; message?: string }> => {
@@ -694,20 +689,21 @@
                     </tr>
                     ` : ''}
         
-                    ${Object.entries(groupedItems).map(([title, groupItems]) => {
-                        const checkedItems = groupItems.filter(item => item.checked);
+                    // New code
+                    ${(() => {
+                        const checkedItems = groupedItems['Features'].filter(item => item.checked);
                         return checkedItems.length > 0 ? `
                         <tr>
                             <td style="padding: 0 32px 24px;">
                                 <table style="width: 100%; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                                     <tr>
                                         <th colspan="2" style="padding: 20px 16px; text-align: left; background-color: #f8fafc; color: #1e293b; font-size: 18px; font-weight: 600; border-top-left-radius: 8px; border-top-right-radius: 8px;">
-                                            ${title === 'Features' ? 'Positive Features' : 'Required Repairs'}
+                                            Features
                                         </th>
                                     </tr>
                                     ${checkedItems.map(item => `
                                     <tr>
-                                        <td colspan="2" style="padding: 16px; border-top: 1px solid #e2e8f0; background-color: ${item.type === 'feature' ? '#f0fdf4' : '#fff7ed'};">
+                                        <td colspan="2" style="padding: 16px; border-top: 1px solid #e2e8f0; background-color: #f0fdf4;">
                                             <div style="font-weight: 600; color: #1e293b; margin-bottom: 4px;">${item.name}</div>
                                             ${item.year ? `<div style="color: #64748b; font-size: 14px; margin-bottom: 4px;">Year: ${item.year}</div>` : ''}
                                             ${item.details ? `<div style="color: #334155; font-size: 14px;">${item.details}</div>` : ''}
@@ -718,7 +714,7 @@
                             </td>
                         </tr>
                         ` : '';
-                    }).join('')}
+                    })()}
                     
                     ${galleryImages.length > 0 ? `
                     <tr>
@@ -1011,22 +1007,9 @@
                                                 </label>
                                                 <span className="item-name">{item.name}</span>
                                             </div>
+                                            // New code
                                             {item.checked && (
                                                 <div className="item-details">
-                                                    <div className="type-selector">
-                                                        <button
-                                                            className={`type-button ${item.type === 'feature' ? 'active' : ''}`}
-                                                            onClick={() => handleItemChange(item.id, 'type', 'feature')}
-                                                        >
-                                                            Feature
-                                                        </button>
-                                                        <button
-                                                            className={`type-button ${item.type === 'repair' ? 'active' : ''}`}
-                                                            onClick={() => handleItemChange(item.id, 'type', 'repair')}
-                                                        >
-                                                            Repair
-                                                        </button>
-                                                    </div>
                                                     <div className="details-grid">
                                                         <input
                                                             type="text"
