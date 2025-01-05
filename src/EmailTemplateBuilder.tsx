@@ -641,20 +641,6 @@
                             </table>
                         </td>
                     </tr>
-                    <tr>
-                        <td style="padding: 0 32px 24px;">
-                                <table style="width: 100%; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                    <tr>
-                                        <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Sale Price</td>
-                                        <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${marketValue}</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 16px; color: #64748b; font-size: 14px;">ARV</td>
-                                        <td style="padding: 16px; color: #1e293b; font-size: 16px; font-weight: 500;">${arv}</td>
-                                    </tr>
-                                </table>
-                        </td>
-                    </tr>
         
                     ${(!isEmptyOrZero(repairCosts) || !isEmptyOrZero(profitMargin) || !isEmptyOrZero(comparableProperties) || !isEmptyOrZero(marketTrends)) ? `
                     <tr>
@@ -662,6 +648,14 @@
                             <table style="width: 100%; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                                 <tr>
                                     <th colspan="2" style="padding: 20px 16px; text-align: left; background-color: #f8fafc; color: #1e293b; font-size: 18px; font-weight: 600; border-top-left-radius: 8px; border-top-right-radius: 8px;">Investment Details</th>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Sale Price</td>
+                                    <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${marketValue}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 16px; color: #64748b; font-size: 14px;">ARV</td>
+                                    <td style="padding: 16px; color: #1e293b; font-size: 16px; font-weight: 500;">${arv}</td>
                                 </tr>
                                 ${!isEmptyOrZero(repairCosts) ? `
                                 <tr>
@@ -1041,16 +1035,6 @@
                                         value={profitMargin}
                                         onChange={handleProfitMarginChange}
                                         placeholder="e.g., $175,000"
-                                        className="input"
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label>Comparable Properties</label>
-                                    <input
-                                        type="text"
-                                        value={comparableProperties}
-                                        onChange={(e) => setComparableProperties(e.target.value)}
-                                        placeholder="e.g., $1.1M - $1.3M"
                                         className="input"
                                     />
                                 </div>
