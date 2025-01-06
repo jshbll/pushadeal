@@ -70,7 +70,6 @@
             );
         };
 
-        // New code
         const groupedItems = {
             'Features': items
         } as Record<string, Item[]>;
@@ -683,7 +682,6 @@
                     </tr>
                     ` : ''}
         
-                    // New code
                     ${(() => {
                         const checkedItems = groupedItems['Features'].filter(item => item.checked);
                         return checkedItems.length > 0 ? `
