@@ -27,10 +27,10 @@
 
         // Property Info States
         const [address, setAddress] = useState('Insert Property Address');
-        const [squareFootage, setSquareFootage] = useState('Insert Sq Footage');
+        const [squareFootage, setSquareFootage] = useState('');
         const [bedrooms, setBedrooms] = useState('0');
         const [baths, setBaths] = useState('0');
-        const [lotSize, setLotSize] = useState('Insert Acres');
+        const [lotSize, setLotSize] = useState('');
         const [yearBuilt, setYearBuilt] = useState('0000');
         const [marketValue, setMarketValue] = useState('000,000');
         const [arv, setArv] = useState('0');
@@ -628,10 +628,12 @@
                                     <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Bedrooms/Baths</td>
                                     <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${bedroomsBaths}</td>
                                 </tr>
+                                ${!isEmptyOrZero(squareFootage) ? `
                                 <tr>
                                     <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px; width: 40%;">Square Footage</td>
                                     <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${squareFootage}</td>
                                 </tr>
+                                ` : ''}
                                 ${!isEmptyOrZero(lotSize) ? `
                                 <tr>
                                     <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Lot Size</td>
