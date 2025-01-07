@@ -698,13 +698,11 @@
                                         </th>
                                     </tr>
                                     ${checkedItems.map(item => `
-                                    <tr>
-                                        <td colspan="2" style="padding: 16px; border-top: 1px solid #e2e8f0; background-color: #f0fdf4;">
-                                            <div style="font-weight: 600; color: #1e293b; margin-bottom: 4px;">${item.name}</div>
-                                            ${item.year ? `<div style="color: #64748b; font-size: 14px; margin-bottom: 4px;">Year: ${item.year}</div>` : ''}
-                                            ${item.details ? `<div style="color: #334155; font-size: 14px;">${item.details}</div>` : ''}
-                                        </td>
-                                    </tr>
+                                    <tr style="border-top: 1px solid #e2e8f0; background-color: #f0fdf4;">
+    <td style="padding: 16px; font-weight: 600; color: #1e293b;">${item.name}</td>
+    <td style="padding: 16px; color: #64748b; font-size: 14px;">${item.year || ''}</td>
+    <td style="padding: 16px; color: #334155; font-size: 14px;">${item.details || ''}</td>
+</tr>
                                     `).join('')}
                                 </table>
                             </td>
