@@ -689,24 +689,24 @@
                     ${(() => {
                         const checkedItems = groupedItems['Features'].filter(item => item.checked);
                         return checkedItems.length > 0 ? `
-                        <tr>
-                            <td style="padding: 0 32px 24px;">
-                                <table style="width: 100%; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                    <tr>
-                                        <th colspan="2" style="padding: 20px 16px; text-align: left; background-color: #f8fafc; color: #1e293b; font-size: 18px; font-weight: 600; border-top-left-radius: 8px; border-top-right-radius: 8px;">
-                                            Features
-                                        </th>
-                                    </tr>
-                                    ${checkedItems.map(item => `
-                                    <tr style="border-top: 1px solid #e2e8f0; background-color: #f0fdf4;">
-    <td style="padding: 16px; font-weight: 600; color: #1e293b;">${item.name}</td>
-    <td style="padding: 16px; color: #64748b; font-size: 14px;">${item.year || ''}</td>
-    <td style="padding: 16px; color: #334155; font-size: 14px;">${item.details || ''}</td>
-</tr>
-                                    `).join('')}
-                                </table>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td style="padding: 0 32px 24px;">
+                                    <table style="width: 100%; table-layout: fixed; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                        <tr>
+                                            <th colspan="3" style="padding: 20px 16px; text-align: left; background-color: #f8fafc; color: #1e293b; font-size: 18px; font-weight: 600; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+                                                Features
+                                            </th>
+                                        </tr>
+                                        ${checkedItems.map(item => `
+                                        <tr style="border-top: 1px solid #e2e8f0; background-color: #f0fdf4;">
+                                            <td style="padding: 16px; font-weight: 600; color: #1e293b; width: 25%;">${item.name}</td>
+                                            <td style="padding: 16px; color: #64748b; font-size: 14px; width: 15%; text-align: left;">${item.year || ''}</td>
+                                            <td style="padding: 16px; color: #334155; font-size: 14px; width: 60%;">${item.details || ''}</td>
+                                        </tr>
+                                        `).join('')}
+                                    </table>
+                                </td>
+                            </tr>
                         ` : '';
                     })()}
                     
