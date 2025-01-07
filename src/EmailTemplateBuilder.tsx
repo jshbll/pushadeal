@@ -632,10 +632,12 @@
                                     <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px; width: 40%;">Square Footage</td>
                                     <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${squareFootage}</td>
                                 </tr>
+                                ${!isEmptyOrZero(lotSize) ? `
                                 <tr>
                                     <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Lot Size</td>
                                     <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${lotSize}</td>
                                 </tr>
+                                ` : ''}
                                 <tr>
                                     <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Year Built</td>
                                     <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${yearBuilt}</td>
