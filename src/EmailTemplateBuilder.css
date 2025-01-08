@@ -894,3 +894,78 @@ button:active {
     align-items: center;
     justify-content: center;
 }
+
+/* Occupancy Status Section */
+.occupancy-section {
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    background-color: var(--sidebar-bg);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+
+.occupancy-section:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.occupancy-section h2 {
+    margin: 0 0 1.25rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+}
+
+.occupancy-section .form-group {
+    margin-bottom: 1.25rem;
+}
+
+.occupancy-section label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+}
+
+.occupancy-section select,
+.occupancy-section input[type="date"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+}
+
+.occupancy-section select:hover,
+.occupancy-section input[type="date"]:hover {
+    background-color: var(--hover-bg);
+    border-color: var(--border-color);
+}
+
+.occupancy-section select:focus,
+.occupancy-section input[type="date"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background-color: var(--input-bg);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.occupancy-section .checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.occupancy-section .checkbox-container label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
