@@ -9,7 +9,7 @@ export default defineConfig({
   server: {
     port: 5174,
   },
-  base: process.env.NODE_ENV === 'production' ? '/pushadeal/' : '/',
+  base: process.env.NODE_ENV === 'production' ? '/pushadeal.github.io/' : '/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
