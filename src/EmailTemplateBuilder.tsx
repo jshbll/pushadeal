@@ -1236,10 +1236,12 @@ const EmailTemplateBuilder = () => {
 
           <div className="features-section">
             <h2>Features</h2>
+
             <div className="feature-item">
+              <div className="feature-label">
+                <label>Is the A/C Good?</label>
+              </div>
               <div className="feature-row">
-              <div className="feature-column">
-              <label>Is the A/C Good?</label>
                 <div className="radio-group">
                   <label>
                     <input type="radio" name="acCondition" value="yes" /> Yes
@@ -1248,16 +1250,18 @@ const EmailTemplateBuilder = () => {
                     <input type="radio" name="acCondition" value="no" /> No
                   </label>
                 </div>
-                </div>
                 <div className="year-installed">
                   <label>Year Installed</label>
                   <input type="number" name="acYear" placeholder="Year" />
                 </div>
               </div>
-              <div className="feature-item">
-              <div className="feature-row">
-              <div className="feature-column">
+            </div>
+
+            <div className="feature-item">
+              <div className="feature-label">
                 <label>Is the Roof Good?</label>
+              </div>
+              <div className="feature-row">
                 <div className="radio-group">
                   <label>
                     <input type="radio" name="roofCondition" value="yes" /> Yes
@@ -1266,17 +1270,18 @@ const EmailTemplateBuilder = () => {
                     <input type="radio" name="roofCondition" value="no" /> No
                   </label>
                 </div>
-                </div>
-                </div>
                 <div className="year-installed">
                   <label>Year Installed</label>
                   <input type="number" name="roofYear" placeholder="Year" />
                 </div>
               </div>
-              <div className="feature-item">
-              <div className="feature-row">
-              <div className="feature-column">
+            </div>
+
+            <div className="feature-item">
+              <div className="feature-label">
                 <label>Are the Windows Good?</label>
+              </div>
+              <div className="feature-row">
                 <div className="radio-group">
                   <label>
                     <input type="radio" name="windowsCondition" value="yes" />{" "}
@@ -1285,7 +1290,6 @@ const EmailTemplateBuilder = () => {
                   <label>
                     <input type="radio" name="windowsCondition" value="no" /> No
                   </label>
-                </div>
                 </div>
                 <div className="year-installed">
                   <label>Year Installed</label>
