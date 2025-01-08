@@ -931,7 +931,37 @@ button:active {
     letter-spacing: -0.01em;
 }
 
-.occupancy-section select,
+/* Base styling for the select element */
+.occupancy-section select {
+    appearance: none; /* Removes default styling */
+    -webkit-appearance: none; /* Safari/Chrome */
+    -moz-appearance: none; /* Firefox */
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+    padding: 0.75rem 1rem;
+    padding-right: 2.5rem; /* Add space for the custom caret */
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23A0A0A0" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>'); /* Custom caret icon */
+    background-repeat: no-repeat;
+    background-position: right 1rem center; /* Adjust the caret position */
+    background-size: 1rem;
+}
+
+/* On hover */
+.occupancy-section select:hover {
+    background-color: var(--hover-bg);
+    border-color: var(--border-color);
+}
+
+/* On focus */
+.occupancy-section select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background-color: var(--input-bg);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
 .occupancy-section input[type="date"] {
     width: 100%;
     padding: 0.75rem 1rem;
@@ -943,13 +973,11 @@ button:active {
     transition: all 0.2s ease;
 }
 
-.occupancy-section select:hover,
 .occupancy-section input[type="date"]:hover {
     background-color: var(--hover-bg);
     border-color: var(--border-color);
 }
 
-.occupancy-section select:focus,
 .occupancy-section input[type="date"]:focus {
     outline: none;
     border-color: var(--primary-color);
