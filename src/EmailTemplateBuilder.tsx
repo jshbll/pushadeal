@@ -20,6 +20,11 @@
     }
 
     const EmailTemplateBuilder = () => {
+        // Property Vacancy Status
+        const [occupancyStatus, setOccupancyStatus] = useState('');
+        const [vacantDate, setVacantDate] = useState('');
+        const [vacantOnClosing, setVacantOnClosing] = useState(false);
+
         // Email Content States
         const [customMessage, setCustomMessage] = useState('Insert Custom Message');
         const [footerMessage, setFooterMessage] = useState('Insert Footer Message.');
@@ -59,6 +64,16 @@
             { id: '7', name: 'Plumbing', type: 'repair', checked: false, category: 'Systems', year: '', details: '' },
             { id: '8', name: 'Large backyard', type: 'feature', checked: false, category: 'Exterior', year: '', details: '' }
         ]);
+
+        const handleOccupancyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+            const value = event.target.value;
+            setOccupancyStatus(value);
+            // Reset additional fields when changing status
+            if (value !== 'Tenant Occupied') {
+                setVacantDate('');
+                setVacantOnClosing(false);
+            }
+        };
 
         const handleItemChange = (id: string, field: keyof Item, value: string | boolean) => {
             setItems((prevItems: Item[]) => 
@@ -838,7 +853,6 @@
             );
         };
 
-        return (
             <div className="email-template-builder">
                 <div className="form-container">
                     <div className="form-inner" style={{ overflowY: 'scroll' }}>
@@ -893,6 +907,46 @@
                             </div>
                         </div>
 
+            <div className="form-section">
+                <h2>Occupancy Status</h2>
+                <div className="form-group">
+                    <label>Occupancy Status</label>
+                    <select
+                        value={occupancyStatus}
+                        onChange={handleOccupancyChange}
+                        className="input"
+                    >
+                        <option value="">Select Status</option>
+                        <option value="Vacant">Vacant</option>
+                        <option value="Owner Occupied">Owner Occupied</option>
+                        <option value="Tenant Occupied">Tenant Occupied</option>
+                    </select>
+                </div>
+
+                {occupancyStatus === 'Tenant Occupied' && (
+                    <div>
+                        <div className="form-group">
+                            <label>Vacant Date</label>
+                            <input
+                                type="date"
+                                value={vacantDate}
+                                onChange={(e) => setVacantDate(e.target.value)}
+                                className="input"
+                                required={!vacantOnClosing}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    checked={vacantOnClosing}
+                                    onChange={(e) => setVacantOnClosing(e.target.checked)}
+                                />
+                                Vacant On Closing
+                            </label>
+                        </div>
+                    </div>
+                )}
                         <div className="form-section">
                             <h2>Email Content</h2>
                             <div className="form-group">
