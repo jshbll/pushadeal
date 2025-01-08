@@ -1234,51 +1234,52 @@ const EmailTemplateBuilder = () => {
             </div>
           </div>
 
-          <div className="form-section features-repairs">
+          <div className="features-section">
             <h2>Features</h2>
-            <div className="category-section">
-              {items.map((item) => (
-                <div key={item.id} className="item-row">
-                  <div className="item-header">
-                    <label className="toggle-switch">
-                      <input
-                        type="checkbox"
-                        checked={item.checked}
-                        onChange={(e) =>
-                          handleItemChange(item.id, "checked", e.target.checked)
-                        }
-                        className="toggle-input"
-                      />
-                      <span className="toggle-slider"></span>
-                    </label>
-                    <span className="item-name">{item.name}</span>
-                  </div>
-                  {item.checked && (
-                    <div className="item-details">
-                      <div className="details-grid">
-                        <input
-                          type="text"
-                          value={item.year || ""}
-                          onChange={(e) =>
-                            handleItemChange(item.id, "year", e.target.value)
-                          }
-                          placeholder="Year"
-                          className="input year-input"
-                        />
-                        <input
-                          type="text"
-                          value={item.details || ""}
-                          onChange={(e) =>
-                            handleItemChange(item.id, "details", e.target.value)
-                          }
-                          placeholder="Details"
-                          className="input details-input"
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
+            <div className="feature-item">
+              <label>Is the A/C Good?</label>
+              <div className="radio-group">
+                <label>
+                  <input type="radio" name="acCondition" value="yes" /> Yes
+                </label>
+                <label>
+                  <input type="radio" name="acCondition" value="no" /> No
+                </label>
+              </div>
+              <div className="year-installed">
+                <label>Year Installed</label>
+                <input type="number" name="acYear" placeholder="Year" />
+              </div>
+            </div>
+            <div className="feature-item">
+              <label>Is the Roof Good?</label>
+              <div className="radio-group">
+                <label>
+                  <input type="radio" name="roofCondition" value="yes" /> Yes
+                </label>
+                <label>
+                  <input type="radio" name="roofCondition" value="no" /> No
+                </label>
+              </div>
+              <div className="year-installed">
+                <label>Year Installed</label>
+                <input type="number" name="roofYear" placeholder="Year" />
+              </div>
+            </div>
+            <div className="feature-item">
+              <label>Are the Windows Good?</label>
+              <div className="radio-group">
+                <label>
+                  <input type="radio" name="windowsCondition" value="yes" /> Yes
+                </label>
+                <label>
+                  <input type="radio" name="windowsCondition" value="no" /> No
+                </label>
+              </div>
+              <div className="year-installed">
+                <label>Year Installed</label>
+                <input type="number" name="windowsYear" placeholder="Year" />
+              </div>
             </div>
           </div>
 
