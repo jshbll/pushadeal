@@ -20,6 +20,21 @@ interface GalleryImage {
 }
 
 const EmailTemplateBuilder = () => {
+    // Add a state for occupancy status
+    const [occupancyStatus, setOccupancyStatus] = useState('');
+    const [vacantDate, setVacantDate] = useState('');
+    const [vacantOnClosing, setVacantOnClosing] = useState(false);
+
+    const handleOccupancyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const value = event.target.value;
+        setOccupancyStatus(value);
+        // Reset additional fields when changing status
+        if (value !== 'Tenant Occupied') {
+            setVacantDate('');
+            setVacantOnClosing(false);
+        }
+    };
+
     // Email Content States
     const [customMessage, setCustomMessage] = useState('Insert Custom Message');
     const [footerMessage, setFooterMessage] = useState('Insert Footer Message.');
@@ -839,316 +854,390 @@ const uploadImageToServer = async (file: File): Promise<string> => {
     };
 
     return (
-        <div className="email-template-builder">
-            <div className="form-container">
-                <div className="form-inner" style={{ overflowY: 'scroll' }}>
-                    <div className="form-section">
-                        <h2>Property Value & Location</h2>
-                        <div className="form-grid">
-                            <div className="form-group">
-                                <label>Market Value</label>
-                                <input
-                                    type="text"
-                                    value={marketValue}
-                                    onChange={handleMarketValueChange}
-                                    placeholder="Current market value"
-                                    className="input"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Property Address</label>
-                                <input
-                                    type="text"
-                                    value={address}
-                                    onChange={(e) => setAddress(e.target.value)}
-                                    placeholder="Enter property address"
-                                    className="input"
-                                />
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <label>Main Property Image</label>
-                            <div className="image-upload-container">
-                                {mainImageUrl && (
-                                    <div className="image-preview">
-                                        <img src={mainImageUrl} alt="Main property" />
-                                    </div>
-                                )}
-                                <div className="upload-controls">
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={handleMainImageUpload}
-                                        className="file-input"
-                                        id="main-image-upload"
-                                    />
-                                    <label htmlFor="main-image-upload" className="upload-button">
-                                        Choose Image
-                                    </label>
-                                    {mainImageFile && (
-                                        <span className="file-name">{mainImageFile.name}</span>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="form-section">
-                        <h2>Email Content</h2>
-                        <div className="form-group">
-                            <label>Custom Message</label>
-                            <textarea
-                                value={customMessage}
-                                onChange={(e) => setCustomMessage(e.target.value)}
-                                placeholder="Enter your custom message for the email"
-                                className="textarea"
-                                rows={4}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="form-section">
-                        <h2>Property Details</h2>
-                        <div className="form-grid">
-                            <div className="form-group">
-                                <label>Square Footage</label>
-                                <input
-                                    type="text"
-                                    value={squareFootage}
-                                    onChange={(e) => setSquareFootage(e.target.value)}
-                                    placeholder="e.g., 2,500 sq ft"
-                                    className="input"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Bedrooms</label>
-                                <input
-                                    type="number"
-                                    value={bedrooms}
-                                    onChange={(e) => setBedrooms(e.target.value)}
-                                    placeholder="e.g., 4"
-                                    min="0"
-                                    className="input"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Bathrooms</label>
-                                <input
-                                    type="number"
-                                    value={baths}
-                                    onChange={(e) => setBaths(e.target.value)}
-                                    placeholder="e.g., 3"
-                                    min="0"
-                                    step="0.5"
-                                    className="input"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Lot Size</label>
-                                <input
-                                    type="text"
-                                    value={lotSize}
-                                    onChange={(e) => setLotSize(e.target.value)}
-                                    placeholder="e.g., 0.25 acres"
-                                    className="input"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Year Built</label>
-                                <input
-                                    type="text"
-                                    value={yearBuilt}
-                                    onChange={(e) => setYearBuilt(e.target.value)}
-                                    placeholder="e.g., 1985"
-                                    className="input"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>After Repair Value (ARV)</label>
-                                <input
-                                    type="text"
-                                    value={arv}
-                                    onChange={handleArvChange}
-                                    placeholder="e.g., $1,200,000"
-                                    className="input"
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="form-section features-repairs">
-                        <h2>Features</h2>
-                        <div className="category-section">
-                            {items.map((item) => (
-                                <div key={item.id} className="item-row">
-                                    <div className="item-header">
-                                        <label className="toggle-switch">
-                                            <input
-                                                type="checkbox"
-                                                checked={item.checked}
-                                                onChange={(e) => handleItemChange(item.id, 'checked', e.target.checked)}
-                                                className="toggle-input"
-                                            />
-                                            <span className="toggle-slider"></span>
-                                        </label>
-                                        <span className="item-name">{item.name}</span>
-                                    </div>
-                                    {item.checked && (
-                                        <div className="item-details">
-                                            <div className="details-grid">
-                                                <input
-                                                    type="text"
-                                                    value={item.year || ''}
-                                                    onChange={(e) => handleItemChange(item.id, 'year', e.target.value)}
-                                                    placeholder="Year"
-                                                    className="input year-input"
-                                                />
-                                                <input
-                                                    type="text"
-                                                    value={item.details || ''}
-                                                    onChange={(e) => handleItemChange(item.id, 'details', e.target.value)}
-                                                    placeholder="Details"
-                                                    className="input details-input"
-                                                />
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className="form-section">
-                        <h2>Investment Details</h2>
-                        <div className="form-grid">
-                            <div className="form-group">
-                                <label>Repair Costs</label>
-                                <input
-                                    type="text"
-                                    value={repairCosts}
-                                    onChange={handleRepairCostsChange}
-                                    placeholder="e.g., $150,000"
-                                    className="input"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Profit Margin</label>
-                                <input
-                                    type="text"
-                                    value={profitMargin}
-                                    onChange={handleProfitMarginChange}
-                                    placeholder="e.g., $175,000"
-                                    className="input"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Market Trends</label>
-                                <input
-                                    type="text"
-                                    value={marketTrends}
-                                    onChange={(e) => setMarketTrends(e.target.value)}
-                                    placeholder="e.g., 8% annual appreciation"
-                                    className="input"
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="form-section">
-                        <h2>Footer Content</h2>
-                        <div className="form-group">
-                            <label>Footer Message</label>
-                            <textarea
-                                value={footerMessage}
-                                onChange={(e) => setFooterMessage(e.target.value)}
-                                placeholder="Enter footer message"
-                                className="textarea"
-                                rows={2}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="form-section">
-                        <h2>Gallery Images</h2>
-                        {galleryImages.map((image, index) => (
-                            <div key={index} className="form-group gallery-image">
-                                <div className="image-upload-container">
-                                    {image && (
-                                        <div className="image-preview">
-                                            <img src={image} alt="Gallery image" />
-                                        </div>
-                                    )}
-                                    <div className="upload-controls">
-                                        <input
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={(e) => handleGalleryImageUpload(e, index)}
-                                            className="file-input"
-                                            id={`gallery-image-${index}`}
-                                        />
-                                        <label htmlFor={`gallery-image-${index}`} className="upload-button">
-                                            Choose Image
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                        <button
-                            onClick={() => setGalleryImages([...galleryImages, ''])}
-                            className="upload-button"
-                        >
-                            Add Gallery Image
-                        </button>
-                    </div>
-
-                    <div className="button-container">
-                        <button onClick={() => setShowHtmlModal(true)} className="generate-button">
-                            Generate HTML
-                        </button>
-                    </div>
+      <div className="email-template-builder">
+        <div className="form-container">
+          <div className="form-inner" style={{ overflowY: "scroll" }}>
+            <div className="form-section">
+              <h2>Property Value & Location</h2>
+              <div className="form-grid">
+                <div className="form-group">
+                  <label>Market Value</label>
+                  <input
+                    type="text"
+                    value={marketValue}
+                    onChange={handleMarketValueChange}
+                    placeholder="Current market value"
+                    className="input"
+                  />
                 </div>
-            </div>
-
-            <div className="preview-container">
-                <div className="preview-content">
-                    <h2>Email Preview</h2>
-                    <div 
-                        className="preview-wrapper"
-                        dangerouslySetInnerHTML={{ 
-                            __html: renderPreview()
-                        }} 
+                <div className="form-group">
+                  <label>Property Address</label>
+                  <input
+                    type="text"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    placeholder="Enter property address"
+                    className="input"
+                  />
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Main Property Image</label>
+                <div className="image-upload-container">
+                  {mainImageUrl && (
+                    <div className="image-preview">
+                      <img src={mainImageUrl} alt="Main property" />
+                    </div>
+                  )}
+                  <div className="upload-controls">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleMainImageUpload}
+                      className="file-input"
+                      id="main-image-upload"
                     />
+                    <label
+                      htmlFor="main-image-upload"
+                      className="upload-button"
+                    >
+                      Choose Image
+                    </label>
+                    {mainImageFile && (
+                      <span className="file-name">{mainImageFile.name}</span>
+                    )}
+                  </div>
                 </div>
+              </div>
+            </div>
+            <div className="form-section">
+              <h2>Occupancy Status</h2>
+              <div className="form-group">
+                <label>Occupancy Status</label>
+                <select
+                  value={occupancyStatus}
+                  onChange={handleOccupancyChange}
+                  className="input"
+                >
+                  <option value="">Select Status</option>
+                  <option value="Vacant">Vacant</option>
+                  <option value="Owner Occupied">Owner Occupied</option>
+                  <option value="Tenant Occupied">Tenant Occupied</option>
+                </select>
+              </div>
+
+              {occupancyStatus === "Tenant Occupied" && (
+                <div>
+                  <div className="form-group">
+                    <label>Vacant Date</label>
+                    <input
+                      type="date"
+                      value={vacantDate}
+                      onChange={(e) => setVacantDate(e.target.value)}
+                      className="input"
+                      required={!vacantOnClosing}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={vacantOnClosing}
+                        onChange={(e) => setVacantOnClosing(e.target.checked)}
+                      />
+                      Vacant On Closing
+                    </label>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="form-section">
+              <h2>Email Content</h2>
+              <div className="form-group">
+                <label>Custom Message</label>
+                <textarea
+                  value={customMessage}
+                  onChange={(e) => setCustomMessage(e.target.value)}
+                  placeholder="Enter your custom message for the email"
+                  className="textarea"
+                  rows={4}
+                />
+              </div>
             </div>
 
-            <Modal isOpen={showHtmlModal} onClose={() => setShowHtmlModal(false)}>
-                <div style={{ marginBottom: '20px', position: 'sticky', top: '0', background: '#fff', padding: '10px 0', borderBottom: '1px solid #eee' }}>
-                    <button 
-                        onClick={handleCopyHtml}
-                        style={{
-                            padding: '8px 16px',
-                            background: '#007bff',
-                            color: '#fff',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: 'pointer'
-                        }}
-                    >
-                        {copiedHtml ? 'Copied!' : 'Copy HTML'}
-                    </button>
+            <div className="form-section">
+              <h2>Property Details</h2>
+              <div className="form-grid">
+                <div className="form-group">
+                  <label>Square Footage</label>
+                  <input
+                    type="text"
+                    value={squareFootage}
+                    onChange={(e) => setSquareFootage(e.target.value)}
+                    placeholder="e.g., 2,500 sq ft"
+                    className="input"
+                  />
                 </div>
-                <pre style={{ 
-                    background: '#f8f9fa',
-                    padding: '15px',
-                    borderRadius: '4px',
-                    color: '#333',
-                    whiteSpace: 'pre-wrap',
-                    wordBreak: 'break-word'
-                }}>
-                    {generateEmailHtml(groupedItems, `${bedrooms} bed, ${baths} bath`)}
-                </pre>
-            </Modal>
+                <div className="form-group">
+                  <label>Bedrooms</label>
+                  <input
+                    type="number"
+                    value={bedrooms}
+                    onChange={(e) => setBedrooms(e.target.value)}
+                    placeholder="e.g., 4"
+                    min="0"
+                    className="input"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Bathrooms</label>
+                  <input
+                    type="number"
+                    value={baths}
+                    onChange={(e) => setBaths(e.target.value)}
+                    placeholder="e.g., 3"
+                    min="0"
+                    step="0.5"
+                    className="input"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Lot Size</label>
+                  <input
+                    type="text"
+                    value={lotSize}
+                    onChange={(e) => setLotSize(e.target.value)}
+                    placeholder="e.g., 0.25 acres"
+                    className="input"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Year Built</label>
+                  <input
+                    type="text"
+                    value={yearBuilt}
+                    onChange={(e) => setYearBuilt(e.target.value)}
+                    placeholder="e.g., 1985"
+                    className="input"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>After Repair Value (ARV)</label>
+                  <input
+                    type="text"
+                    value={arv}
+                    onChange={handleArvChange}
+                    placeholder="e.g., $1,200,000"
+                    className="input"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="form-section features-repairs">
+              <h2>Features</h2>
+              <div className="category-section">
+                {items.map((item) => (
+                  <div key={item.id} className="item-row">
+                    <div className="item-header">
+                      <label className="toggle-switch">
+                        <input
+                          type="checkbox"
+                          checked={item.checked}
+                          onChange={(e) =>
+                            handleItemChange(
+                              item.id,
+                              "checked",
+                              e.target.checked
+                            )
+                          }
+                          className="toggle-input"
+                        />
+                        <span className="toggle-slider"></span>
+                      </label>
+                      <span className="item-name">{item.name}</span>
+                    </div>
+                    {item.checked && (
+                      <div className="item-details">
+                        <div className="details-grid">
+                          <input
+                            type="text"
+                            value={item.year || ""}
+                            onChange={(e) =>
+                              handleItemChange(item.id, "year", e.target.value)
+                            }
+                            placeholder="Year"
+                            className="input year-input"
+                          />
+                          <input
+                            type="text"
+                            value={item.details || ""}
+                            onChange={(e) =>
+                              handleItemChange(
+                                item.id,
+                                "details",
+                                e.target.value
+                              )
+                            }
+                            placeholder="Details"
+                            className="input details-input"
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="form-section">
+              <h2>Investment Details</h2>
+              <div className="form-grid">
+                <div className="form-group">
+                  <label>Repair Costs</label>
+                  <input
+                    type="text"
+                    value={repairCosts}
+                    onChange={handleRepairCostsChange}
+                    placeholder="e.g., $150,000"
+                    className="input"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Profit Margin</label>
+                  <input
+                    type="text"
+                    value={profitMargin}
+                    onChange={handleProfitMarginChange}
+                    placeholder="e.g., $175,000"
+                    className="input"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Market Trends</label>
+                  <input
+                    type="text"
+                    value={marketTrends}
+                    onChange={(e) => setMarketTrends(e.target.value)}
+                    placeholder="e.g., 8% annual appreciation"
+                    className="input"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="form-section">
+              <h2>Footer Content</h2>
+              <div className="form-group">
+                <label>Footer Message</label>
+                <textarea
+                  value={footerMessage}
+                  onChange={(e) => setFooterMessage(e.target.value)}
+                  placeholder="Enter footer message"
+                  className="textarea"
+                  rows={2}
+                />
+              </div>
+            </div>
+
+            <div className="form-section">
+              <h2>Gallery Images</h2>
+              {galleryImages.map((image, index) => (
+                <div key={index} className="form-group gallery-image">
+                  <div className="image-upload-container">
+                    {image && (
+                      <div className="image-preview">
+                        <img src={image} alt="Gallery image" />
+                      </div>
+                    )}
+                    <div className="upload-controls">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleGalleryImageUpload(e, index)}
+                        className="file-input"
+                        id={`gallery-image-${index}`}
+                      />
+                      <label
+                        htmlFor={`gallery-image-${index}`}
+                        className="upload-button"
+                      >
+                        Choose Image
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <button
+                onClick={() => setGalleryImages([...galleryImages, ""])}
+                className="upload-button"
+              >
+                Add Gallery Image
+              </button>
+            </div>
+
+            <div className="button-container">
+              <button
+                onClick={() => setShowHtmlModal(true)}
+                className="generate-button"
+              >
+                Generate HTML
+              </button>
+            </div>
+          </div>
         </div>
+
+        <div className="preview-container">
+          <div className="preview-content">
+            <h2>Email Preview</h2>
+            <div
+              className="preview-wrapper"
+              dangerouslySetInnerHTML={{
+                __html: renderPreview(),
+              }}
+            />
+          </div>
+        </div>
+
+        <Modal isOpen={showHtmlModal} onClose={() => setShowHtmlModal(false)}>
+          <div
+            style={{
+              marginBottom: "20px",
+              position: "sticky",
+              top: "0",
+              background: "#fff",
+              padding: "10px 0",
+              borderBottom: "1px solid #eee",
+            }}
+          >
+            <button
+              onClick={handleCopyHtml}
+              style={{
+                padding: "8px 16px",
+                background: "#007bff",
+                color: "#fff",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+              }}
+            >
+              {copiedHtml ? "Copied!" : "Copy HTML"}
+            </button>
+          </div>
+          <pre
+            style={{
+              background: "#f8f9fa",
+              padding: "15px",
+              borderRadius: "4px",
+              color: "#333",
+              whiteSpace: "pre-wrap",
+              wordBreak: "break-word",
+            }}
+          >
+            {generateEmailHtml(groupedItems, `${bedrooms} bed, ${baths} bath`)}
+          </pre>
+        </Modal>
+      </div>
     );
 };
 
