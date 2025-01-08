@@ -1237,6 +1237,7 @@ const EmailTemplateBuilder = () => {
           <div className="features-section">
             <h2>Features</h2>
             <div className="feature-item">
+              <div className="feature-row">
               <label>Is the A/C Good?</label>
               <div className="feature-row">
                 <div className="radio-group">
@@ -1251,6 +1252,7 @@ const EmailTemplateBuilder = () => {
                   <label>Year Installed</label>
                   <input type="number" name="acYear" placeholder="Year" />
                 </div>
+              </div>
               </div>
               <div className="feature-item">
                 <label>Is the Roof Good?</label>
