@@ -1,7 +1,7 @@
 import React, { useState, ReactNode, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+//import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const EmailTemplateBuilder = () => {
     // Email Content States
