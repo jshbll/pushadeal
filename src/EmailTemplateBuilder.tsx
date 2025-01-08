@@ -274,6 +274,16 @@
 
         const handleSubmit = async (event: React.FormEvent) => {
             event.preventDefault();
+
+                // Add validation for Tenant Occupied status
+                if (
+                    occupancyStatus === 'Tenant Occupied' &&
+                    !vacantDate &&
+                    !vacantOnClosing
+                ) {
+                    alert('Please select a vacant date or check "Vacant On Closing".');
+                    return; // Stop submission if validation fails
+                }
             try {
                 const templateData: any = {};
                 
