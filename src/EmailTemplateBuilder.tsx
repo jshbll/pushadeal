@@ -284,6 +284,7 @@
                     alert('Please select a vacant date or check "Vacant On Closing".');
                     return; // Stop submission if validation fails
                 }
+            }
             try {
                 const templateData: any = {};
                 
