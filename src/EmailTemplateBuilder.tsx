@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { Camera, Upload, Settings, PenTool, Image, Layout } from 'lucide-react';
 
 interface Feature {
