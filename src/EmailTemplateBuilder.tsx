@@ -1,1448 +1,467 @@
-import React, { useState, ReactNode, ChangeEvent } from "react";
-import "./EmailTemplateBuilder.css";
+import React, { useState, useEffect } from 'react';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Camera, Upload, Settings, PenTool, Image, Layout } from 'lucide-react';
 
-type ItemType = "feature" | "repair";
-
-interface Item {
+interface Feature {
   id: string;
   name: string;
-  type: ItemType;
-  checked: boolean;
+  status: 'good' | 'needs-work' | 'unset';
   year?: string;
-  details?: string;
-  category: string;
-}
-
-interface GalleryImage {
-  file?: File;
-  url: string;
-  alt: string;
 }
 
 const EmailTemplateBuilder = () => {
-  // Add a state for occupancy status
-  const [occupancyStatus, setOccupancyStatus] = useState("");
-  const [vacantDate, setVacantDate] = useState("");
-  const [vacantOnClosing, setVacantOnClosing] = useState(false);
+  // Core States
+  const [activeTab, setActiveTab] = useState('details');
+  const [salePrice, setSalePrice] = useState('');
+  const [address, setAddress] = useState('');
+  const [squareFootage, setSquareFootage] = useState('');
+  const [bedrooms, setBedrooms] = useState('');
+  const [bathrooms, setBathrooms] = useState('');
+  const [yearBuilt, setYearBuilt] = useState('');
 
-  const handleOccupancyChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const value = event.target.value;
-    setOccupancyStatus(value);
-    // Reset additional fields when changing status
-    if (value !== "Tenant Occupied") {
-      setVacantDate("");
-      setVacantOnClosing(false);
-    }
-  };
-
-  // Email Content States
-  const [customMessage, setCustomMessage] = useState("");
-  const [footerMessage, setFooterMessage] = useState("");
-  const [logoUrl] = useState(
-    "https://staged.page/dealdispo/Dispo-Logo-Do-Not-Move-Delete.png"
-  );
-
-  // Property Info States
-  const [address, setAddress] = useState("");
-  const [squareFootage, setSquareFootage] = useState("");
-  const [bedrooms, setBedrooms] = useState("1");
-  const [baths, setBaths] = useState("1");
-  const [lotSize, setLotSize] = useState("");
-  const [yearBuilt, setYearBuilt] = useState("");
-  const [salePrice, setMarketValue] = useState("");
-  const [arv, setArv] = useState("0");
-
-  // Media States
-  const [mainImageUrl, setMainImageUrl] = useState("");
-  const [galleryImages, setGalleryImages] = useState<string[]>([]);
-  const [mainImageFile, setMainImageFile] = useState<File | null>(null);
-
-  // Investment Details States
-  const [showInvestmentDetails, setShowInvestmentDetails] = useState(true);
-  const [repairCosts, setRepairCosts] = useState("");
-  const [profitMargin, setProfitMargin] = useState("");
-  const [comparableProperties, setComparableProperties] = useState("");
-  const [marketTrends, setMarketTrends] = useState("");
-  const [phoneNumber] = useState("904-335-8553");
-
-  // Features & Repairs States
-  const [items, setItems] = useState<Item[]>([
-    {
-      id: "1",
-      name: "Roof",
-      type: "repair",
-      checked: false,
-      category: "Exterior",
-      year: "",
-      details: "",
-    },
-    {
-      id: "2",
-      name: "HVAC",
-      type: "feature",
-      checked: false,
-      category: "Systems",
-      year: "",
-      details: "",
-    },
-    {
-      id: "3",
-      name: "Windows",
-      type: "repair",
-      checked: false,
-      category: "Exterior",
-      year: "",
-      details: "",
-    },
-    {
-      id: "4",
-      name: "Kitchen",
-      type: "feature",
-      checked: false,
-      category: "Interior",
-      year: "",
-      details: "",
-    },
-    {
-      id: "5",
-      name: "Bathrooms",
-      type: "repair",
-      checked: false,
-      category: "Interior",
-      year: "",
-      details: "",
-    },
-    {
-      id: "6",
-      name: "Electrical",
-      type: "repair",
-      checked: false,
-      category: "Systems",
-      year: "",
-      details: "",
-    },
-    {
-      id: "7",
-      name: "Plumbing",
-      type: "repair",
-      checked: false,
-      category: "Systems",
-      year: "",
-      details: "",
-    },
-    {
-      id: "8",
-      name: "Large backyard",
-      type: "feature",
-      checked: false,
-      category: "Exterior",
-      year: "",
-      details: "",
-    },
+  // Features State
+  const [features, setFeatures] = useState<Feature[]>([
+    { id: '1', name: 'HVAC', status: 'unset' },
+    { id: '2', name: 'Roof', status: 'unset' },
+    { id: '3', name: 'Windows', status: 'unset' },
+    { id: '4', name: 'Kitchen', status: 'unset' },
+    { id: '5', name: 'Plumbing', status: 'unset' },
+    { id: '6', name: 'Electrical', status: 'unset' }
   ]);
 
-  const handleItemChange = (
-    id: string,
-    field: keyof Item,
-    value: string | boolean
-  ) => {
-    setItems((prevItems: Item[]) =>
-      prevItems.map((item: Item) =>
-        item.id === id ? { ...item, [field]: value } : item
-      )
-    );
+  // Media States
+  const [mainImage, setMainImage] = useState<string>('');
+  const [galleryImages, setGalleryImages] = useState<string[]>([]);
+
+  // Investment Details
+  const [repairCosts, setRepairCosts] = useState('');
+  const [arvEstimate, setArvEstimate] = useState('');
+  const [profitMargin, setProfitMargin] = useState('');
+
+  const formatCurrency = (value: string) => {
+    const numeric = value.replace(/[^0-9]/g, '');
+    const formatted = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0
+    }).format(Number(numeric));
+    return formatted;
   };
 
-  const groupedItems = {
-    Features: items,
-  } as Record<string, Item[]>;
-
-  // Image validation functions
-  const validateImage = async (
-    file: File,
-    type: "main" | "gallery" | "header" | "background"
-  ): Promise<{ isValid: boolean; message?: string }> => {
-    // Check file size (1MB = 5 * 1024 * 1024 bytes)
-    const maxSize = 1 * 1024 * 1024;
-    if (file.size > maxSize) {
-      return { isValid: false, message: "Image must be under 1MB in size" };
-    }
-
-    // Create an image object to check dimensions
-    const img = new Image();
-    const imageUrl = URL.createObjectURL(file);
-
-    return new Promise((resolve) => {
-      img.onload = () => {
-        URL.revokeObjectURL(imageUrl);
-
-        switch (type) {
-          case "main":
-          case "gallery":
-            // Email width should be at least 600px
-            if (img.width < 600) {
-              resolve({
-                isValid: false,
-                message: "Image must be at least 600 pixels wide",
-              });
-              return;
-            }
-            break;
-          case "header":
-            // Header height should be less than 200px
-            if (img.height > 200) {
-              resolve({
-                isValid: false,
-                message: "Header image must be less than 200 pixels high",
-              });
-              return;
-            }
-            break;
-          case "background":
-            // Background image constraints
-            if (img.width > 2000) {
-              resolve({
-                isValid: false,
-                message:
-                  "Background image must be no more than 2,000 pixels wide",
-              });
-              return;
-            }
-            if (img.height > 5000) {
-              resolve({
-                isValid: false,
-                message:
-                  "Background image must be no more than 5,000 pixels high",
-              });
-              return;
-            }
-            break;
-        }
-
-        resolve({ isValid: true });
-      };
-
-      img.onerror = () => {
-        URL.revokeObjectURL(imageUrl);
-        resolve({ isValid: false, message: "Failed to load image" });
-      };
-
-      img.src = imageUrl;
-    });
-  };
-
-  const fileToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-    });
-  };
-
-  // services/cloudinary.ts
-  const uploadImageToServer = async (file: File): Promise<string> => {
-    const CLOUDINARY_URL =
-      "https://api.cloudinary.com/v1_1/dyvlwsrdl/image/upload";
-    const UPLOAD_PRESET = "email-template";
-
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", UPLOAD_PRESET);
-
-    try {
-      const response = await fetch(CLOUDINARY_URL, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error("Upload failed");
-      }
-
-      const data = await response.json();
-      return data.secure_url;
-    } catch (error) {
-      console.error("Error uploading image:", error);
-      throw error;
-    }
-  };
-
-  const handleMainImageUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files?.[0];
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'main' | 'gallery') => {
+    const file = e.target.files?.[0];
     if (!file) return;
 
-    try {
-      // Validate image dimensions and size
-      const img = new Image();
-      const objectUrl = URL.createObjectURL(file);
-
-      img.onload = async () => {
-        URL.revokeObjectURL(objectUrl);
-
-        if (img.width < 600) {
-          alert("Main image must be at least 600 pixels wide");
-          return;
-        }
-
-        if (file.size > 1 * 1024 * 1024) {
-          alert("Image must be under 1MB");
-          return;
-        }
-
-        try {
-          const imageUrl = await uploadImageToServer(file);
-          setMainImageUrl(imageUrl);
-        } catch (error) {
-          console.error("Error uploading image:", error);
-          alert("Error uploading image to server");
-        }
-      };
-
-      img.src = objectUrl;
-    } catch (error) {
-      console.error("Error handling image upload:", error);
-      alert("Error uploading image");
-    }
-  };
-
-  const handleGalleryImageUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    try {
-      // Validate image dimensions and size
-      const img = new Image();
-      const objectUrl = URL.createObjectURL(file);
-
-      await new Promise<void>((resolve, reject) => {
-        img.onload = async () => {
-          URL.revokeObjectURL(objectUrl);
-
-          if (img.width < 600) {
-            alert(
-              `Gallery image ${file.name} must be at least 600 pixels wide`
-            );
-            reject(new Error("Invalid image width"));
-            return;
-          }
-
-          if (file.size > 5 * 1024 * 1024) {
-            alert(`Gallery image ${file.name} must be under 5MB`);
-            reject(new Error("Invalid image size"));
-            return;
-          }
-
-          try {
-            const imageUrl = await uploadImageToServer(file);
-            const newImages = [...galleryImages];
-            newImages[index] = imageUrl;
-            setGalleryImages(newImages);
-            resolve();
-          } catch (error) {
-            console.error("Error uploading image:", error);
-            alert(`Failed to upload ${file.name}`);
-            reject(error);
-          }
-        };
-
-        img.onerror = () => {
-          URL.revokeObjectURL(objectUrl);
-          alert(`Failed to load ${file.name}`);
-          reject(new Error("Error loading image"));
-        };
-
-        img.src = objectUrl;
-      });
-    } catch (error) {
-      console.error("Error handling image:", error);
-      alert(`Error processing ${file.name}`);
-    }
-  };
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    try {
-      const templateData: any = {};
-
-      if (mainImageUrl?.trim()) templateData.mainImage = mainImageUrl;
-      const validGalleryImages = galleryImages.filter((img) => img?.trim());
-      if (validGalleryImages.length)
-        templateData.galleryImages = validGalleryImages;
-      if (salePrice?.trim()) templateData.salePrice = salePrice;
-      if (address?.trim()) templateData.address = address;
-      if (customMessage?.trim()) templateData.customMessage = customMessage;
-      if (squareFootage?.trim()) templateData.squareFootage = squareFootage;
-
-      if (bedrooms?.trim() && baths?.trim()) {
-        templateData.bedrooms = bedrooms;
-        templateData.baths = baths;
-      }
-
-      if (lotSize?.trim()) templateData.lotSize = lotSize;
-      if (yearBuilt?.trim()) templateData.yearBuilt = yearBuilt;
-      if (arv?.trim()) templateData.arv = arv;
-
-      const checkedItems = items.filter(
-        (item) => item.checked && item.name?.trim()
-      );
-      if (checkedItems.length) templateData.items = checkedItems;
-      if (footerMessage?.trim()) templateData.footerMessage = footerMessage;
-
-      console.log("Template data:", templateData);
-
-      const groupedItems = {
-        Features: checkedItems,
-      } as Record<string, typeof items>;
-
-      const html = generateEmailHtml(
-        groupedItems,
-        `${bedrooms} bed, ${baths} bath`
-      );
-
-      const textarea = document.createElement("textarea");
-      textarea.value = html;
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textarea);
-
-      alert("Email template copied to clipboard!");
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Error generating email template");
-    }
-  };
-
-  const formatCurrency = (value: string): string => {
-    // Remove any non-digit characters
-    const numericValue = value.replace(/\D/g, "");
-
-    // Convert to number and format with commas and dollar sign
-    const formattedValue = new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(parseInt(numericValue) || 0);
-
-    return formattedValue;
-  };
-
-  const handleMarketValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = e.target.value;
-    const formattedValue = formatCurrency(rawValue);
-    setMarketValue(formattedValue);
-  };
-
-  const handleArvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (value === "") {
-      setArv("");
+    const url = URL.createObjectURL(file);
+    if (type === 'main') {
+      setMainImage(url);
     } else {
-      const numericValue = value.replace(/[^0-9]/g, "");
-      const formattedValue = numericValue
-        ? `$${parseInt(numericValue).toLocaleString()}`
-        : "";
-      setArv(formattedValue);
+      setGalleryImages(prev => [...prev, url]);
     }
-  };
-
-  const handleRepairCostsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (value === "") {
-      setRepairCosts("");
-    } else {
-      const numericValue = value.replace(/[^0-9]/g, "");
-      const formattedValue = numericValue
-        ? `$${parseInt(numericValue).toLocaleString()}`
-        : "";
-      setRepairCosts(formattedValue);
-    }
-  };
-
-  const handleProfitMarginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (value === "") {
-      setProfitMargin("");
-    } else {
-      const numericValue = value.replace(/[^0-9]/g, "");
-      const formattedValue = numericValue
-        ? `$${parseInt(numericValue).toLocaleString()}`
-        : "";
-      setProfitMargin(formattedValue);
-    }
-  };
-
-  // Helper function to check if a value is empty or zero
-  const isEmptyOrZero = (value: string) => {
-    return (
-      !value ||
-      value.trim() === "" ||
-      value === "$0" ||
-      value === "0" ||
-      value === "$0.00"
-    );
-  };
-
-  const generateEmailStyles = () => {
-    return `
-            body {
-                margin: 0;
-                padding: 20px;
-                background-color: #f4f4f4;
-                font-family: Arial, Helvetica, sans-serif;
-            }
-
-            .email-container {
-                max-width: 800px;
-                margin: 0 auto;
-                background: white;
-                border-radius: 8px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                overflow: hidden;
-            }
-
-            .property-title {
-                margin: 0;
-                padding: 40px 40px 10px;
-                color: #2C3E50;
-                font-size: 36px;
-                font-weight: bold;
-                text-align: center;
-            }
-
-            .property-address {
-                margin: 0;
-                padding: 0 40px 20px;
-                color: #7F8C8D;
-                font-size: 16px;
-                text-align: center;
-            }
-
-            .main-image {
-                padding: 0 40px;
-            }
-
-            .main-image img {
-                width: 100%;
-                height: auto;
-                display: block;
-            }
-
-            .content-section {
-                padding: 20px 40px;
-                color: #333;
-                line-height: 1.6;
-            }
-
-            .content-section p {
-                margin: 0 0 15px;
-            }
-
-            .property-details {
-                padding: 20px 40px;
-                background: #f8f9fa;
-            }
-
-            .detail-row {
-                display: flex;
-                margin-bottom: 15px;
-            }
-
-            .detail-row:last-child {
-                margin-bottom: 0;
-            }
-
-            .detail-item {
-                flex: 1;
-                text-align: center;
-                padding: 10px;
-            }
-
-            .detail-label {
-                color: #666;
-                font-size: 14px;
-                margin-bottom: 5px;
-            }
-
-            .detail-value {
-                color: #333;
-                font-size: 18px;
-                font-weight: bold;
-            }
-
-            .section {
-                padding: 20px 40px;
-                border-top: 1px solid #eee;
-            }
-
-            .section-title {
-                text-align: center;
-                color: #333;
-                font-size: 24px;
-                margin: 0 0 20px;
-            }
-
-            .items-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 15px;
-                padding: 0;
-            }
-
-            .item {
-                padding: 15px;
-                border-radius: 8px;
-                text-align: center;
-            }
-
-            .feature {
-                background-color: #E8F5E9;
-            }
-
-            .repair {
-                background-color: #FFF3E0;
-            }
-
-            .item-name {
-                font-weight: bold;
-                margin-bottom: 5px;
-            }
-
-            .item-year {
-                color: #666;
-                font-size: 14px;
-            }
-
-            .item-details {
-                margin-top: 8px;
-                font-size: 14px;
-            }
-
-            .cta-section {
-                text-align: center;
-                padding: 30px 40px;
-                background: white;
-            }
-
-            .cta-title {
-                color: #333;
-                font-size: 24px;
-                margin-bottom: 10px;
-            }
-
-            .cta-phone {
-                color: #333;
-                font-size: 32px;
-                font-weight: bold;
-            }
-
-            .footer-section {
-                padding: 20px 40px;
-                background: #f8f9fa;
-                text-align: center;
-                color: #666;
-                font-size: 14px;
-            }
-
-            .footer-section p {
-                margin: 0 0 10px;
-            }
-
-            .footer-section p:last-child {
-                margin: 0;
-            }
-
-            @media (max-width: 600px) {
-                body {
-                    padding: 10px;
-                }
-
-                .email-container {
-                    border-radius: 0;
-                }
-
-                .items-grid {
-                    grid-template-columns: 1fr;
-                }
-
-                .detail-row {
-                    flex-direction: column;
-                }
-
-                .detail-item {
-                    margin-bottom: 15px;
-                }
-
-                .detail-item:last-child {
-                    margin-bottom: 0;
-                }
-
-                .property-title,
-                .property-address,
-                .main-image,
-                .content-section,
-                .property-details,
-                .section,
-                .cta-section,
-                .footer-section {
-                    padding-left: 20px;
-                    padding-right: 20px;
-                }
-            }
-        `;
-  };
-
-  const generateEmailHtml = (
-    groupedItems: Record<string, typeof items>,
-    bedroomsBaths: string
-  ) => {
-    return `<!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Investment Property</title>
-        </head>
-        <body style="margin: 0; padding: 20px; background-color: #f8fafc; font-family: Arial, sans-serif; -webkit-font-smoothing: antialiased;">
-        [[trackingImage]]
-            <table style="width: 100%; max-width: 800px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); overflow: hidden;">
-                ${
-                  logoUrl
-                    ? `
-                <tr>
-                    <td style="text-align: center; padding: 32px 20px;">
-                        <img src="${logoUrl}" alt="Company Logo" style="max-width: 200px; height: auto; display: block; margin: 0 auto;" />
-                    </td>
-                </tr>
-                `
-                    : ""
-                }
-                
-                <tr>
-                    <td style="padding: 0 32px;">
-                        <h1 style="margin: 0; color: #1e293b; font-size: 36px; font-weight: bold; text-align: center;">${salePrice}</h1>
-                        <p style="margin: 8px 0 24px; color: #64748b; font-size: 18px; text-align: center;">${address}</p>
-                    </td>
-                </tr>
-    
-                ${
-                  mainImageUrl
-                    ? `
-                <tr>
-                    <td style="padding: 0 32px 24px;">
-                        <img src="${mainImageUrl}" alt="Main property image" style="width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);" />
-                    </td>
-                </tr>
-                `
-                    : ""
-                }
-    
-                ${
-                  customMessage
-                    ? `
-                <tr>
-                    <td style="padding: 0 32px 24px;">
-                        ${customMessage
-                          .split("\n")
-                          .map((paragraph) =>
-                            paragraph
-                              ? `<p style="margin: 0 0 16px; color: #334155; font-size: 16px; line-height: 1.6;">${paragraph}</p>`
-                              : ""
-                          )
-                          .join("")}
-                    </td>
-                </tr>
-                `
-                    : ""
-                }
-    
-                <tr>
-                    <td style="padding: 0 32px 24px;">
-                        <table style="width: 100%; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                            <tr>
-                                <th colspan="2" style="padding: 20px 16px; text-align: left; background-color: #f8fafc; color: #1e293b; font-size: 18px; font-weight: 600; border-top-left-radius: 8px; border-top-right-radius: 8px;">Property Details</th>
-                            </tr>    
-                            <tr>
-                                <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Bedrooms/Baths</td>
-                                <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${bedroomsBaths}</td>
-                            </tr>
-                            ${
-                              !isEmptyOrZero(squareFootage)
-                                ? `
-                            <tr>
-                                <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px; width: 40%;">Heated Sqft</td>
-                                <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${squareFootage}sqft</td>
-                            </tr>
-                            `
-                                : ""
-                            }
-                            ${
-                              !isEmptyOrZero(lotSize)
-                                ? `
-                            <tr>
-                                <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Lot Size</td>
-                                <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${lotSize}</td>
-                            </tr>
-                            `
-                                : ""
-                            }
-                            <tr>
-                                <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Year Built</td>
-                                <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${yearBuilt}</td>
-                            </tr>                                
-                        </table>
-                    </td>
-                </tr>
-    
-                ${
-                  !isEmptyOrZero(repairCosts) ||
-                  !isEmptyOrZero(profitMargin) ||
-                  !isEmptyOrZero(comparableProperties) ||
-                  !isEmptyOrZero(marketTrends) ||
-                  !isEmptyOrZero(salePrice) ||
-                  !isEmptyOrZero(arv)
-                    ? `
-                <tr>
-                    <td style="padding: 0 32px 24px;">
-                        <table style="width: 100%; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                            <tr>
-                                <th colspan="2" style="padding: 20px 16px; text-align: left; background-color: #f8fafc; color: #1e293b; font-size: 18px; font-weight: 600; border-top-left-radius: 8px; border-top-right-radius: 8px;">Investment Details</th>
-                            </tr>
-                            <tr>
-                                <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Sale Price</td>
-                                <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${salePrice}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 16px; color: #64748b; font-size: 14px;">ARV</td>
-                                <td style="padding: 16px; color: #1e293b; font-size: 16px; font-weight: 500;">${arv}</td>
-                            </tr>
-                            ${
-                              !isEmptyOrZero(repairCosts)
-                                ? `
-                            <tr>
-                                <td style="padding: 16px; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 14px; width: 40%;">Repair Costs</td>
-                                <td style="padding: 16px; border-top: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${repairCosts}</td>
-                            </tr>
-                            `
-                                : ""
-                            }
-                            ${
-                              !isEmptyOrZero(profitMargin)
-                                ? `
-                            <tr>
-                                <td style="padding: 16px; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Profit Margin</td>
-                                <td style="padding: 16px; border-top: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${profitMargin}</td>
-                            </tr>
-                            `
-                                : ""
-                            }
-                        </table>
-                    </td>
-                </tr>
-                `
-                    : ""
-                }
-    
-                ${(() => {
-                  const checkedItems = groupedItems["Features"].filter(
-                    (item) => item.checked
-                  );
-                  return checkedItems.length > 0
-                    ? `
-                        <tr>
-                            <td style="padding: 0 32px 24px;">
-                                <table style="width: 100%; table-layout: fixed; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                    <tr>
-                                        <th colspan="3" style="padding: 20px 16px; text-align: left; background-color: #f8fafc; color: #1e293b; font-size: 18px; font-weight: 600; border-top-left-radius: 8px; border-top-right-radius: 8px;">
-                                            Features
-                                        </th>
-                                    </tr>
-                                    ${checkedItems
-                                      .map(
-                                        (item) => `
-                                    <tr style="border-top: 1px solid #e2e8f0; background-color: #f0fdf4;">
-                                        <td style="padding: 16px; font-weight: 600; color: #1e293b; width: 25%;">${
-                                          item.name
-                                        }</td>
-                                        <td style="padding: 16px; color: #64748b; font-size: 14px; width: 15%; text-align: left;">${
-                                          item.year || ""
-                                        }</td>
-                                        <td style="padding: 16px; color: #334155; font-size: 14px; width: 60%;">${
-                                          item.details || ""
-                                        }</td>
-                                    </tr>
-                                    `
-                                      )
-                                      .join("")}
-                                </table>
-                            </td>
-                        </tr>
-                    `
-                    : "";
-                })()}
-                
-                ${
-                  galleryImages.length > 0
-                    ? `
-                <tr>
-                    <td style="padding: 0 32px 24px;">
-                        <h2 style="margin: 0 0 16px; color: #1e293b; font-size: 24px; font-weight: 600;">Property Gallery</h2>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;">
-                            ${galleryImages
-                              .map(
-                                (image) => `
-                            <div style="background-color: #ffffff; padding: 8px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <img src="${image}" alt="Property gallery image" style="width: 100%; height: auto; border-radius: 4px;" />
-                            </div>
-                            `
-                              )
-                              .join("")}
-                        </div>
-                    </td>
-                </tr>
-                `
-                    : ""
-                }
-    
-                <tr>
-                    <td style="padding: 32px; text-align: center; background-color: #f8fafc;">
-                        <h2 style="margin: 0 0 16px; color: #1e293b; font-size: 24px; font-weight: 600;">Ready to make an offer?</h2>
-                        <div style="color: #1e293b; font-size: 32px; font-weight: bold;">${phoneNumber}</div>
-                    </td>
-                </tr>
-    
-                ${
-                  footerMessage
-                    ? `
-                <tr>
-                    <td style="padding: 24px 32px; background-color: #f1f5f9; text-align: center;">
-                        ${footerMessage
-                          .split("\n")
-                          .map((line) =>
-                            line
-                              ? `<p style="margin: 0 0 8px; color: #64748b; font-size: 14px;">${line}</p>`
-                              : ""
-                          )
-                          .join("")}
-                    </td>
-                </tr>
-                `
-                    : ""
-                }
-            </table>
-        </body>
-        </html>`;
-  };
-
-  const handleGenerateClick = () => {
-    const checkedItems = items.filter((item) => item.checked);
-    const groupedItems = checkedItems.reduce((acc, item) => {
-      const title = item.type === "feature" ? "Features" : "Required Repairs";
-      if (!acc[title]) acc[title] = [];
-      acc[title].push(item);
-      return acc;
-    }, {} as Record<string, typeof items>);
-
-    const bedroomsBaths = `${bedrooms} bed, ${baths} bath`;
-    const html = generateEmailHtml(groupedItems, bedroomsBaths);
-    setGeneratedHtml(html);
-    setShowHtmlModal(true);
-  };
-
-  const downloadHtml = () => {
-    // Group checked items by type
-    const checkedItems = items.filter((item) => item.checked);
-    const groupedItems = {
-      Features: checkedItems,
-    } as Record<string, typeof items>;
-
-    const bedroomsBaths = `${bedrooms} bed / ${baths} bath`;
-    const template = generatePreviewTemplate(groupedItems, bedroomsBaths);
-    const blob = new Blob([template], { type: "text/html" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "email-template.html";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
-  const renderPreview = () => {
-    const checkedItems = items.filter((item) => item.checked);
-    const groupedItems = {
-      Features: checkedItems,
-    } as Record<string, typeof items>;
-
-    const bedroomsBaths = `${bedrooms} bed, ${baths} bath`;
-    return generateEmailHtml(groupedItems, bedroomsBaths);
-  };
-
-  const [showHtmlModal, setShowHtmlModal] = useState(false);
-  const [generatedHtml, setGeneratedHtml] = useState("");
-  const [copiedHtml, setCopiedHtml] = useState(false);
-
-  const handleCopyHtml = () => {
-    const emailHtml = generateEmailHtml(
-      groupedItems,
-      `${bedrooms} bed, ${baths} bath`
-    );
-    navigator.clipboard.writeText(emailHtml).then(() => {
-      setCopiedHtml(true);
-      setTimeout(() => setCopiedHtml(false), 2000);
-    });
-  };
-
-  interface ModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    children: ReactNode;
-  }
-
-  const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
-    if (!isOpen) return null;
-
-    return (
-      <div className="modal-overlay">
-        <div
-          className="modal-content"
-          style={{
-            color: "#333",
-            background: "#fff",
-            position: "relative",
-            padding: "20px",
-            maxWidth: "800px",
-            width: "90%",
-            maxHeight: "90vh",
-            overflowY: "auto",
-          }}
-        >
-          <button
-            onClick={onClose}
-            style={{
-              position: "absolute",
-              right: "10px",
-              top: "10px",
-              background: "none",
-              border: "none",
-              fontSize: "24px",
-              cursor: "pointer",
-              color: "#333",
-            }}
-          >
-            ×
-          </button>
-          <div style={{ marginTop: "20px" }}>{children}</div>
-        </div>
-      </div>
-    );
   };
 
   return (
-    <div className="email-template-builder">
-      <div className="form-container">
-        <div className="form-inner" style={{ overflowY: "scroll" }}>
-          <div className="form-section">
-            <h2>Property Value & Location</h2>
-            <div className="form-grid">
-              <div className="form-group">
-                <label>Asking Price</label>
-                <input type="text" value={salePrice}
-                  onChange={handleMarketValueChange}
-                  placeholder="Current Asking Price"
-                  className="input"
-                />
-              </div>
-              <div className="form-group">
-                <label>Property Address</label>
-                <input
-                  type="text"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  placeholder="Enter property address"
-                  className="input"
-                />
-              </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800">
+      {/* Top Navigation Bar */}
+      <div className="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-xl border-b border-white/10">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center h-16 justify-between">
+            <div className="flex space-x-1">
+              <div className="w-3 h-3 rounded-full bg-red-500"></div>
+              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+              <div className="w-3 h-3 rounded-full bg-green-500"></div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Button variant="ghost" className="text-gray-400 hover:text-white">
+                <Settings className="w-4 h-4 mr-2" />
+                Settings
+              </Button>
+              <Button className="bg-blue-500 hover:bg-blue-600">
+                Generate Template
+              </Button>
             </div>
           </div>
-          <div className="occupancy-section">
-            <h2>Occupancy Status</h2>
-            <div className="form-group">
-              <label>Occupancy Status</label>
-              <select
-                value={occupancyStatus}
-                onChange={handleOccupancyChange}
-                className="input"
-              >
-                <option value="">Select Status</option>
-                <option value="Vacant">Vacant</option>
-                <option value="Owner Occupied">Owner Occupied</option>
-                <option value="Tenant Occupied">Tenant Occupied</option>
-              </select>
-            </div>
+        </div>
+      </div>
 
-            {occupancyStatus === "Tenant Occupied" && (
-              <div>
-                <div className="form-group">
-                  <label>Vacant Date</label>
-                  <input
-                    type="date"
-                    value={vacantDate}
-                    onChange={(e) => setVacantDate(e.target.value)}
-                    className="input"
-                  />
+      <div className="container mx-auto p-6">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+          {/* Sidebar Navigation */}
+          <div className="lg:col-span-1">
+            <div className="bg-slate-800/50 backdrop-blur-xl rounded-xl border border-white/10 p-4">
+              <nav className="space-y-2">
+                {[
+                  { id: 'details', icon: Layout, label: 'Property Details' },
+                  { id: 'features', icon: PenTool, label: 'Features' },
+                  { id: 'media', icon: Image, label: 'Media' }
+                ].map(item => (
+                  <button
+                    key={item.id}
+                    onClick={() => setActiveTab(item.id)}
+                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+                      activeTab === item.id
+                        ? 'bg-blue-500/10 text-blue-400'
+                        : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                    }`}
+                  >
+                    <item.icon className="w-5 h-5" />
+                    <span>{item.label}</span>
+                  </button>
+                ))}
+              </nav>
+            </div>
+          </div>
+
+          {/* Main Content Area */}
+          <div className="lg:col-span-3">
+            <div className="space-y-6">
+              {activeTab === 'details' && (
+                <>
+                  {/* Property Details Card */}
+                  <Card className="bg-slate-800/50 backdrop-blur-xl border-white/10">
+                    <div className="p-6">
+                      <h2 className="text-xl font-semibold text-white mb-6">Property Details</h2>
+                      <div className="space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-400 mb-2">
+                              Sale Price
+                            </label>
+                            <Input
+                              value={salePrice}
+                              onChange={(e) => setSalePrice(formatCurrency(e.target.value))}
+                              className="bg-slate-900/50 border-white/10 text-white placeholder-gray-500
+                                       focus:border-blue-500 focus:ring-blue-500/20"
+                              placeholder="Enter sale price"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-400 mb-2">
+                              Address
+                            </label>
+                            <Input
+                              value={address}
+                              onChange={(e) => setAddress(e.target.value)}
+                              className="bg-slate-900/50 border-white/10 text-white placeholder-gray-500
+                                       focus:border-blue-500 focus:ring-blue-500/20"
+                              placeholder="Enter property address"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-400 mb-2">
+                              Bedrooms
+                            </label>
+                            <Input
+                              type="number"
+                              value={bedrooms}
+                              onChange={(e) => setBedrooms(e.target.value)}
+                              className="bg-slate-900/50 border-white/10 text-white"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-400 mb-2">
+                              Bathrooms
+                            </label>
+                            <Input
+                              type="number"
+                              value={bathrooms}
+                              onChange={(e) => setBathrooms(e.target.value)}
+                              className="bg-slate-900/50 border-white/10 text-white"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-400 mb-2">
+                              Square Feet
+                            </label>
+                            <Input
+                              value={squareFootage}
+                              onChange={(e) => setSquareFootage(e.target.value)}
+                              className="bg-slate-900/50 border-white/10 text-white"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-400 mb-2">
+                              Year Built
+                            </label>
+                            <Input
+                              value={yearBuilt}
+                              onChange={(e) => setYearBuilt(e.target.value)}
+                              className="bg-slate-900/50 border-white/10 text-white"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+
+                  {/* Investment Details Card */}
+                  <Card className="bg-slate-800/50 backdrop-blur-xl border-white/10">
+                    <div className="p-6">
+                      <h2 className="text-xl font-semibold text-white mb-6">Investment Details</h2>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-400 mb-2">
+                            Repair Costs
+                          </label>
+                          <Input
+                            value={repairCosts}
+                            onChange={(e) => setRepairCosts(formatCurrency(e.target.value))}
+                            className="bg-slate-900/50 border-white/10 text-white"
+                            placeholder="Estimated repairs"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-400 mb-2">
+                            ARV Estimate
+                          </label>
+                          <Input
+                            value={arvEstimate}
+                            onChange={(e) => setArvEstimate(formatCurrency(e.target.value))}
+                            className="bg-slate-900/50 border-white/10 text-white"
+                            placeholder="After repair value"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-400 mb-2">
+                            Profit Margin
+                          </label>
+                          <Input
+                            value={profitMargin}
+                            onChange={(e) => setProfitMargin(formatCurrency(e.target.value))}
+                            className="bg-slate-900/50 border-white/10 text-white"
+                            placeholder="Expected profit"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                </>
+              )}
+
+              {activeTab === 'features' && (
+                <Card className="bg-slate-800/50 backdrop-blur-xl border-white/10">
+                  <div className="p-6">
+                    <h2 className="text-xl font-semibold text-white mb-6">Property Features</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {features.map(feature => (
+                        <div
+                          key={feature.id}
+                          className="bg-slate-900/50 rounded-lg p-4 border border-white/10
+                                   hover:border-blue-500/50 transition-all duration-200"
+                        >
+                          <div className="flex items-center justify-between mb-4">
+                            <span className="text-white font-medium">{feature.name}</span>
+                            <div className="flex space-x-2">
+                              <button
+                                onClick={() => {
+                                  setFeatures(features.map(f =>
+                                    f.id === feature.id ? { ...f, status: 'good' } : f
+                                  ));
+                                }}
+                                className={`px-3 py-1 rounded-md text-sm transition-all ${
+                                  feature.status === 'good'
+                                    ? 'bg-green-500 text-white'
+                                    : 'bg-green-500/10 text-green-400 hover:bg-green-500/20'
+                                }`}
+                              >
+                                Good
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setFeatures(features.map(f =>
+                                    f.id === feature.id ? { ...f, status: 'needs-work' } : f
+                                  ));
+                                }}
+                                className={`px-3 py-1 rounded-md text-sm transition-all ${
+                                  feature.status === 'needs-work'
+                                    ? 'bg-red-500 text-white'
+                                    : 'bg-red-500/10 text-red-400 hover:bg-red-500/20'
+                                }`}
+                              >
+                                Needs Work
+                              </button>
+                            </div>
+                          </div>
+                          <Input
+                            placeholder="Year installed"
+                            value={feature.year || ''}
+                            onChange={(e) => {
+                              setFeatures(features.map(f =>
+                                f.id === feature.id ? { ...f, year: e.target.value } : f
+                              ));
+                            }}
+                            className="bg-slate-900/50 border-white/10 text-white"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </Card>
+              )}
+
+              {activeTab === 'media' && (
+                <Card className="bg-slate-800/50 backdrop-blur-xl border-white/10">
+                  <div className="p-6">
+                    <h2 className="text-xl font-semibold text-white mb-6">Media Gallery</h2>
+                    
+                    {/* Main Image Upload */}
+                    <div className="mb-8">
+                      <label className="block text-sm font-medium text-gray-400 mb-4">
+                        Main Property Image
+                      </label>
+                      <div className="relative h-64 bg-slate-900/50 rounded-lg border-2 border-dashed border-white/10
+                                    hover:border-blue-500/50 transition-all duration-200">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleImageUpload(e, 'main')}
+                          className="hidden"
+                          id="main-image"
+                        />
+                        <label
+                          htmlFor="main-image"
+                          className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer"
+                        >
+                          {mainImage ? (
+                            <img
+                            src={mainImage}
+                            alt="Main property"
+                            className="h-full w-full object-cover rounded-lg"
+                          />
+                        ) : (
+                          <>
+                            <Camera className="w-12 h-12 text-gray-400 mb-4" />
+                            <span className="text-gray-400">Click to upload main image</span>
+                            <span className="text-gray-500 text-sm mt-2">
+                              Recommended: 1200x800px or larger
+                            </span>
+                          </>
+                        )}
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Gallery Images */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-400 mb-4">
+                      Gallery Images
+                    </label>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                      {galleryImages.map((image, index) => (
+                        <div
+                          key={index}
+                          className="relative aspect-square bg-slate-900/50 rounded-lg overflow-hidden group"
+                        >
+                          <img
+                            src={image}
+                            alt={`Gallery ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                          <button
+                            onClick={() => setGalleryImages(images => 
+                              images.filter((_, i) => i !== index)
+                            )}
+                            className="absolute top-2 right-2 p-1 rounded-full bg-red-500/90 
+                                     text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                      
+                      {/* Add Image Button */}
+                      <div className="aspect-square bg-slate-900/50 rounded-lg border-2 border-dashed 
+                                    border-white/10 hover:border-blue-500/50 transition-all duration-200">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleImageUpload(e, 'gallery')}
+                          className="hidden"
+                          id="gallery-image"
+                        />
+                        <label
+                          htmlFor="gallery-image"
+                          className="w-full h-full flex flex-col items-center justify-center cursor-pointer"
+                        >
+                          <Plus className="w-8 h-8 text-gray-400 mb-2" />
+                          <span className="text-gray-400 text-sm">Add Image</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="checkbox-container">
-                  <input
-                    type="checkbox"
-                    checked={vacantOnClosing}
-                    onChange={(e) => setVacantOnClosing(e.target.checked)}
-                  />
-                  <label>Vacant On Closing</label>
-                </div>
-              </div>
+              </Card>
             )}
           </div>
+        </div>
 
-          <div className="form-section">
-            <h2>Email Content</h2>
-            <div className="form-group">
-              <label>Custom Message</label>
-              <textarea
-                value={customMessage}
-                onChange={(e) => setCustomMessage(e.target.value)}
-                placeholder="Enter your custom message for the email"
-                className="textarea"
-                rows={4}
-              />
-            </div>
-          </div>
-
-          <div className="form-section">
-            <h2>Property Details</h2>
-            <div className="form-grid">
-              <div className="form-group">
-                <label>Square Footage</label>
-                <input
-                  type="text"
-                  value={squareFootage}
-                  onChange={(e) => setSquareFootage(e.target.value)}
-                  placeholder="e.g., 2,500 sq ft"
-                  className="input"
-                />
-              </div>
-              <div className="form-group">
-                <label>Bedrooms</label>
-                <input
-                  type="number"
-                  value={bedrooms}
-                  onChange={(e) => setBedrooms(e.target.value)}
-                  placeholder="e.g., 4"
-                  min="0"
-                  className="input"
-                />
-              </div>
-              <div className="form-group">
-                <label>Bathrooms</label>
-                <input
-                  type="number"
-                  value={baths}
-                  onChange={(e) => setBaths(e.target.value)}
-                  placeholder="e.g., 3"
-                  min="0"
-                  step="0.5"
-                  className="input"
-                />
-              </div>
-              <div className="form-group">
-                <label>Lot Size</label>
-                <input
-                  type="text"
-                  value={lotSize}
-                  onChange={(e) => setLotSize(e.target.value)}
-                  placeholder="e.g., 0.25 acres"
-                  className="input"
-                />
-              </div>
-              <div className="form-group">
-                <label>Year Built</label>
-                <input
-                  type="text"
-                  value={yearBuilt}
-                  onChange={(e) => setYearBuilt(e.target.value)}
-                  placeholder="e.g., 1985"
-                  className="input"
-                />
-              </div>
-              <div className="form-group">
-                <label>After Repair Value (ARV)</label>
-                <input
-                  type="text"
-                  value={arv}
-                  onChange={handleArvChange}
-                  placeholder="e.g., $1,200,000"
-                  className="input"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="features-section">
-            <h2>Features</h2>
-            <div className="features-wrapper">
-              <div className="feature-item">
-                <div className="feature-label">
-                  <label>Is the A/C Good?</label>
-                </div>
-                <div className="feature-row">
-                  <div className="radio-group">
-                    <label>
-                      <input type="radio" name="acCondition" value="yes" /> Yes
-                    </label>
-                    <label>
-                      <input type="radio" name="acCondition" value="no" /> No
-                    </label>
-                  </div>
-                  <div className="year-installed">
-                    <label>Year Installed</label>
-                    <input type="number" name="acYear" placeholder="Year" />
-                  </div>
-                </div>
-              </div>
-
-              <div className="feature-item">
-                <div className="feature-label">
-                  <label>Is the Roof Good?</label>
-                </div>
-                <div className="feature-row">
-                  <div className="radio-group">
-                    <label>
-                      <input type="radio" name="roofCondition" value="yes" />{" "}
-                      Yes
-                    </label>
-                    <label>
-                      <input type="radio" name="roofCondition" value="no" /> No
-                    </label>
-                  </div>
-                  <div className="year-installed">
-                    <label>Year Installed</label>
-                    <input type="number" name="roofYear" placeholder="Year" />
-                  </div>
-                </div>
-              </div>
-
-              <div className="feature-item">
-                <div className="feature-label">
-                  <label>Are the Windows Good?</label>
-                </div>
-                <div className="feature-row">
-                  <div className="radio-group">
-                    <label>
-                      <input type="radio" name="windowsCondition" value="yes" />{" "}
-                      Yes
-                    </label>
-                    <label>
-                      <input type="radio" name="windowsCondition" value="no" />{" "}
-                      No
-                    </label>
-                  </div>
-                  <div className="year-installed">
-                    <label>Year Installed</label>
-                    <input
-                      type="number"
-                      name="windowsYear"
-                      placeholder="Year"
+        {/* Preview Panel */}
+        <div className="lg:col-span-1">
+          <div className="sticky top-24">
+            <Card className="bg-slate-800/50 backdrop-blur-xl border-white/10">
+              <div className="p-6">
+                <h2 className="text-xl font-semibold text-white mb-6">Preview</h2>
+                <div className="bg-white rounded-lg p-4">
+                  {mainImage && (
+                    <img
+                      src={mainImage}
+                      alt="Property preview"
+                      className="w-full h-48 object-cover rounded-lg mb-4"
                     />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="form-section">
-            <h2>Investment Details</h2>
-            <div className="form-grid">
-              <div className="form-group">
-                <label>Repair Costs</label>
-                <input
-                  type="text"
-                  value={repairCosts}
-                  onChange={handleRepairCostsChange}
-                  placeholder="e.g., $150,000"
-                  className="input"
-                />
-              </div>
-              <div className="form-group">
-                <label>Profit Margin</label>
-                <input
-                  type="text"
-                  value={profitMargin}
-                  onChange={handleProfitMarginChange}
-                  placeholder="e.g., $175,000"
-                  className="input"
-                />
-              </div>
-              <div className="form-group">
-                <label>Market Trends</label>
-                <input
-                  type="text"
-                  value={marketTrends}
-                  onChange={(e) => setMarketTrends(e.target.value)}
-                  placeholder="e.g., 8% annual appreciation"
-                  className="input"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="form-section">
-            <h2>Footer Content</h2>
-            <div className="form-group">
-              <label>Footer Message</label>
-              <textarea
-                value={footerMessage}
-                onChange={(e) => setFooterMessage(e.target.value)}
-                placeholder="Enter footer message"
-                className="textarea"
-                rows={2}
-              />
-            </div>
-          </div>
-
-          <div className="form-section">
-            <h2>Gallery Images</h2>
-            <div className="form-group">
-              <label>Main Property Image</label>
-              <div className="image-upload-container">
-                {mainImageUrl && (
-                  <div className="image-preview">
-                    <img src={mainImageUrl} alt="Main property" />
-                  </div>
-                )}
-                <div className="upload-controls">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleMainImageUpload}
-                    className="file-input"
-                    id="main-image-upload"
-                  />
-                  <label htmlFor="main-image-upload" className="upload-button">
-                    Choose Image
-                  </label>
-                  {mainImageFile && (
-                    <span className="file-name">{mainImageFile.name}</span>
                   )}
-                </div>
-              </div>
-            </div>
-            {galleryImages.map((image, index) => (
-              <div key={index} className="form-group gallery-image">
-                <div className="image-upload-container">
-                  {image && (
-                    <div className="image-preview">
-                      <img src={image} alt="Gallery image" />
+                  <div className="space-y-4">
+                    {salePrice && (
+                      <h3 className="text-gray-900 text-xl font-bold">
+                        {salePrice}
+                      </h3>
+                    )}
+                    {address && (
+                      <p className="text-gray-600">
+                        {address}
+                      </p>
+                    )}
+                    <div className="flex space-x-4 text-sm text-gray-500">
+                      {bedrooms && <span>{bedrooms} beds</span>}
+                      {bathrooms && <span>{bathrooms} baths</span>}
+                      {squareFootage && <span>{squareFootage} sqft</span>}
                     </div>
-                  )}
-                  <div className="upload-controls">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => handleGalleryImageUpload(e, index)}
-                      className="file-input"
-                      id={`gallery-image-${index}`}
-                    />
-                    <label
-                      htmlFor={`gallery-image-${index}`}
-                      className="upload-button"
-                    >
-                      Choose Image
-                    </label>
+                    {features.filter(f => f.status !== 'unset').length > 0 && (
+                      <div className="border-t border-gray-200 pt-4">
+                        <h4 className="text-gray-900 font-medium mb-2">Features</h4>
+                        <div className="space-y-2">
+                          {features
+                            .filter(f => f.status !== 'unset')
+                            .map(feature => (
+                              <div
+                                key={feature.id}
+                                className={`text-sm px-3 py-1 rounded-full inline-block mr-2 ${
+                                  feature.status === 'good'
+                                    ? 'bg-green-100 text-green-800'
+                                    : 'bg-red-100 text-red-800'
+                                }`}
+                              >
+                                {feature.name}
+                                {feature.year && ` (${feature.year})`}
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
-            ))}
-            <button
-              onClick={() => setGalleryImages([...galleryImages, ""])}
-              className="upload-button"
-            >
-              Add Gallery Image
-            </button>
-          </div>
-
-          <div className="button-container">
-            <button
-              onClick={() => setShowHtmlModal(true)}
-              className="generate-button"
-            >
-              Generate HTML
-            </button>
+            </Card>
           </div>
         </div>
       </div>
-
-      <div className="preview-container">
-        <div className="preview-content">
-          <h2>Email Preview</h2>
-          <div
-            className="preview-wrapper"
-            dangerouslySetInnerHTML={{
-              __html: renderPreview(),
-            }}
-          />
-        </div>
-      </div>
-
-      <Modal isOpen={showHtmlModal} onClose={() => setShowHtmlModal(false)}>
-        <div
-          style={{
-            marginBottom: "20px",
-            position: "sticky",
-            top: "0",
-            background: "#fff",
-            padding: "10px 0",
-            borderBottom: "1px solid #eee",
-          }}
-        >
-          <button
-            onClick={handleCopyHtml}
-            style={{
-              padding: "8px 16px",
-              background: "#007bff",
-              color: "#fff",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-            }}
-          >
-            {copiedHtml ? "Copied!" : "Copy HTML"}
-          </button>
-        </div>
-        <pre
-          style={{
-            background: "#f8f9fa",
-            padding: "15px",
-            borderRadius: "4px",
-            color: "#333",
-            whiteSpace: "pre-wrap",
-            wordBreak: "break-word",
-          }}
-        >
-          {generateEmailHtml(groupedItems, `${bedrooms} bed, ${baths} bath`)}
-        </pre>
-      </Modal>
     </div>
-  );
+  </div>
+);
 };
 
 export default EmailTemplateBuilder;
