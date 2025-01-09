@@ -51,7 +51,7 @@ const EmailTemplateBuilder = () => {
   const [baths, setBaths] = useState("1");
   const [lotSize, setLotSize] = useState("");
   const [yearBuilt, setYearBuilt] = useState("");
-  const [salePrice, setsalePrice] = useState("");
+  const [salePrice, setMarketValue] = useState("");
   const [arv, setArv] = useState("0");
 
   // Media States
@@ -1057,9 +1057,7 @@ const EmailTemplateBuilder = () => {
             <div className="form-grid">
               <div className="form-group">
                 <label>Asking Price</label>
-                <input
-                  type="text"
-                  value={salePrice}
+                <input type="text" value={salePrice}
                   onChange={handleMarketValueChange}
                   placeholder="Current Asking Price"
                   className="input"
