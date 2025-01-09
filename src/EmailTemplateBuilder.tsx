@@ -1074,31 +1074,6 @@ const EmailTemplateBuilder = () => {
                 />
               </div>
             </div>
-            <div className="form-group">
-              <label>Main Property Image</label>
-              <div className="image-upload-container">
-                {mainImageUrl && (
-                  <div className="image-preview">
-                    <img src={mainImageUrl} alt="Main property" />
-                  </div>
-                )}
-                <div className="upload-controls">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleMainImageUpload}
-                    className="file-input"
-                    id="main-image-upload"
-                  />
-                  <label htmlFor="main-image-upload" className="upload-button">
-                    Choose Image
-                  </label>
-                  {mainImageFile && (
-                    <span className="file-name">{mainImageFile.name}</span>
-                  )}
-                </div>
-              </div>
-            </div>
           </div>
           <div className="occupancy-section">
             <h2>Occupancy Status</h2>
@@ -1346,6 +1321,31 @@ const EmailTemplateBuilder = () => {
 
           <div className="form-section">
             <h2>Gallery Images</h2>
+            <div className="form-group">
+              <label>Main Property Image</label>
+              <div className="image-upload-container">
+                {mainImageUrl && (
+                  <div className="image-preview">
+                    <img src={mainImageUrl} alt="Main property" />
+                  </div>
+                )}
+                <div className="upload-controls">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleMainImageUpload}
+                    className="file-input"
+                    id="main-image-upload"
+                  />
+                  <label htmlFor="main-image-upload" className="upload-button">
+                    Choose Image
+                  </label>
+                  {mainImageFile && (
+                    <span className="file-name">{mainImageFile.name}</span>
+                  )}
+                </div>
+              </div>
+            </div>
             {galleryImages.map((image, index) => (
               <div key={index} className="form-group gallery-image">
                 <div className="image-upload-container">
