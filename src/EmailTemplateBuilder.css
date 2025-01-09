@@ -998,6 +998,11 @@ button:active {
     font-weight: 500;
 }
 
+.features-wrapper {
+    display: flex;
+    gap: 2rem;
+  }
+
 .features-section {
     margin-bottom: 2rem;
   }
@@ -1032,6 +1037,8 @@ button:active {
     flex-wrap: wrap;
     gap: 1rem;
   }
+
+ 
   
   .radio-group {
     display: flex;
