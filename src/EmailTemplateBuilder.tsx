@@ -38,20 +38,20 @@ const EmailTemplateBuilder = () => {
   };
 
   // Email Content States
-  const [customMessage, setCustomMessage] = useState("Insert Custom Message");
-  const [footerMessage, setFooterMessage] = useState("Insert Footer Message.");
+  const [customMessage, setCustomMessage] = useState("");
+  const [footerMessage, setFooterMessage] = useState("");
   const [logoUrl] = useState(
     "https://staged.page/dealdispo/Dispo-Logo-Do-Not-Move-Delete.png"
   );
 
   // Property Info States
-  const [address, setAddress] = useState("Insert Property Address");
+  const [address, setAddress] = useState("");
   const [squareFootage, setSquareFootage] = useState("");
-  const [bedrooms, setBedrooms] = useState("0");
-  const [baths, setBaths] = useState("0");
+  const [bedrooms, setBedrooms] = useState("1");
+  const [baths, setBaths] = useState("1");
   const [lotSize, setLotSize] = useState("");
-  const [yearBuilt, setYearBuilt] = useState("0000");
-  const [marketValue, setMarketValue] = useState("000,000");
+  const [yearBuilt, setYearBuilt] = useState("");
+  const [salePrice, setsalePrice] = useState("");
   const [arv, setArv] = useState("0");
 
   // Media States
@@ -376,7 +376,7 @@ const EmailTemplateBuilder = () => {
       const validGalleryImages = galleryImages.filter((img) => img?.trim());
       if (validGalleryImages.length)
         templateData.galleryImages = validGalleryImages;
-      if (marketValue?.trim()) templateData.marketValue = marketValue;
+      if (salePrice?.trim()) templateData.salePrice = salePrice;
       if (address?.trim()) templateData.address = address;
       if (customMessage?.trim()) templateData.customMessage = customMessage;
       if (squareFootage?.trim()) templateData.squareFootage = squareFootage;
@@ -729,7 +729,7 @@ const EmailTemplateBuilder = () => {
                 
                 <tr>
                     <td style="padding: 0 32px;">
-                        <h1 style="margin: 0; color: #1e293b; font-size: 36px; font-weight: bold; text-align: center;">${marketValue}</h1>
+                        <h1 style="margin: 0; color: #1e293b; font-size: 36px; font-weight: bold; text-align: center;">${salePrice}</h1>
                         <p style="margin: 8px 0 24px; color: #64748b; font-size: 18px; text-align: center;">${address}</p>
                     </td>
                 </tr>
@@ -779,8 +779,8 @@ const EmailTemplateBuilder = () => {
                               !isEmptyOrZero(squareFootage)
                                 ? `
                             <tr>
-                                <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px; width: 40%;">Square Footage</td>
-                                <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${squareFootage}</td>
+                                <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px; width: 40%;">Heated Sqft</td>
+                                <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${squareFootage}sqft</td>
                             </tr>
                             `
                                 : ""
@@ -808,7 +808,7 @@ const EmailTemplateBuilder = () => {
                   !isEmptyOrZero(profitMargin) ||
                   !isEmptyOrZero(comparableProperties) ||
                   !isEmptyOrZero(marketTrends) ||
-                  !isEmptyOrZero(marketValue) ||
+                  !isEmptyOrZero(salePrice) ||
                   !isEmptyOrZero(arv)
                     ? `
                 <tr>
@@ -819,7 +819,7 @@ const EmailTemplateBuilder = () => {
                             </tr>
                             <tr>
                                 <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Sale Price</td>
-                                <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${marketValue}</td>
+                                <td style="padding: 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${salePrice}</td>
                             </tr>
                             <tr>
                                 <td style="padding: 16px; color: #64748b; font-size: 14px;">ARV</td>
@@ -841,16 +841,6 @@ const EmailTemplateBuilder = () => {
                             <tr>
                                 <td style="padding: 16px; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Profit Margin</td>
                                 <td style="padding: 16px; border-top: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${profitMargin}</td>
-                            </tr>
-                            `
-                                : ""
-                            }
-                            ${
-                              !isEmptyOrZero(marketTrends)
-                                ? `
-                            <tr>
-                                <td style="padding: 16px; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 14px;">Market Trends</td>
-                                <td style="padding: 16px; border-top: 1px solid #e2e8f0; color: #1e293b; font-size: 16px; font-weight: 500;">${marketTrends}</td>
                             </tr>
                             `
                                 : ""
@@ -1066,12 +1056,12 @@ const EmailTemplateBuilder = () => {
             <h2>Property Value & Location</h2>
             <div className="form-grid">
               <div className="form-group">
-                <label>Market Value</label>
+                <label>Asking Price</label>
                 <input
                   type="text"
-                  value={marketValue}
+                  value={salePrice}
                   onChange={handleMarketValueChange}
-                  placeholder="Current market value"
+                  placeholder="Current Asking Price"
                   className="input"
                 />
               </div>
