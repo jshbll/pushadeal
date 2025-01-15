@@ -1,0 +1,2651 @@
+<!DOCTYPE html>
+<head>
+    <!-- THIS FILE EXISTS IN TWO PLACES. THE STORY FOR THE WORK TO CONSOLIDATE THEM IS IN WSPI-7305 -->
+<!-- IF THERE IS A CHANGE BEING MADE TO THIS FILE, IT ALSO NEEDS TO BE MADE TO api_guide/_includes/head.html -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Constant Contact V3 API Release Notes.">
+<meta name="keywords" content="release_notesOAuth2developer_accountapplicationgetting_started,  ">
+<title>Release Notes | Constant Contact Developer Portal</title>
+<link rel="stylesheet" href="css/syntax.css">
+
+<link href="https://static.ctctcdn.com/lp/fonts/whitney/whitney-current.css" rel="stylesheet" />
+<link href="https://static.ctctcdn.com/h/fed-framework/1.2.0/fed.min.css" rel="stylesheet" />
+<link href='css/main.css' rel='stylesheet'/>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="js/jquery.navgoco.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/2.0.0/anchor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.5/purify.min.js" referrerpolicy="no-referrer"></script>
+<script src="js/toc.js"></script>
+<script src="js/customscripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/svg4everybody/2.1.7/svg4everybody.js"></script>
+
+<!-- Bring in Web Component Definitions -->
+<script src="https://cdn.jsdelivr.net/riot/3.2/riot+compiler.min.js"></script>
+<script src="../shared_components/dev-portal-header.tag.html" type="riot/tag"></script>
+<script src="../shared_components/dev-portal-footer.tag.html" type="riot/tag"></script>
+<!-- Init all Web Component Definitions -->
+<script>riot.mount("*")</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="https://static.ctctcdn.com/ui/images1/favicon/REBRAND_favicon.png" />
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link rel="alternate" type="application/rss+xml" title="" href="https://constant:contact.comfeed.xml">
+
+
+    <script>
+        $(document).ready(function() {
+            // Initialize navgoco with default options
+            $(".Sidebar-nav").navgoco({
+                caretHtml: '',
+                accordion: true,
+                openClass: 'active', // open
+                save: false, // leave false or nav highlighting doesn't work right
+                cookie: {
+                    name: 'navgoco',
+                    expires: false,
+                    path: '/'
+                },
+                slide: {
+                    duration: 0,
+                    easing: 'ease'
+                }
+            });
+
+            // $("#collapseAll").click(function(e) {
+            //     e.preventDefault();
+            //     $("#mysidebar").navgoco('toggle', false);
+            // });
+
+            // $("#expandAll").click(function(e) {
+            //     e.preventDefault();
+            //     $("#mysidebar").navgoco('toggle', true);
+            // });
+
+            $('.sidebar').addClass('sticky');
+
+        });
+
+    </script>
+
+
+    
+
+</head>
+<body>
+    <!-- Use custom header web component defined in sharedComponents/dev-portal-header.tag.html-->
+<dev-portal-header active-id="apiGuide"></dev-portal-header>
+
+
+    <!-- Tracking -->
+<script type="text/javascript">
+    var utag_data = {};
+</script>
+<script src="../shared_components/tealium.js" type="text/javascript"></script>
+
+    <div class="fed-wrapper">
+
+        <!-- Page Content -->
+        <section class="container container--sidebar">
+
+            <!-- Sidebar Column -->
+            <div class="sidebar u-borderRight">
+                
+
+
+
+
+
+
+
+
+
+
+
+<nav>
+    <ul class="Sidebar-nav List--unstyled">
+        <li class="Nav-header">Constant Contact V3 API 1.0</li>
+        
+        
+        
+            
+        
+        <li>
+            
+            
+            <a href="#">What's New in the V3 API</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li class="active"><a href="index.html">Release Notes</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="v3_features.html">Features Exclusive to the V3 API</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#" data-qe-id="docs-intro">Getting Started</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="v3_technical_overview.html">Introduction to the V3 API</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="developer_portal.html">Using the Developer Portal</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="getting_started.html">Quick Start Guide</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="rate_limits.html">Rate Limits</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Migrate Integrations to V3</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="migration_overview.html">Data Migration Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="v3_v2_contact_deltas.html">Contacts V3 Changes and Migration</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="v3_v2_list_deltas.html">Lists V3 Changes and Migration</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="v3_v2_email_campaign_deltas.html">Email Campaign V3 Changes and Migration</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Application Integration</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="apps_create.html">Create a New Application Integration</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="auth_update_apps.html">Update Your Applications to use the New Authorization Service</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">OAuth2 Authorization</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="auth_overview.html">OAuth2 Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="server_flow.html">OAuth2 Authorization Code Flow</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="pkce_flow.html">OAuth2 PKCE Flow</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="device_flow.html">OAuth2 Device Flow</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="client_flow.html">OAuth2 Implicit Flow</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">User Authorization and API Access</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="scopes.html">Authorization Scopes Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="user_privileges.html">User Roles and Privileges Overview</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Account Services</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="account_services_overview.html">Account Services Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="account_details_get.html">Get Account Summary Details</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="account_details_put.html">Put Account Summary Details</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="account_address_get.html">Get Account Physical Address</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="account_address_put.html">Put Account Physical Address</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="account_post_emails.html">Add an Account Email Address</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="account_get_emails.html">Get a Collection of Account Emails</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="account_get_privileges.html">Get User Privileges</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Bulk Activity Endpoints</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="bulk_activities.html">Bulk Activity Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="activity_status.html">Get the Status of a Bulk Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="import_contacts.html">Import Contacts</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="export_contacts.html">Export Contacts to a CSV File</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="deleting_contacts.html">Delete Contacts Bulk Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="add_list_membership.html">Add Contacts to Lists Bulk Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="remove_list_membership.html">Remove Contacts from Lists Bulk Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="delete_lists.html">Delete Lists Bulk Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="delete_custom_fields_activity.html">Delete Custom Fields Bulk Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="add_tagging_activity.html">Add Tags to Contacts Bulk Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="remove_tagging_activity.html">Remove Tags from Contacts Bulk Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="delete_tagging_activity.html">Delete Tags Bulk Activity</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Contacts</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="contacts_overview.html">Contacts Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="contacts_subresources.html">Contact Subresources</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="contacts_create.html">Create a Contact</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="contacts_create_or_update.html">Create or Update a Contact Using a Single Method</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="contacts_counts.html">Get Contact Consent Counts</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="contacts_autoresponder.html">Autoresponder and Confirmed Opt-in Emails</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="contacts_delete.html">Delete a Contact</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="contacts_sync.html">Sync Contacts and Lists</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="contacts_re-subscribe.html">Unsubscribe and Resubscribe Contacts</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="contacts_sms_engagement.html">Get Contact SMS Engagement History</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Contact Custom Fields</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="custom_fields.html">Custom Fields Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="create_custom_fields.html">Create and Update Custom Fields</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="get_custom_fields.html">Get Custom Fields</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="delete_custom_fields.html">Delete a Custom Field</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="add_custom_field_data.html">Add Custom Fields to Contacts</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Contact Lists</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="lists_overview.html">Contact Lists Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="lists_get_single.html">Get a Contact List</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="lists_get_all.html">Get All Contact Lists</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="lists_post.html">Create a Contact List</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="lists_put.html">Update a Contact List</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="lists_delete.html">Delete a Contact List</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Contact Tags</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="tags_overview.html">Tags Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="tags_get_single.html">Get a Tag's Details</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="tags_get.html">Get Details about all Tags</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="tags_create.html">Create a Tag</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="tags_update.html">Rename a Tag</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="tags_delete.html">Delete a Tag</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Contact Reporting</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="contact_reporting_overview.html">Contact Reporting Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="activities_summary.html">Get Activity Summary</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="activity_details.html">Get Activity Details</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="open_and_click_rates.html">Get Open and Click Rates</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Email Campaigns</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="email_campaigns_overview.html">Email Campaigns Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaign_create.html">Create an Email Campaign</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="design_code_emails.html">Designing HTML for Custom Code Emails</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaigns_collection.html">Get a Collection of Email Campaigns</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaign_id.html">Get Email Campaign Details for a Single Email Campaign</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaigns_activity_id.html">Get an Email Campaign Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaign_activity_update.html">Update an Email Campaign Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaign_create_schedule.html">Schedule an Email Campaign Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaigns_activity_get_schedules.html">Get the Schedule of an Email Campaign Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaign_activity_delete_schedule.html">Unschedule an Email Campaign Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaign_activity_preview.html">Get an HTML Preview of an Email Campaign Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaign_activity_test_send.html">Test Send an Email Campaign Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaigns_rename.html">Rename an Existing Email Campaign</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaigns_sends_history.html">Get Send History Details for Email Campaign Activities</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaigns_delete.html">Delete an Email Campaign</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaigns_resend_non_openers_post.html">Post (Schedule) a Resend to Non-openers Email Campaign Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaigns_resend_non_openers_get.html">Get Details for a Resend to Non-openers Email Campaign Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaigns_resend_non_openers_delete.html">Delete (Unschedule) a Resend to Non-openers Email Campaign Activity</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Email Campaigns A/B Tests</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="email_campaigns_ab_test_overview.html">Email Campaign Activities A/B Tests Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaigns_ab_test_get.html">Get A/B Test Details for a Email Campaign Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaigns_ab_test_post.html">Create an A/B Test for a Email Campaign Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_campaigns_ab_test_delete.html">Delete an A/B Test for a Email Campaign Activity</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Email Reporting</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="email_reporting_overview.html">Email Reporting Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_summary_sends_report.html">Get an Email Sends Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_summary_opens_report.html">Get an Email Opens Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_summary_unique_opens_report.html">Get an Email Unique Opens Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_summary_clicks_report.html">Get an Email Clicks Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_summary_non_opens_report.html">Get an Email Did Not Opens Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_summary_forwards_report.html">Get an Email Forwards Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_summary_optouts_report.html">Get an Email Opt-outs Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_links_report.html">Get an Email Link Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_summary_bounces_report.html">Get an Email Bounces Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_campaign_stats_report.html">Get an Email Campaign Stats Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_campaign_activities_stats_report.html">Get an Email Campaign Activities Stats Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_bulk_campaign_summary_report.html">Get an Email Campaigns Summary Report</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Segments</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/segments_overview.html">Segments Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/segment_create.html">Create a Segment</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/segment_get_all.html">Get all Segments</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/segment_get.html">Get a Segment's Details</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/segment_delete.html">Delete a Segment</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/segment_update.html">Update a Segment</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/segment_rename.html">Rename a Segment</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Landing Page Reports</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/lp_reports_overview.html">Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/lp_reports_unique_contact_clicks.html">Get a Unique Contacts Clicks Landing Page Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/lp_reports_contact_opens.html">Get all Contact Opens Landing Page Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/lp_reports_unique_contact_opens.html">Get a Unique Contacts Opens Landing Page Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/lp_reports_unique_contact_adds.html">Get a Unique Contact Adds Landing Page Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/lp_reports_unique_contact_sms_optins.html">Get a Unique Contact SMS Opt-in Opens Landing Page Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/lp_reports_unique_contact_updates.html">Get a Unique Contact Updates Landing Page Report</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Technology Partners</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partners_overview.html">Technology Partner Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partners_dev_accts.html">Signup for a Technology Partner Developer Account</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partners_reg_creds.html">Technology Partner Registration</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partners_auth.html">Technology Partner Authentication</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partner_sso_config.html">Configuring Single Sign On</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partners_accts_create.html">Create a Partner Client Account</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partners_accts_get.html">Get all Partner Client Accounts</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partners_plans_get.html">Get Billing Plan Details for a Client Account</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partners_plans_update.html">Update the Billing Plan for a Client Account</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partners_plans_cancel.html">Cancel the Billing Plan for a Client Account</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partners_master_token.html">Send API Requests on Behalf of Managed Client Accounts</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Technology Partner Webhooks</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partner_webhook_overview.html">Partner Webhooks Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/webhook_single.html">Get a Partner Webhook</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/webhook_collection.html">Get all Partner Webhooks</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/webhook_put.html">Subscribe (PUT) to a Partner Webhook</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/webhook_delete.html">Unsubscribe (Delete) a Partner Webhook</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/webhooks_post.html">Test (POST) Webhook Subscriptions</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/webhook_authenticity.html">Webhook Authenticity</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">HTTP Status Response Codes</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/glossary_responses.html">Response Codes</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">V3 API Schema</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/v3api_schema.html">V3 API Schema Download</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+            
+            <!-- if you aren't using the accordion, uncomment this block:
+               <p class="external">
+                   <a href="#" id="collapseAll">Collapse All</a> | <a href="#" id="expandAll">Expand All</a>
+               </p>
+               -->
+        </li>
+    </ul>
+</nav>
+
+<!-- this highlights the active parent class in the navgoco sidebar. this is critical so that the parent expands when you're viewing a page. This must appear below the sidebar code above. Otherwise, if placed inside customscripts.js, the script runs before the sidebar code runs and the class never gets inserted.-->
+<script>$("li.active").parents('li').toggleClass("active");</script>
+
+            </div>
+
+            <!-- Content Column -->
+            <div class="content">
+                <div class="inner">
+                    <div class="post-header">
+   <h1 class="post-title-main">Release Notes</h1>
+</div>
+
+
+
+<div class="post-content">
+
+   
+    <div class="summary">Constant Contact V3 API Release Notes.</div>
+   
+
+    
+    
+<!-- this handles the automatic toc. use ## for subheads to auto-generate the on-page minitoc. if you use html tags, you must supply an ID for the heading element in order for it to appear in the minitoc. -->
+<script>
+$( document ).ready(function() {
+  // Handler for .ready() called.
+$('#toc').toc({ minimumHeaders: 0, listType: 'ul', showSpeed: 0, headers: 'h1,h2,h3,h4' });
+
+/* this offset helps account for the space taken up by the floating toolbar. */
+$('#toc').on('click', 'a', function() {
+  var target = DOMPurify.sanitize(this.getAttribute('href')),
+      scroll_target = document.getElementById(target).offset().top
+
+  $('html, body').scrollTop(scroll_target - 41);
+  return false
+})
+  
+});
+</script>
+
+<div id="toc" class="Well toc"></div>
+
+    
+
+  <p>V3 API <em>Release Notes</em> introduce newly released endpoints and notable updates made available in each release.</p>
+
+<div class="Msg">Join the V3 API newsletter to learn about the latest API changes.
+</div>
+<div class="u-paddingBottomOneAndHalf u-textCenter u-fontSizeLarge" target="_blank">
+  <a href="https://lp.constantcontact.com/su/DKwHL2d/v3updates" class="Button Button--blue" target="_blank">Sign Up for Email Updates!</a>
+ </div>
+
+<h1 id="june-2024">June 2024</h1>
+
+<!--
+## New Endpoints
+### SMS Reports
+You can now make a GET call to the `/reports/summary_reports/sms_campaign_summaries` endpoint to get SMS campaign summary details, including the total number of times that each contact uniquely interacted with each tracked campaign activity and the aggregated percents for all campaigns returned on a single page.
+
+<span class="Pill " data-qe-id="list-ID-PILL1">[Try it!](/api_reference/index.html#!/SMS_Reporting/getAllBulkSmsCampaignSummaries)</span>
+.-->
+
+<h2 id="updates-and-feature-enhancements">Updates and Feature Enhancements</h2>
+
+<h3 id="bulk-activities">Bulk Activities</h3>
+
+<p><strong>Remove contacts from lists</strong></p>
+
+<p>When making a <code class="highlighter-rouge">POST</code> call to the <code class="highlighter-rouge">/activities/remove_list_memberships</code> endpoint, you can now choose from the following new source options to identify contacts to remove from list(s):</p>
+<ul>
+  <li><code class="highlighter-rouge">new_subscriber</code> - Set to <code class="highlighter-rouge">true</code> to remove all contacts that subscribed within the last 30 days to the specified target lists. Use with the <code class="highlighter-rouge">exclude</code> object to exclude certain contacts (by <code class="highlighter-rouge">contact_id</code>) from being deleted from specified target lists.</li>
+  <li><code class="highlighter-rouge">engagement_level</code> - removes all contacts that meet the selected engagement level (<code class="highlighter-rouge">unqualified</code>, <code class="highlighter-rouge">low</code>, <code class="highlighter-rouge">medium</code>, <code class="highlighter-rouge">high</code>) from your target lists. This property is mutually exclusive with all other source properties.</li>
+  <li><code class="highlighter-rouge">tag_ids</code> -  Specify an array of up to 50 <code class="highlighter-rouge">tag_id</code>s to remove all contacts with those tags from the specified target lists. This property is mutually exclusive with all other source properties.</li>
+</ul>
+
+<p>If using <code class="highlighter-rouge">all_active_contacts</code> or <code class="highlighter-rouge">list_ids</code> as the source, you can now choose the new  <code class="highlighter-rouge">exclude</code> object to identify any contacts (by <code class="highlighter-rouge">contact_id</code>) that you do not want to remove from the specified target lists.</p>
+
+<p><span class="Pill " data-qe-id="list-ID-PILL1"><a href="https://developer.constantcontact.com/api_reference/index.html#!/Bulk_Activities/postListRemoveContact">Try it!</a></span></p>
+
+<p><strong>Add Contacts to Lists</strong></p>
+
+<p>When making a <code class="highlighter-rouge">POST</code> call to the <code class="highlighter-rouge">/activities/add_list_memberships</code> endpoint, in the JSON request payload you can now choose from the following new source options to identify contacts to add to list(s):</p>
+<ul>
+  <li><code class="highlighter-rouge">new_subscriber</code> - Set to <code class="highlighter-rouge">true</code> to add all contacts that subscribed within the last 30 days to the specified target lists. Use with the <code class="highlighter-rouge">exclude</code> object to exclude certain contacts (by <code class="highlighter-rouge">contact_id</code>) from being added to the specified target lists.</li>
+  <li><code class="highlighter-rouge">engagement_level</code> - Adds all contacts that meet the selected <code class="highlighter-rouge">engagement_level</code> (<code class="highlighter-rouge">unqualified</code>, <code class="highlighter-rouge">low</code>, <code class="highlighter-rouge">medium</code>, <code class="highlighter-rouge">high</code>) to your target lists. This property is mutually exclusive with all other source properties.</li>
+  <li><code class="highlighter-rouge">tag_ids</code> - an array of up to 50 <code class="highlighter-rouge">tag_ids</code> used to identify which tagged contacts to add to the destination lists.</li>
+</ul>
+
+<p>If using <code class="highlighter-rouge">all_active_contacts</code> or <code class="highlighter-rouge">list_ids</code> as the source, you can now use the new <code class="highlighter-rouge">exclude</code> object to identify contacts, by <code class="highlighter-rouge">contact_id</code>, that you do not want to add to the target contact lists.</p>
+
+<p><span class="Pill " data-qe-id="list-ID-PILL1"><a href="https://developer.constantcontact.com/api_reference/index.html#!/Bulk_Activities/postListAddContact">Try it!</a></span></p>
+
+<h1 id="april-2024">April 2024</h1>
+<h2 id="updates-and-feature-enhancements-1">Updates and Feature Enhancements</h2>
+<h3 id="partners">Partners</h3>
+<p>For partners that have the “SSO for all Client Accounts” feature enabled, to add a new SSO user to an existing client account, make a <strong>POST</strong> call to the <a href="https://developer.constantcontact.com/api_reference/index.html#!/Technology_Partners/createSSOUser">  /partner/accounts/{encoded_account_id}/users/sso </a> endpoint .</p>
+
+<h1 id="december-2023">December 2023</h1>
+
+<h2 id="new-endpoints">New Endpoints</h2>
+<p>The following new landing page reporting endpoints are now available:</p>
+
+<table class="Table Table--bodyBorder">
+  <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody> 
+    <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Landing_Pages_Reporting/getUniqueContactClicks"> <b>GET</b> /reports/landing_pages/campaign_details/{campaign_activity_id}/p_unique_contact_clicks</a></td>
+       <td>Get details for each contact that uniquely clicks a link on a specified landing page.</td>
+    </tr>  
+    <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Landing_Pages_Reporting/getUniqueContactSMSOptIns"> <b>GET</b> /reports/landing_pages/campaign_details/{campaign_activity_id}/p_unique_contact_sms_optins</a></td>
+       <td>Get details for each contact that clicked a link on a specified landing page to opt in to receiving SMS messages.</td>
+    </tr>
+    <tr>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Landing_Pages_Reporting/getUniqueContactOpens"><b>GET</b> /reports/landing_pages/campaign_details/{campaign_activity_id}/p_unique_contact_opens</a></td>
+       <td>Get details for each contact that uniquely open a specific landing page.</td>
+    </tr>
+    <tr>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Landing_Pages_Reporting/getContactOpens"><b>GET</b> /reports/landing_pages/campaign_details/{campaign_activity_id}/p_contact_opens</a></td>
+       <td>Get details for each time a contact opened a specific landing page.</td>
+   </tr>
+   <tr>
+      <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Landing_Pages_Reporting/getUniqueContactAdds"><b>GET</b> /reports/landing_pages/campaign_details/{campaign_activity_id}/p_unique_contact_adds</a></td>
+      <td>Get details for each contact that was added to the account from a specific landing page.</td>
+   </tr>
+   <tr>
+      <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Landing_Pages_Reporting/getUniqueContactUpdates"><b>GET</b> /reports/landing_pages/campaign_details/{campaign_activity_id}/p_unique_contact_updates</a></td>
+      <td>Get contact details for each contact in an account that was updated from a specific landing page.</td>
+   </tr>
+  </tbody>  
+</table>
+
+<h1 id="september-2023">September 2023</h1>
+
+<h2 id="new-endpoints-1">New Endpoints</h2>
+
+<p>The following new Contact endpoint is now available:</p>
+
+<table class="Table Table--bodyBorder">
+  <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody> 
+    <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contacts/getSmsEngagementHistory"> <b>GET</b> /contacts/sms_engagement_history/{contact_id}</a></td>
+       <td>Use this method to get a contact's SMS engagement details, such as SMS consent and advertising frequency.</td>
+    </tr>       
+  </tbody>  
+</table>
+
+<h2 id="updates-and-feature-enhancements-2">Updates and Feature Enhancements</h2>
+<h3 id="contact-reporting">Contact Reporting</h3>
+<p>When making a GET request to the <code class="highlighter-rouge">/reports/contact_reports/{contact_id}/activity_details</code> endpoint to get campaign tracking details, you can now choose to include new query parameters and tracking activity types.</p>
+
+<h4 id="new-query-parameters">New query parameters</h4>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">tracking_activity_type</code>: This parameter allows you to choose the tracking activity types as an array (<code class="highlighter-rouge">tracking_activity_type=em_sends&amp;tracking_activity_type=em_opens</code>). This parameter is an alternative to using the existing the <code class="highlighter-rouge">tracking_activities_list</code> which allows you to choose the tracking activity types as a comma-delimited string (<code class="highlighter-rouge">em_clicks</code>, <code class="highlighter-rouge">em_opens</code>). One from the two parameters must be included in the request.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">include_campaign_activity_names</code>: Use to return campaign activity names in the results. It is more efficient to not include campaign activity names in the results (<code class="highlighter-rouge">false</code>). The default setting is <code class="highlighter-rouge">true</code>.</p>
+  </li>
+</ul>
+
+<h4 id="new-landing-page-tracking-activity-types">New landing page tracking activity types</h4>
+<ul>
+  <li><code class="highlighter-rouge">p_contact_open</code></li>
+  <li><code class="highlighter-rouge">p_contact_click</code></li>
+  <li><code class="highlighter-rouge">p_contact_add</code></li>
+  <li><code class="highlighter-rouge">p_contact_update</code></li>
+</ul>
+
+<h1 id="august--2023">August  2023</h1>
+
+<h2 id="new-endpoints-2">New Endpoints</h2>
+
+<p>The following endpoints are now available:</p>
+
+<table class="Table Table--bodyBorder">
+  <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> Links</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody> 
+    <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Bulk_Activities/postCustomFieldDelete"><b>POST</b>  /activities/delete_custom_fields_activity</a></td>
+      <td>Use this method to create an asynchronous activity that removes up to 100 custom fields from contacts and deletes the custom fields from an account.</td>
+    </tr>       
+  </tbody>  
+</table>
+
+<h1 id="march">March</h1>
+
+<h2 id="new-endpoints-3">New Endpoints</h2>
+
+<p>The following endpoints are now available:</p>
+
+<table class="Table Table--bodyBorder">
+  <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody> 
+    <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Bulk_Activities/postListDelete"> <b>POST</b>  /BulkActivities/delete_lists</a></td>
+      <td>Use this method to create an asynchronous activity that deletes up to 100 contact lists from an account.</td>
+    </tr>       
+  </tbody>  
+</table>
+
+<h2 id="updates-and-feature-enhancements-3">Updates and Feature Enhancements</h2>
+
+<h3 id="new-contact-filtering-options">New Contact Filtering Options</h3>
+
+<ul>
+  <li>
+    <p><strong>Filter Contacts by SMS Status</strong></p>
+
+    <p>Use the <code class="highlighter-rouge">sms_status</code> query parameter to retrieve only those contacts that have a specific SMS status. Valid values
+include <code class="highlighter-rouge">all</code>, <code class="highlighter-rouge">explicit</code>, <code class="highlighter-rouge">unsubscribed</code>, <code class="highlighter-rouge">pending_confirmation</code>, and <code class="highlighter-rouge">not-set</code>. This parameter accepts one or more
+comma separated values.</p>
+  </li>
+  <li>
+    <p><strong>Get Contact Channel and Consent Details</strong></p>
+
+    <p>To return SMS channel and consent details in the response, make a GET call to the following endpoints and set the <code class="highlighter-rouge">include</code> query parameter to <code class="highlighter-rouge">sms_channel</code>:</p>
+
+    <ul>
+      <li>GET /contacts</li>
+      <li>GET /contacts/{contact_id}</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Filter Contacts by Opt-out Dates</strong></p>
+
+    <p>Use the <code class="highlighter-rouge">optout_after</code> and <code class="highlighter-rouge">optout_before</code> query parameters to return contacts that chose to opt-out before or after a specified date and time. Accepts ISO-8601 formatted dates.</p>
+  </li>
+</ul>
+
+<p><span class="Pill " data-qe-id="list-ID-PILL1"><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contacts/getContacts">Try it!</a></span></p>
+
+<h1 id="december-2022">December 2022</h1>
+
+<h2 id="updates-and-feature-enhancements-4">Updates and Feature Enhancements</h2>
+
+<h3 id="oauth2">OAuth2</h3>
+
+<p>The OAuth2 Device Flow is now available. Use this flow if your application runs on a device that is input constrained. For example, a command line application that cannot provide a web browser to users. For details, see <a href="device_flow.html">Device Flow</a>.</p>
+
+<h3 id="activities">Activities</h3>
+
+<p>The following new query parameters are now available when making a POST call to the  <code class="highlighter-rouge">/activities/contact_exports</code> endpoint:</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">exclude</code>: The contacts (contact_ids) to exclude from the export activity. Applicable with either no source parameter specified or with list_ids or new_subscriber as the source.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">status</code>: Filter contact results by status; active, unsubscribed, or removed.</p>
+  </li>
+</ul>
+
+<h1 id="october-2022">October 2022</h1>
+
+<h2 id="new-endpoints-4">New Endpoints</h2>
+
+<p>The following contacts endpoint is now available:</p>
+
+<table class="Table Table--bodyBorder">
+  <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody> 
+    <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contacts/countContact"> <b>GET</b> /contacts/counts</a></td>
+       <td>Use this method to get the total contact consent counts for each constent state.</td>
+     </tr>
+   </tbody>  
+</table>
+
+<h2 id="updates-and-feature-enhancements-5">Updates and Feature Enhancements</h2>
+
+<h3 id="contact-lists">Contact Lists</h3>
+
+<p>The following new query parameters are available when making a GET call to the <code class="highlighter-rouge">/contacts_lists</code> endpoint:</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">name</code>: Enter the full name of a contact list to get details about that list.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">status</code>: Use to return only list details for lists that have a specific status. Options include:</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">all</code></li>
+      <li><code class="highlighter-rouge">active</code></li>
+      <li><code class="highlighter-rouge">deleted</code></li>
+    </ul>
+
+    <p><span class="Pill " data-qe-id="list-ID-PILL1"><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contact_Lists/getLists">Try it!</a></span></p>
+  </li>
+</ul>
+
+<h3 id="email-reporting">Email Reporting</h3>
+
+<p>When making a GET call to the <code class="highlighter-rouge">/reports/email_reports/{campaign_activity_id}/links</code> endpoint, to include links with no clicks in the response results, use the new <code class="highlighter-rouge">no_clicks</code> query parameter.</p>
+
+<p><span class="Pill " data-qe-id="list-ID-PILL1"><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getCampaignActivityLinkStats">Try it!</a></span></p>
+
+<h3 id="depreciated-endpoints">Depreciated Endpoints</h3>
+
+<p>The following authorization and token URLs are no longer supported:</p>
+<ul>
+  <li><code class="highlighter-rouge">https://api.cc.email/v3/idfed</code></li>
+  <li><code class="highlighter-rouge">https://idfed.constantcontact.com/as/token.oauth2</code></li>
+</ul>
+
+<p>If you have not yet updated your existing application or created a new applications to use the new authorization and token URLs, see <a href="auth_update_apps.html">Update Your Applications to Use the New Authorization Service</a>.</p>
+
+<h1 id="august-2022">August 2022</h1>
+
+<h2 id="new-endpoints-5">New Endpoints</h2>
+
+<p>The following email campaign endpoints are now available:</p>
+
+<table class="Table Table--bodyBorder">
+  <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody> 
+    <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns_AB_Tests/createEmailCampaignABTestUsingPOST"> <b>POST</b> /emails/activities/{campaign_activity_id}/abtest</a></td>
+      <td>Use this method to create an A/B test for a primary email campaign activity.</td>
+    </tr>  
+    <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns_AB_Tests/getEmailCampaignABTestUsingGET"> <b>GET</b> /emails/activities/{campaign_activity_id}/abtest</a></td>
+        <td>Use this method to get details about an A/B test for a primary email campaign activity.</td>
+    </tr>  
+    <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns_AB_Tests/deleteEmailCampaignABTestUsingDELETE"> <b>DELETE</b> /emails/activities/{campaign_activity_id}/abtest</a></td>
+        <td>Use this method to delete an A/B test for a primary email campaign activity.</td>
+     </tr>          
+<!--   <tr>  
+       <td><a href="/api_reference/index.html#!/Email_Campaigns_AB_Tests/updateEmailCampaignABTestUsingPUT"> <b>PUT</b> /emails/activities/{campaign_activity_id}/abtest</a></td>
+       <td>Use this method to update an existing A/B test for a primary email campaign activity that has a status of `Draft`.</td>
+    </tr> -->       
+  </tbody>  
+</table>
+
+<p>The following technology partner endpoint is now available:</p>
+
+<table class="Table Table--bodyBorder">
+  <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody> 
+    <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Technology_Partners/partnerAccountOperationsPostSync"> <b>POST</b> Post /partner/accounts/{encoded_account_id}/account_operations/sync</a></td>
+      <td>Use this method to send an API request on behalf of a managed client account in your partnership.</td>
+    </tr>       
+  </tbody>  
+</table>
+
+<h2 id="updates-and-feature-enhancements-6">Updates and Feature Enhancements</h2>
+
+<h3 id="contacts">Contacts</h3>
+
+<p>You can now search for contacts by specifying the date or date range when contacts were updated or created.</p>
+<ul>
+  <li><strong>by updated date</strong> - retrieve all contacts with properties updated after (<code class="highlighter-rouge">updated_after</code>) date or before (<code class="highlighter-rouge">updated_before</code>) a specified date and time. To search for updated contacts within a date range, specify both <code class="highlighter-rouge">updated_after</code> and <code class="highlighter-rouge">updated_before</code> dates. Accepts ISO-8601 formatted dates.</li>
+  <li>
+    <p><strong>by created date</strong> - retrieve all contacts created after  (<code class="highlighter-rouge">created_after date</code>) or (<code class="highlighter-rouge">created-before</code>) a specified date and time. To search for contacts created within a date range, specify both <code class="highlighter-rouge">created_after</code> and <code class="highlighter-rouge">created_before</code> dates. Accepts ISO-8601 formatted dates.</p>
+
+    <p><span class="Pill " data-qe-id="list-ID-PILL1"><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contacts/getContacts">Try it!</a></span></p>
+  </li>
+</ul>
+
+<h1 id="february-2022">February 2022</h1>
+
+<h2 id="required-update"><strong>REQUIRED UPDATE!</strong></h2>
+
+<p>As of March 31, 2022, support ends for applications that use our previous authorization management service and that use the following authorization and token URLs:</p>
+<ul>
+  <li><code class="highlighter-rouge">https://api.cc.email/v3/idfed</code></li>
+  <li><code class="highlighter-rouge">https://idfed.constantcontact.com/as/token.oauth2</code></li>
+</ul>
+
+<p>As a result, you must update your existing application or create a new application. This includes updating your application code to use the new authorization and token URLs.  For details about updating your existing applications, see <a href="auth_update_apps.html">Update Your Applications to Use the New Authorization Service</a>.</p>
+
+<p>To get details about the OAuth2 flow your application uses, see:</p>
+
+<ul>
+  <li><a href="server_flow.html">OAuth2 Authorization Code Flow</a></li>
+  <li><a href="client_flow.html">OAuth2 Implicit Flow</a></li>
+</ul>
+
+<p><strong>New PKCE Flow</strong></p>
+
+<p>The new service also adds support for the OAuth2 PKCE Flow. If you have an existing application that uses the Implicit Flow, Constant Contact <em>strongly</em> sugguests that you consider <a href="apps_create.html">creating a new application integration</a> using the more secure <a href="pkce_flow.html">PKCE Flow</a>.</p>
+
+<p><strong>JSON Web Tokens (JWT)</strong></p>
+
+<p>For added security, the Authorization Server now uses a JWT to transfer information (claims) between the Authorization Server and third party applications. JWT is an open standard <a href="https://datatracker.ietf.org/doc/html/rfc7519">RFC 7519</a>.</p>
+
+<p>You can view the claims of the JWT to access the scopes, expiration timestamp, and Constant Contact user ID for an access token. This information is available in the token itself. You do not need to make a separate HTTP request to access information about an access token.</p>
+
+<p><strong>Deprecate the <code class="highlighter-rouge">token_info</code> Endpoint</strong></p>
+
+<p>As of March 31, 2022, the <code class="highlighter-rouge">POST /token_info</code> endpoint is no longer supported. Instead, to view the scopes associated with an access token, parse the access token (JWT) claims.</p>
+
+<h2 id="updates-and-feature-enhancements-7">Updates and Feature Enhancements</h2>
+
+<h3 id="technology-partners">Technology Partners</h3>
+
+<p><em>Make V3 API calls on behalf of your managed client accounts</em></p>
+
+<p>Many technology partners do all or some of the marketing on behalf of their managed client accounts. As a technology partner, you can now make V3 API calls on behalf of your managed client accounts. This allows you greater flexibility for performing marketing tasks and allows your managed client accounts to focus on their local clients and businesses. For more details, see <a href="https://developer.constantcontact.com/api_guide/partners_master_token.html">Send API Requests on Behalf of Managed Client Accounts</a>.</p>
+
+<p><em>Filter on managed or unmanaged client accounts</em></p>
+
+<p>When making a <code class="highlighter-rouge">GET</code> call to the <code class="highlighter-rouge">/partner/accounts</code> endpoint, you can now choose to filter your results to return all managed or all un-managed client accounts using the new <code class="highlighter-rouge">account_type</code> parameter and specify either <code class="highlighter-rouge">managed</code> or <code class="highlighter-rouge">unmanaged</code>.</p>
+
+<h1 id="december-2021">December 2021</h1>
+
+<h2 id="new-endpoints-6">New Endpoints</h2>
+
+<p>The following email campaign endpoints are now available:</p>
+
+<table class="Table Table--bodyBorder">
+  <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody> 
+    <tr> 
+      <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/createResendToNonOpenersUsingPOST"> <b>POST</b> /emails/activities/{campaign_activity_id}/non_opener_resends.</a></td>
+      <td>Use this method to schedule a resend to non-openers email campaign activity.</td>
+    </tr> 
+    <tr>
+      <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/retrieveResendToNonOpenersUsingGET"> <b>GET</b> /emails/activities/{campaign_activity_id}/non_opener_resends. </a></td>
+     <td>Use this method to get details about a resend to non-openers email campaign activity.</td>
+    </tr>
+    <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/deleteResendToNonOpenersUsingDELETE"> <b>DELETE</b> /emails/activities/{campaign_activity_id}/non_opener_resends/{resend_request_id}. </a></td>
+      <td>Use this method to delete (unschedule) a resend to non-openers email campaign activity.</td>
+    </tr> 
+    <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns_AB_Tests/retrieveEmailCampaignABTestUsingGET"> <b>GET</b> /emails/activities/{campaign_activity_id}/abtest</a></td>
+      <td>Use this method to get A/B test details for a primary email campaign activity.</td>
+    </tr>  
+    <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns_AB_Tests/deleteEmailCampaignABTestUsingDELETE"> <b>DELETE</b> /emails/activities/{campaign_activity_id}/abtest</a></td>
+       <td>Use this method to delete an A/B test for a primary email campaign activity.</td>
+     </tr>           
+  </tbody>  
+</table>
+
+<h2 id="updates-and-feature-enhancements-8">Updates and feature enhancements</h2>
+
+<p><strong>Technology Partners</strong></p>
+
+<p>Technology partners can now use Constant Contact’s Single Sign On (SSO) solution to allow their customers to access their integrated Constant Contact account without having to sign in with a separate username and password. SSO uses SAML 2.0 standards. <a href="https://developer.constantcontact.com/api_guide/partner_sso_config.html#">Learn More</a> about using SSO.</p>
+
+<h1 id="august">August</h1>
+
+<h2 id="new-endpoints-7">New Endpoints</h2>
+
+<h3 id="partner-webhooks">Partner Webhooks</h3>
+<p>The following webhook endpoints are now available for technology partners:</p>
+
+<table class="Table Table--bodyBorder">
+  <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody> 
+    <tr>  
+      <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Technology_Partners/getWebhooksTopic"> <b>GET</b> /partner/webhooks/subscriptions/{topic_id} </a></td>
+      <td>Use this GET method to return webhook subscription information for a specific <code>topic_id</code>. For example, <code>topic_id</code> value <code>3</code> returns subscription information for cancelled accounts.
+      </td>
+    </tr>
+    <tr>  
+       <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Technology_Partners/getWebhooksCollection"> <b>GET</b> /partner/webhooks/subscriptions</a></td>
+       <td>Use this GET method to return a collection containing your application's webhook subscriptions.
+       </td>
+    </tr>
+    <tr>  
+       <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Technology_Partners/putWebhooksTopic"> <b>PUT</b> /partner/webhooks/subscriptions/{topic_id}</a></td>
+       <td>Use this PUT method to subscribe your application to a <code>topic_id</code> or to update the callback URI for an existing subscription.
+       </td>
+   </tr>
+   <tr>
+        <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Technology_Partners/testSendWebhooksTopic"> <b>POST</b> /partner/webhooks/subscriptions/{topic_id}/tests</a></td>
+       <td>Use this POST method to validate a webhook subscription by triggering a test notification for your chosen webhook <code>topic_id</code>. </td>
+   </tr>   
+   <tr>
+       <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Technology_Partners/deleteWebhooksSubscriptions"> <b>DELETE</b> /partner/webhooks/subscriptions/{topic_id}</a></td>
+       <td>Use this DELETE method to unsubscribe from a webhook. </td>
+   </tr>        
+  </tbody>  
+</table>
+
+<h3 id="email-campaign-reports">Email Campaign Reports</h3>
+
+<p>The following reporting endpoints are now available:</p>
+
+<table class="Table Table--bodyBorder">
+  <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody> 
+    <tr>  
+       <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getEmailCampaignActivitySummary"> <b>GET</b> /reports/stats/email_campaign_activities/{campaign_activity_ids} </a></td>
+      <td>Use this method to get email campaign activity performance tracking statistics for up to ten campaign actvities.</td>
+    </tr>
+    <tr>  
+       <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getEmailSummary"> <b>GET</b> /reports/stats/email_campaigns/{campaign_ids} </a></td>
+       <td>Use this method to get email campaign performance tracking statistics for one or more campaigns, including the total number of times contacts interacted with your campaigns and how.</td>
+     </tr>
+  </tbody>  
+</table>
+
+<h2 id="updates-and-feature-enhancements-9">Updates and feature enhancements</h2>
+
+<p><strong>Segmentation</strong></p>
+
+<p>In addition to creating segments based on contact tags and tracking activity, you can now use contact details and contact list as segment selection criteria.</p>
+
+<ul>
+  <li>
+    <p><strong>Contact details</strong> (contact): To include or exclude contacts based on contact details and custom contact fields, specify the contact data to use in the segment criteria. For example, you can create a segment that includes contacts that have birthdays in April, and that do not live in Maryland.</p>
+  </li>
+  <li>
+    <p><strong>List memberships</strong> (contact list_membership): To limit the number of contacts Constant Contact evaluates, specify the contact list(s) to use. If no contact list is specified, all contacts in your account are evaluated.</p>
+  </li>
+</ul>
+
+<p><strong>Contacts</strong></p>
+
+<p>You can now use the V3 API to add and maintain up to 25 notes per contact.</p>
+
+<ul>
+  <li>Use <code class="highlighter-rouge">POST /contacts</code> to add a note when creating a new contact.</li>
+  <li>Use <code class="highlighter-rouge">PUT /contacts/{contact_id}</code> to update an existing a note for a contact.</li>
+  <li>Use <code class="highlighter-rouge">GET /contacts</code> to get details about all your contacts including notes.</li>
+  <li>Use <code class="highlighter-rouge">GET /contacts/{contact_id}</code> to get all notes for a specific contact.</li>
+</ul>
+
+<p><strong>Email Campaigns</strong></p>
+
+<p>Legacy <code class="highlighter-rouge">type 1</code> custom code emails are no longer supported and are automatically converted to the new modern <code class="highlighter-rouge">type 5</code> custom code emails when a <code class="highlighter-rouge">POST</code> call is made to the <code class="highlighter-rouge">/email</code> endpoint.</p>
+
+<h1 id="may-2021">May 2021</h1>
+
+<p>Partners can now specify an <code class="highlighter-rouge">organization_phone</code> number when creating a new Constant Contact client account using <code class="highlighter-rouge">POST /partner/accounts</code>.</p>
+
+<h1 id="april-2021">April 2021</h1>
+<h2 id="new-endpoints-8">New endpoints</h2>
+<p>This release includes new activity endpoints used to manage a large number of tags and contact taggings.</p>
+
+<table class="Table Table--bodyBorder">
+  <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody> 
+    <tr>  
+      <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Bulk_Activities/postTagAddContact"> <b>POST</b> /activities/contacts_taggings_add </a></td>
+      <td>Use this method to create an asynchronous activity that adds one or more tags to all contacts meeting your contact filtering criteria.</td>
+    </tr>
+    <tr>  
+      <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Bulk_Activities/postTagRemoveContact"> <b>POST</b> /activities/contacts_taggings_remove </a></td>
+      <td>Use this method to create an asynchronous activity that removes one or more tags from all contacts meeting your contact filtering criteria.</td>
+    </tr>
+    <tr>  
+      <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Bulk_Activities/postTagDelete"> <b>POST</b> /activities/contacts_tags_delete </a></td>
+      <td>Use this method to create an asynchronous activity that deletes one or more tags.</td>
+    </tr>
+  </tbody>  
+</table>
+
+<h2 id="updates-and-feature-enhancements-10">Updates and feature enhancements</h2>
+
+<p><strong>Email Campaigns</strong></p>
+
+<ul>
+  <li>
+    <p>The <code class="highlighter-rouge">GET /emails</code> endpoint now supports searching for campaigns sent before or after a specified date, as well as within a specified date range. Note: Currently, renaming a campaign does not change the <code class="highlighter-rouge">updated_at</code> timestamp.</p>
+  </li>
+  <li>
+    <p>As of this release, using <code class="highlighter-rouge">POST /emails</code> to create legacy-type email campaign activities (<code class="highlighter-rouge">format_type</code> 1) is no longer supported. Instead, to create custom HTML emails use <code class="highlighter-rouge">format_type</code> 5.</p>
+  </li>
+</ul>
+
+<h1 id="march-2021">March 2021</h1>
+<h2 id="updates-and-feature-enhancements-11">Updates and feature enhancements</h2>
+
+<p>This release includes support for the following:</p>
+
+<p><strong>New Segmentation Criteria</strong></p>
+
+<ul>
+  <li>When creating a segment, in the segment criteria you can choose to include or exclude contacts based on a contact’s taggings.</li>
+</ul>
+
+<p><strong>New Contacts Query Parameters and Properties</strong></p>
+
+<ul>
+  <li>
+    <p>Use the <code class="highlighter-rouge">GET  /contacts</code> new <code class="highlighter-rouge">segment_id</code> query parameter to get a list of all contacts that currently meet a segment’s criteria.</p>
+  </li>
+  <li>
+    <p>Use the <code class="highlighter-rouge">GET  /contacts</code> new <code class="highlighter-rouge">tags</code> query parameter to get a list of all contacts that are tagged with one or more specified tags (<code class="highlighter-rouge">tag_id</code>).</p>
+  </li>
+  <li>
+    <p>Use the <code class="highlighter-rouge">GET</code>, <code class="highlighter-rouge">PUT</code>, or <code class="highlighter-rouge">POST</code> <code class="highlighter-rouge">/contact/{contact_id}</code> new <code class="highlighter-rouge">tagging</code> property to view, update, or add tags to a single contact.</p>
+  </li>
+  <li>
+    <p>Use <code class="highlighter-rouge">GET /contacts</code> and in the <code class="highlighter-rouge">includes</code> query parameter, specify the new <code class="highlighter-rouge">taggings</code> option to get tagging information returned for each contact in the results.</p>
+  </li>
+  <li>
+    <p>Use <code class="highlighter-rouge">GET /contacts</code> and set the new <code class="highlighter-rouge">include_count</code> query parameter to <code class="highlighter-rouge">true</code> to include the total number of contacts (<code class="highlighter-rouge">contacts_count</code>) that meet the current contact search criteria in the response body.</p>
+  </li>
+</ul>
+
+<p><strong>New Bulk Activities support for exporting contact IDs</strong></p>
+
+<ul>
+  <li>When exporting contact details to a file using <code class="highlighter-rouge">POST  /activities/contact_exports</code>, you can now use the request body <code class="highlighter-rouge">fields</code> array to add contact IDs (<code class="highlighter-rouge">contact_id</code>) to the CSV response.</li>
+</ul>
+
+<h1 id="february-2021">February 2021</h1>
+<h2 id="new-endpoints-9">New endpoints</h2>
+<h3 id="contact-tags">Contact Tags</h3>
+
+<p>This release includes the tag endpoint used to delete an existing tag. Upcoming releases will include endpoints used to assign, unassign, or remove tags from one or more contacts and changes to existing segment endpoints used to support tags as segment criteria.</p>
+
+<p>The following tag endpoints are currently available:</p>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+ </thead>
+   <tbody> 
+     <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contact_Tags/deleteTag"><b>DELETE</b> /contact_tags/{tag_id}</a></td>    
+       <td>Use this DELETE method to request an asynchronus actvity used to remove a tag from all contacts and then delete the tag.</td>
+     </tr> 
+   </tbody>
+ </table>
+
+<p><a href="tags_overview.html#">Learn more</a> about using tags.</p>
+
+<h1 id="january-2021">January 2021</h1>
+<h2 id="new-endpoints-10">New endpoints</h2>
+<h3 id="contact-tags-1">Contact Tags</h3>
+<p>This release introduces the contact tags feature. Tags let you easily categorize and group contacts for the purpose of sending targeted messages without having to add contacts to new contact lists. The information used to determine which tags to create is often collected from surveys, membership registration, and sign-up forms. For example, you might create tags to identify groups of contacts that are volunteers, share interests, are loyalty card members, or share job roles (CFO, CEO, Purchaser, Human Resources).</p>
+
+<p>This release includes the tag endpoints used to create, update, rename, and get details about tags. Upcoming releases will include the tag endpoint used to delete a tag, new tag activity endpoints used to assign, unassign, or remove tags from contacts, and changes to existing segment endpoints used to support tags as segment criteria.</p>
+
+<p>The following tag endpoints are currently available:</p>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+ </thead>
+   <tbody> 
+     <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contact_Tags/getTag"><b>GET</b> /contact_tags/{tag_id}</a></td>    
+       <td>Use this GET method to get details about a specific tag.</td>
+     </tr> 
+     <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contact_Tags/getTags"><b>GET</b> /contact_tags</a></td>    
+       <td>Use this GET method to get details about all tags.</td>
+     </tr>    
+     <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contact_Tags/postTag"><b>POST</b> /contact_tags</a></td>    
+       <td>Use this POST method to create a new tag.</td>
+     </tr>      
+     <tr>  
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contact_Tags/putTag"><b>PUT</b> /contact_tags/{tag_id}</a></td>    
+        <td>Use this PUT method to rename an existing tag.</td>
+     </tr>    
+   </tbody>
+ </table>
+
+<p><a href="tags_overview.html#">Learn more</a> about using tags.</p>
+
+<h1 id="october-2020">October 2020</h1>
+<h2 id="new-endpoints-11">New endpoints</h2>
+<h3 id="technology-partner-endpoints">Technology Partner Endpoints</h3>
+<p>This release provides support and documentation for the following Technology Partner Endpoints:</p>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+ </thead>
+   <tbody> 
+     <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Technology_Partners/provision"><b>POST</b>/partner/accounts</a></td>    
+       <td>Use this POST method to create a new Constant Contact client account under your technology partner account.</td>
+     </tr> 
+   </tbody>
+ </table>
+
+<div class="Msg"><p>Only authorized technology partners have access to partner endpoints. To make authorized calls to partner endpoints, you must include your API key in the x-api-key header and the JSON Web Token (JWT) in the Authorization header. The JWT automatically expires in one hour (3,600 seconds) and cannot be refreshed. You must re-authenticate each time a JWT expires.</p></div>
+
+<h3 id="reporting-endpoints">Reporting Endpoints</h3>
+<p>This release provides support and documentation for the following <a href="email_reporting_overview.html">Email Reporting</a> endpoints:</p>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+ </thead>
+  <tbody> 
+    <tr>  
+      <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getAllBulkEmailCampaignSummaries"> <b>GET</b> /reports/summary_reports/email_campaign_summaries</a></td>
+      <td>Use this method to get a summary report listing the unique contact tracking activity counts for up to 500 sent email campaigns. </td>
+    </tr> 
+  </tbody>  
+</table>
+
+<h1 id="september-2020">September 2020</h1>
+<h2 id="new-endpoints-12">New endpoints</h2>
+<h3 id="technology-partner-feature">Technology Partner Feature</h3>
+
+<p>This V3 API release includes the several new technology partner endpoints. Technology partners use these endpoints to create and manage Constant Contact client accounts under their partner account.</p>
+
+<div class="Msg"><p>Only authorized technology partners have access to partner endpoints. To make authorized calls to partner endpoints, you must include your API key in the x-api-key header and the JSON Web Token (JWT) in the Authorization header. The JWT automatically expires in one hour (3,600 seconds) and cannot be refreshed. You must re-authenticate each time a JWT expires.</p></div>
+
+<p>The following technology partner endpoints are now available:</p>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+ </thead>
+   <tbody> 
+     <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Technology_Partners/getPlan"> <b>GET</b> /partner/accounts/{encoded_account_id}/plan </a></td>    
+       <td>Use this GET method to get billing plan details for a Constant Contact client account. </td>
+     </tr>
+     <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Technology_Partners/setPlan"> <b>PUT</b> /partner/accounts/{encoded_account_id}/plan</a></td>    
+       <td>Use this PUT method to update the type of billing plan to use for a Constant Contact client account. </td>
+     </tr>   
+     <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Technology_Partners/cancelAccount"> <b>PUT</b> /partner/accounts/{encoded_account_id}/status/cancel </a></td>    
+       <td>Use this PUT method to cancel the billing plan for a Constant Contact client account under your partner account. </td>
+     </tr>      
+   </tbody> 
+</table>
+
+<p><a href="https://developer.constantcontact.com/api_guide/partners_overview.html#">Learn more</a> about V3 API technology partner features.</p>
+
+<p><a href="https://www.constantcontact.com/partners/technology">Learn more</a> about the technology partner program.</p>
+
+<p><a href="https://constantcontact.tfaforms.net/547?tfa_34=strategic&amp;tfa_35=Partner%20Application&amp;tfa_37=GOO-234736&amp;_ga=2.15232182.1489113808.1591734684-35609643.1561989937">Signup</a> to become a technology partner.</p>
+
+<h1 id="june-2020">June 2020</h1>
+<h2 id="new-endpoints-13">New endpoints</h2>
+<h3 id="technology-partner-feature-1">Technology Partner Feature</h3>
+
+<p>This V3 API release includes the first of several new technology partner endpoints to be released. Technology partners use these endpoints to create and manage Constant Contact client accounts under their partner account.</p>
+
+<div class="Msg"><p>Only authorized technology partners have access to partner endpoints. To make authorized calls to partner endpoints, you must include your API key in the x-api-key header and the JSON Web Token (JWT) in the Authorization header. The JWT automatically expires in one hour (3,600 seconds) and cannot be refreshed. You must re-authenticate each time a JWT expires.</p></div>
+
+<p>The following technology partner endpoint is now available:</p>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+   <tbody>
+     <tr>  
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Technology_Partners/getPartnerSiteOwners"> <b>GET</b> /partner/accounts </a></td>    
+        <td>Use this GET method to get all Constant Contact client accounts under your technology partner account. </td>
+     </tr>      
+   </tbody> 
+</table>
+
+<p><a href="https://developer.constantcontact.com/api_guide/partners_overview.html#">Learn more</a> about V3 API technology partner features.</p>
+
+<p><a href="https://www.constantcontact.com/partners/technology">Learn more</a> about the technology partner program.</p>
+
+<p><a href="https://constantcontact.tfaforms.net/547?tfa_34=strategic&amp;tfa_35=Partner%20Application&amp;tfa_37=GOO-234736&amp;_ga=2.15232182.1489113808.1591734684-35609643.1561989937">Signup</a> to become a technology partner.</p>
+
+<h3 id="segmentation-feature">Segmentation Feature</h3>
+
+<p>This V3 API release supports segmenting contacts based on tracking data capturing how contacts interacted with your past email-campaign activities. The following <a href="https://developer.constantcontact.com/api_guide/segments_overview.html">segment</a> endpoints are now available:</p>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+   <tbody>
+     <tr>  
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Segments/createSegment"> <b>POST</b> /segments</a></td>    
+        <td>Use this POST method to create a new segment that targets a subset of your contacts meeting your specific criteria.
+        </td>
+     </tr>  
+     <tr>  
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Segments/getAccountSegments"> <b>GET</b> /segments</a></td>    
+        <td>Use this GET method to get a list of all segments for an account.
+        </td>
+     </tr> 
+     <tr>  
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Segments/getSegmentDetail"> <b>GET</b> /segments/{segment_id}</a></td>    
+        <td>Use this GET method to get details about a single segment.
+        </td>
+     </tr>   
+     <tr>  
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Segments/deleteSegment"> <b>DELETE</b> /segments/{segment_id}</a></td>    
+        <td>Use this DELETE method to delete a segment from your account. 
+        </td>
+     </tr> 
+     <tr> 
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Segments/updateSegment"> <b>PUT</b> /segments/{segment_id}</a></td> 
+        <td>Use this PUT method to update an existing segment's name (<code>name</code>) and/or contact selection criteria (<code>segment_criteria</code>).
+        </td> 
+     </tr>
+     <tr> 
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Segments/updateSegmentName"> <b>PATCH</b> /segments/{segment_id}/name</a></td> 
+        <td>Use this PATCH method to rename an existing segment.
+        </td> 
+     </tr>
+    </tbody>
+</table>
+
+<h2 id="updates">Updates</h2>
+
+<p>You can now use a segment (<code class="highlighter-rouge">segment_id</code>) to:</p>
+<ul>
+  <li>Add the segment’s resulting contacts to list(s) using the bulk activities <code class="highlighter-rouge">POST /activities/add_list_memberships</code> endpoint.</li>
+  <li>Export the segment’s resulting contacts to a file using the bulk activities <code class="highlighter-rouge">POST /activities/contact_exports</code> endpoint.</li>
+</ul>
+
+<h1 id="january-2020">January 2020</h1>
+<h2 id="updates-1">Updates</h2>
+<ul>
+  <li><strong>New Custom Code Email Type</strong> – The V3 API now supports a new type of custom code email (<code class="highlighter-rouge">format_type</code> 5). 
+New custom code emails support:
+    <ul>
+      <li>Sending emails to segments.</li>
+      <li>Using personalization tags.</li>
+      <li>Adding your CSS declarations in a style tag in addition to supporting inline CSS.</li>
+    </ul>
+
+    <p>To ensure better email client support, Constant Contact will automatically convert your email to use inline CSS before sending it. For more information on creating this new type of custom code email, see <a href="email_campaign_create.html">Create an Email Campaign</a>.</p>
+  </li>
+  <li><strong>Fixes for UTF-8 Support</strong> – This release contains fixes for UTF-8 character support.</li>
+</ul>
+
+<h1 id="december-2019">December 2019</h1>
+<h2 id="new-endpoints-14">New endpoints</h2>
+<h3 id="access-token-information-method">Access token information method</h3>
+<p>This release provides support and documentation for the <a href="https://developer.constantcontact.com/api_guide/token_info_method.html">access token information method</a>:</p>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+   <tbody>
+     <tr>  
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Access_Token_Information/postAuthCode"> <b>POST</b> /token_info</a></td>    
+        <td>Use this POST method to return the list of OAuth2.0 scopes associated with a valid access token.
+        </td>
+      </tr>  
+    </tbody>
+</table>
+
+<h3 id="account-endpoints">Account endpoints</h3>
+<p>This release provides support and documentation for the following <a href="account_services_overview.html">Account Services</a> endpoints:</p>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+    <tbody>
+     <tr>  
+       <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Account_Services/addAccountEmailAddress"> <b>POST</b> /account/emails</a></td>
+       <td>Add a new email address to the account associated with your bearer token. When you add a new email address to an account, Constant Contact automatically sends an email to that address with a link to confirm it. You can use email addresses that have a confirmed status to <a href="email_campaign_create.html">Create an Email Campaign</a>.</td>
+     </tr>  
+    </tbody>
+</table>
+
+<h3 id="contacts-endpoints">Contacts endpoints</h3>
+<p>This release provides support and documentation for the following <a href="contacts_overview.html">Contacts Endpoints</a>:</p>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+   <tbody>
+     <tr>  
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contacts/createOrUpdateContact"> <b>POST</b> /contacts/sign_up_form</a></td>    
+        <td><p>Create a new contact or update an existing contact based on an email address. If the email address you provide is new, this method creates a new contact and returns a 201 response code. If the email address you provide already belongs to a contact, this method updates the contact and returns a 200 response.</p>
+        <p>Because this method updates existing contacts, you don't need to make a separate API call to check if the contact already exists in the account. Only use POST <code>/contacts/sign_up_form</code> if a contact gives you explicit permission to send them emails, such as through a sign up form.</p>
+        </td>
+      </tr>  
+    </tbody>
+</table>
+
+<h3 id="reporting-endpoints-1">Reporting endpoints</h3>
+<p>This release provides support and documentation for the following <a href="email_reporting_overview.html">Email Reporting</a> endpoints:</p>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+ </thead>
+  <tbody> 
+    <tr>  
+      <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getOptouts"> <b>GET</b> /reports/email_reports/{campaign_activity_id}/tracking/optouts</a></td>
+      <td>Use this method to get a report listing each contact that clicked the unsubscribe link in the email campaign activity to opt-out from receiving emails sent from your Constant Contact account. This report includes contact information, such as the contact's email address, unique ID, and the opt-out date and time. </td>
+     </tr> 
+     <tr>  
+       <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getUniqueOpens"> <b>GET</b> /reports/email_reports/{campaign_activity_id}/tracking/unique_opens</a></td>
+    <td>Use this method to get a report listing details about the last time each contact opened the specified email campaign activity. This report includes basic contact information, such as the contact's email address and unique ID, the date and time they opened the email campaign activity, and the type of device they used to open it.</td>
+     </tr> 
+     <tr>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getDidNotOpens"> <b>GET</b> /reports/email_reports/{campaign_activity_id}/tracking/didnotopens</a></td>
+       <td>Use this method to get a report listing each contact that was sent but did not open the specified email campaign activity. This report lists contact information such as the contact's email address and unique ID, and the date and time that the email campaign activity was sent.</td>
+     </tr>   
+     <tr>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getForwards"> <b>GET</b> /reports/email_reports/{campaign_activity_id}/tracking/forwards</a></td>
+       <td>Use this method to get a report listing each time a contact forwarded the specified email campaign activity and general information about the contact, such as the contact's email address and unique ID, and the date and time the email campaign activity was forwarded.</td>
+     </tr>  
+     <tr>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getBounces"> <b>GET</b> /reports/email_reports/{campaign_activity_id}/tracking/bounces</a></td>
+       <td>Use this method to get a report listing each contact that did not receive the email campaign activity because it was rejected (bounced) by their email service provider. This report includes information, such as the contact's email address and unique ID, and when and why the email activity bounced.</td>
+      </tr>              
+    </tbody>
+</table>
+
+<h3 id="updates-2">Updates</h3>
+<ul>
+  <li><strong>Contact CSV Exports</strong> – The V3 API now allows you to export the contact fields <code>email_optin_source</code>, <code>email_optin_date</code>, <code>email_optout_source</code>, <code>email_optout_date</code>, or <code>email_optout_reason</code>. For more information on exporting contacts, see <a href="export_contacts.html">Export Contacts to a CSV File</a>.</li>
+</ul>
+
+<h1 id="october-2019">October 2019</h1>
+<h2 id="new-endpoints-15">New endpoints</h2>
+<p>This release provides support and documentation for the following <a href="email_campaigns_overview.html">Email Campaign</a> endpoints:</p>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+   <tbody>
+     <tr>  
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/removeEmailCampaignUsingDELETE"> <b>DELETE</b> /emails/{campaign_id}</a></td>    
+        <td>Delete an existing email campaign and all associated email campaign activities. You cannot delete email campaigns that have a <code>scheduled</code> status.</td>
+     </tr>      
+     <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Scheduling/testSendCampaignActivityUsingPOST"> <b>POST</b> /emails/activities/{campaign_activity_id}/tests</a></td>
+       <td>Test send an email campaign activity. Test emails allow you to verify how the email campaign activity email looks before you send it to contacts. </td>
+     </tr>  
+     <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Scheduling/retrieveEmailCampaignActivityPreviewUsingGET"> <b>GET</b> /emails/activities/{campaign_activity_id}/previews</a></td>
+       <td>Get an HTML preview of an email campaign activity. This preview allows you to verify how the email campaign activity email looks before you send it to contacts. </td>
+     </tr>  
+     <tr>  
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Scheduling/retrieveEmailSendHistoryUsingGET"> <b>GET</b> /emails/activities/{campaign_activity_id}/send_history</a></td>
+       <td>Get the send history of an email campaign activity. The send history allows you to see each time you sent a specific email campaign activity to contacts and information about each send attempt.</td>
+     </tr>  
+    </tbody>
+</table>
+
+<h2 id="v3-api-developer-portal-updates">V3 API Developer Portal Updates</h2>
+
+<p>A new Frequently Asked Questions (<a href="https://developer.constantcontact.com/api_guide/faqs.html">FAQs</a>) tab has been added to the V3 API Developer Portal. Use the FAQs tab to quickly find answers and get links to related information. We will continue to add new FAQs over the upcoming months; so check back often.</p>
+
+<h2 id="new-endpoints-16">New endpoints</h2>
+<p>This release provides support and documentation for the following <a href="email_reporting_overview.html">Email Reporting</a> endpoints:</p>
+
+<div class="Msg">These endpoints do not currently support filtering results using the report <code>created_time</code> timestamp.</div>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+    <tbody> 
+    <tr>  
+       <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getSends"> <b>GET</b> /reports/email_reports/{campaign_activity_id}/tracking/sends</a></td>
+           <td>Get a report listing the contacts to which a specified email campaign activity was sent and when it was sent. This report also includes basic contact information, such as the contact's email address and unique contact ID. The resulting report data is sorted by the most recent activity first. For more details, see <a href="https://developer.constantcontact.com/api_guide/email_summary_sends_report.html">Get a Sends Report for an Email Campaign Activity</a>.</td>
+         </tr> 
+    <tr>  
+        <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getOpens"> <b>GET</b> /reports/email_reports/{campaign_activity_id}/tracking/opens</a></td>
+        <td>Get a report listing each time contacts opened the specified email campaign activity. This report includes basic contact information, such as the contact's email address and unique ID, the date and time they opened the email campaign activity, and the type of device they used to open it. The resulting report data is sorted by the most recent activity first. For more details, see <a href="https://developer.constantcontact.com/api_guide/email_summary_opens_report.html">Get an Opens Report for an Email Campaign Activity</a>.</td>
+     </tr>      
+    <tr>  
+        <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getClicks"> <b>GET</b> /reports/email_reports/{campaign_activity_id}/tracking/clicks</a></td>
+        <td>Get a report listing each time contacts clicked a URL link in the specified email campaign activity. This report includes basic contact information, such as the contact's email address and unique ID, the date and time they clicked on the URL link, and the type of device used to open it. The resulting report data is sorted by the most recent activity first. For more details, see <a href="https://developer.constantcontact.com/api_guide/email_summary_clicks_report.html">Get a Clicks Report for an Email Campaign Activity</a>.</td>
+    </tr>       
+    </tbody>
+</table>
+
+<h1 id="august-2019">August 2019</h1>
+<h3 id="new-endpoints-17">New endpoints</h3>
+<p>This release provides support and documentation for the following <a href="account_services_overview.html">Account Services</a> endpoints:</p>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+    <tbody>
+     <tr>  
+       <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Account_Services/retrieveEmailAddresses"> <b>GET</b> /account/emails</a></td>
+       <td>Get a collection of email addresses for the account associated with your bearer token. This method also return the status of the account email addresses. You can use email addresses that have a confirmed status to <a href="email_campaign_create.html">Create an Email Campaign</a>.</td>
+     </tr>  
+     <tr>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Account_Services/putCustomerById"> <b>PUT</b> /account/summary</a>
+       </td>
+       <td>Update account details for a Constant Contact user account, such as the organization name and account contact information.
+       </td> 
+     </tr>
+     <tr>
+       <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Account_Services/getPhysicalAddress"> <b>GET</b> /account/summary/physical_address</a>
+       </td>
+       <td>Get the organization's physical address for the Constant Contact user account.
+       </td> 
+     </tr> 
+     <tr>
+       <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Account_Services/putPhysicalAddress"> <b>PUT</b> /account/summary/physical_address</a>
+       </td>
+       <td>Update the organization's physical address for the Constant Contact user account.
+       </td> 
+      </tr> 
+    </tbody>
+</table>
+
+<p>This release provides support and documentation for the following <a href="email_reporting_overview.html">Email Reporting</a> endpoints:</p>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+    <tbody>
+      <tr>  
+         <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getCampaignActivityLinkStats"><b>GET</b> /reports/email_reports/{campaign_activity_id}/links</a></td>
+         <td>Get a report that contains a list of each unique link URL in an email campaign activity and the number of unique contacts that clicked each link.</td>
+      </tr>
+    </tbody>
+</table>
+
+<h1 id="june-2019">June 2019</h1>
+<h3 id="new-endpoints-18">New endpoints</h3>
+<p>This release provides support and documentation for the following new <a href="email_campaigns_overview.html">Email Campaign</a> endpoints:</p>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+    <tbody>
+      <tr>  
+         <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/updateEmailCampaignActivityUsingPUT"> <b>PUT</b> /emails/activities/{campaign_activity_id}</a></td>
+         <td>Update an email campaign activity.</td>
+      </tr>
+      <tr>  
+         <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Scheduling/scheduleEmailCampaignActivityUsingPOST"> <b>POST</b> /emails/activities/{campaign_activity_id}/schedules</a></td>
+         <td>Schedule an email campaign activity.</td>
+      </tr>
+      <tr>  
+         <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Scheduling/retrieveEmailSchedulesUsingGET"> <b>GET</b> /emails/activities/{campaign_activity_id}/schedules</a></td>
+         <td>Get the schedule of an email campaign activity.</td>
+      </tr>
+          <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Scheduling/unscheduleEmailCampaignActivityUsingDELETE"> <b>DELETE</b> /emails/activities/{campaign_activity_id}/schedules</a></td>
+         <td>Delete the schedule of an email campaign activity.</td>
+     </tbody></table>
+
+<p>This release provides support and documentation for the following new <a href="account_services_overview.html">Account Services</a> endpoints:</p>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+    <tbody>
+      <tr>  
+         <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Account_Services/getUserPrivileges"> <b>GET</b> /account/user/privileges</a></td>
+         <td>Get the user privileges associated with your access token.</td>
+      </tr>  
+      <tr>
+        <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Account_Services/getAccountById"> <b>GET</b>
+         /account/summary</a></td>
+        <td>Get a summary of account details, such as the organization name and account contact information for a specific account.</td> 
+      </tr>
+     </tbody></table>
+
+<h3 id="updates-3">Updates</h3>
+<ul>
+  <li>
+    <p><strong>User Privileges</strong> – The V3 API now requires specific user privileges to access endpoints. Users in Constant Contact have different privileges depending on their role in an account. Users can have the role of account owner, account manager, or campaign creator. If you send an API request on behalf of a user that lacks the necessary privileges, the V3 API returns a 403 Forbidden error.</p>
+
+    <p>For more information on the user privileges associated with each role in Constant Contact, see the <a href="user_privileges.html">User Roles and Privileges Overview</a>. The <a href="user_privileges.html">User Roles and Privileges Overview</a> and the <a href="https://developer.constantcontact.com/api_reference/index.html">API Reference</a> both list the user privileges required by each V3 API endpoint and method. You can also use the <a href="https://developer.constantcontact.com/api_reference/index.html#!/Account_Services/getUserPrivileges">Get User Privileges</a> endpoint to return the user privileges associated with your access token.</p>
+  </li>
+  <li><strong>Get a Deleted Contact by Email Address</strong> – The <a href="https://developer.constantcontact.com/api_reference/index.html#!/Contacts/getContacts">Get Contacts Collection</a> endpoint now correctly returns results for deleted contacts when you search using an email address. For example, to return a deleted contact using their email address you can use <code class="highlighter-rouge">GET https://api.cc.email/v3/contacts?email=deleted_email@example.com&amp;status=deleted</code>. The <a href="https://developer.constantcontact.com/api_reference/index.html#!/Contacts/getContacts">Get Contacts Collection</a> endpoint does not return deleted contacts by default. Use the <code class="highlighter-rouge">status</code> query parameter with the value <code class="highlighter-rouge">all</code> or <code class="highlighter-rouge">deleted</code> to return deleted contacts.</li>
+  <li><strong>Email Campaign Scheduling</strong> – Use the new <a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/updateEmailCampaignActivityUsingPUT">Update an Email Campaign Activity</a> method to add contact lists to an email campaign activity. This allows you to specify which contacts Constant Contact should send the email campaign activity to when you use the new <a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Scheduling/updateEmailCampaignActivityUsingPUT">Schedule an Email Campaign Activity</a> method. You can also use the <a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/retrieveEmailCampaignActivityUsingGET">Get a Single Email Campaign Activity</a> method to return the contact lists associated with an email campaign activity. Though the <a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/updateEmailCampaignActivityUsingPUT">Update an Email Campaign Activity</a> method also supports using segments to specify which contacts Constant Contact should send the email to, the fully segmentation workflow is not currently supported. The V3 API does not have methods to create new segments or get <code class="highlighter-rouge">segment_id</code> values yet.</li>
+  <li><strong>Import Custom Field Data</strong> – You can now import custom field data when you use the <a href="https://developer.constantcontact.com/api_reference/index.html#!/Bulk_Activities/post_activities_contacts_file_import">Import Contacts using a CSV File</a> and the <a href="https://developer.constantcontact.com/api_reference/index.html#!/Bulk_Activities/post_activities_contacts_json_import">Import Contacts using a JSON Payload</a> methods. By prefixing the custom field name with <code class="highlighter-rouge">cf:</code>, you can import custom fields that have the same name as contact properties. The custom fields must already exist in the Constant Contact account you are using. You can import up to 25 different custom fields in each contact.</li>
+</ul>
+
+<h1 id="march-2019">March 2019</h1>
+<h3 id="new-endpoints-19">New endpoints</h3>
+<p>This release provides support and documentation for the following new <a href="email_campaigns_overview.html">Email Campaign</a> endpoints:</p>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Endpoint (method/ route) &amp; <i>API Reference</i> links</th>
+      <th>Description&lt;/i&gt;</th>
+    </tr>
+  </thead>
+    <tbody>
+      <tr>  
+         <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/createEmailCampaignUsingPOST"> <b>POST</b> /emails</a></td>
+         <td>Create a new email campaign in your email campaign collection.</td>
+      </tr>
+      <tr>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/retrieveEmailCampaignsUsingGET"><b>GET</b> /emails</a></td>
+        <td>Get a collection of email campaigns.</td>  
+      </tr>
+      <tr>  
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/retrieveEmailCampaignUsingGET"><b>GET</b> /emails/{campaign_id}</a></td> 
+        <td>Get a single email campaign and a list of associated campaign activities.</td>    
+      </tr>
+      <tr> 
+        <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/retrieveEmailCampaignActivityUsingGET"><b>GET</b>  /emails/activities/{campaign_activity_id}</a></td>
+        <td>Get details about a specific email campaign activity. </td>
+      </tr>
+      <tr> 
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/retrieveXrefMappingsUsingGET"><b>GET</b>  /emails/campaign_id_xrefs</a></td>
+        <td>Get a collection of V2 and V3 campaign ids.</td>    
+      </tr>  
+      <tr>
+         <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/renameEmailCampaignUsingPATCH"><b>PATCH</b> /emails</a></td>
+         <td>Rename an existing email campaign.</td>
+      </tr>   
+     </tbody></table>
+
+<h3 id="updates-4">Updates</h3>
+
+<ul>
+  <li><strong>Scopes</strong> – Use the new <code class="highlighter-rouge">campaign_data</code> <a href="scopes.html">scope</a> to limit your application’s access to a user’s campaign data and to request that the user  grant access to that data.</li>
+  <li><strong>OAuth2 API</strong> – Content improvements made to the <a href="auth_overview.html">OAuth2 API documentation</a> help to make the process easier to understand and the implementation easier to follow.</li>
+  <li><strong>Delete contacts</strong> – You can now successfully <a href="https://developer.constantcontact.com/api_reference/index.html#!/Contacts/deleteContact">DELETE a Contact</a> using the v3 API Reference tester.</li>
+  <li><strong>V3 API User Terms and Conditions</strong> – To see content updates made in the V3 API general terms and conditions for usage content, use the links located at the bottom of the <a href="https://app.constantcontact.com/pages/dma/portal/">My Applications</a> tab.</li>
+  <li><strong>Dev Portal updates</strong> - Updates were made to improve the V3 API Developer Portal user experience and documentation.</li>
+</ul>
+
+
+    <script src="https://static.ctctcdn.com/h/fed-framework/1.3.0/fed.min.js"></script>
+
+    <script type="text/javascript">
+    $(".js-tab").fedTab();
+    </script>
+
+
+    <div class="tags">
+        
+        <b>Tags: </b>
+        
+        
+        
+        <a href="https://developer.constantcontact.com/api_guide/tag_release_notes.html"  style="text-transform: none;"class="Badge Badge--teal" role="button" data-qe-id="tag-release-notes-link">release_notes</a>
+        
+        
+        
+        <a href="https://developer.constantcontact.com/api_guide/tag_OAuth2.html"  style="text-transform: none;"class="Badge Badge--teal" role="button" data-qe-id="tag-OAuth2-link">OAuth2</a>
+        
+        
+        
+        <a href="https://developer.constantcontact.com/api_guide/tag_developer_account.html"  style="text-transform: none;"class="Badge Badge--teal" role="button" data-qe-id="tag-developer-account-link">developer_account</a>
+        
+        
+        
+        <a href="https://developer.constantcontact.com/api_guide/tag_application.html"  style="text-transform: none;"class="Badge Badge--teal" role="button" data-qe-id="tag-application-link">application</a>
+        
+        
+        
+        <a href="https://developer.constantcontact.com/api_guide/tag_getting_started.html"  style="text-transform: none;"class="Badge Badge--teal" role="button" data-qe-id="tag-getting-started-link">getting_started</a>
+        
+        
+        
+    </div>
+
+</div>
+
+<div class="shaded"/>
+
+                </div>
+            </div>
+
+        </section>
+
+        <dev-portal-footer></dev-portal-footer>
+
+
+    </div>
+
+</body>
+
+</html>

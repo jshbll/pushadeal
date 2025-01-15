@@ -1,0 +1,2151 @@
+<!DOCTYPE html>
+<head>
+    <!-- THIS FILE EXISTS IN TWO PLACES. THE STORY FOR THE WORK TO CONSOLIDATE THEM IS IN WSPI-7305 -->
+<!-- IF THERE IS A CHANGE BEING MADE TO THIS FILE, IT ALSO NEEDS TO BE MADE TO api_guide/_includes/head.html -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Describes how Constant Contact controls access to API resources.">
+<meta name="keywords" content="authorizationprivilegesroles,  authorization, roles, privileges">
+<title>User Roles and Privileges Overview | Constant Contact Developer Portal</title>
+<link rel="stylesheet" href="css/syntax.css">
+
+<link href="https://static.ctctcdn.com/lp/fonts/whitney/whitney-current.css" rel="stylesheet" />
+<link href="https://static.ctctcdn.com/h/fed-framework/1.2.0/fed.min.css" rel="stylesheet" />
+<link href='css/main.css' rel='stylesheet'/>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="js/jquery.navgoco.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/2.0.0/anchor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.5/purify.min.js" referrerpolicy="no-referrer"></script>
+<script src="js/toc.js"></script>
+<script src="js/customscripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/svg4everybody/2.1.7/svg4everybody.js"></script>
+
+<!-- Bring in Web Component Definitions -->
+<script src="https://cdn.jsdelivr.net/riot/3.2/riot+compiler.min.js"></script>
+<script src="../shared_components/dev-portal-header.tag.html" type="riot/tag"></script>
+<script src="../shared_components/dev-portal-footer.tag.html" type="riot/tag"></script>
+<!-- Init all Web Component Definitions -->
+<script>riot.mount("*")</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="https://static.ctctcdn.com/ui/images1/favicon/REBRAND_favicon.png" />
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link rel="alternate" type="application/rss+xml" title="" href="https://constant:contact.comfeed.xml">
+
+
+    <script>
+        $(document).ready(function() {
+            // Initialize navgoco with default options
+            $(".Sidebar-nav").navgoco({
+                caretHtml: '',
+                accordion: true,
+                openClass: 'active', // open
+                save: false, // leave false or nav highlighting doesn't work right
+                cookie: {
+                    name: 'navgoco',
+                    expires: false,
+                    path: '/'
+                },
+                slide: {
+                    duration: 0,
+                    easing: 'ease'
+                }
+            });
+
+            // $("#collapseAll").click(function(e) {
+            //     e.preventDefault();
+            //     $("#mysidebar").navgoco('toggle', false);
+            // });
+
+            // $("#expandAll").click(function(e) {
+            //     e.preventDefault();
+            //     $("#mysidebar").navgoco('toggle', true);
+            // });
+
+            $('.sidebar').addClass('sticky');
+
+        });
+
+    </script>
+
+
+    
+
+</head>
+<body>
+    <!-- Use custom header web component defined in sharedComponents/dev-portal-header.tag.html-->
+<dev-portal-header active-id="apiGuide"></dev-portal-header>
+
+
+    <!-- Tracking -->
+<script type="text/javascript">
+    var utag_data = {};
+</script>
+<script src="../shared_components/tealium.js" type="text/javascript"></script>
+
+    <div class="fed-wrapper">
+
+        <!-- Page Content -->
+        <section class="container container--sidebar">
+
+            <!-- Sidebar Column -->
+            <div class="sidebar u-borderRight">
+                
+
+
+
+
+
+
+
+
+
+
+
+<nav>
+    <ul class="Sidebar-nav List--unstyled">
+        <li class="Nav-header">Constant Contact V3 API 1.0</li>
+        
+        
+        
+            
+        
+        <li>
+            
+            
+            <a href="#">What's New in the V3 API</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="index.html">Release Notes</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="v3_features.html">Features Exclusive to the V3 API</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#" data-qe-id="docs-intro">Getting Started</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="v3_technical_overview.html">Introduction to the V3 API</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="developer_portal.html">Using the Developer Portal</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="getting_started.html">Quick Start Guide</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="rate_limits.html">Rate Limits</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Migrate Integrations to V3</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="migration_overview.html">Data Migration Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="v3_v2_contact_deltas.html">Contacts V3 Changes and Migration</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="v3_v2_list_deltas.html">Lists V3 Changes and Migration</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="v3_v2_email_campaign_deltas.html">Email Campaign V3 Changes and Migration</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Application Integration</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="apps_create.html">Create a New Application Integration</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="auth_update_apps.html">Update Your Applications to use the New Authorization Service</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">OAuth2 Authorization</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="auth_overview.html">OAuth2 Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="server_flow.html">OAuth2 Authorization Code Flow</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="pkce_flow.html">OAuth2 PKCE Flow</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="device_flow.html">OAuth2 Device Flow</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="client_flow.html">OAuth2 Implicit Flow</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">User Authorization and API Access</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="scopes.html">Authorization Scopes Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li class="active"><a href="user_privileges.html">User Roles and Privileges Overview</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Account Services</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="account_services_overview.html">Account Services Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="account_details_get.html">Get Account Summary Details</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="account_details_put.html">Put Account Summary Details</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="account_address_get.html">Get Account Physical Address</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="account_address_put.html">Put Account Physical Address</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="account_post_emails.html">Add an Account Email Address</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="account_get_emails.html">Get a Collection of Account Emails</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="account_get_privileges.html">Get User Privileges</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Bulk Activity Endpoints</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="bulk_activities.html">Bulk Activity Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="activity_status.html">Get the Status of a Bulk Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="import_contacts.html">Import Contacts</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="export_contacts.html">Export Contacts to a CSV File</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="deleting_contacts.html">Delete Contacts Bulk Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="add_list_membership.html">Add Contacts to Lists Bulk Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="remove_list_membership.html">Remove Contacts from Lists Bulk Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="delete_lists.html">Delete Lists Bulk Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="delete_custom_fields_activity.html">Delete Custom Fields Bulk Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="add_tagging_activity.html">Add Tags to Contacts Bulk Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="remove_tagging_activity.html">Remove Tags from Contacts Bulk Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="delete_tagging_activity.html">Delete Tags Bulk Activity</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Contacts</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="contacts_overview.html">Contacts Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="contacts_subresources.html">Contact Subresources</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="contacts_create.html">Create a Contact</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="contacts_create_or_update.html">Create or Update a Contact Using a Single Method</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="contacts_counts.html">Get Contact Consent Counts</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="contacts_autoresponder.html">Autoresponder and Confirmed Opt-in Emails</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="contacts_delete.html">Delete a Contact</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="contacts_sync.html">Sync Contacts and Lists</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="contacts_re-subscribe.html">Unsubscribe and Resubscribe Contacts</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="contacts_sms_engagement.html">Get Contact SMS Engagement History</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Contact Custom Fields</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="custom_fields.html">Custom Fields Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="create_custom_fields.html">Create and Update Custom Fields</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="get_custom_fields.html">Get Custom Fields</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="delete_custom_fields.html">Delete a Custom Field</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="add_custom_field_data.html">Add Custom Fields to Contacts</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Contact Lists</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="lists_overview.html">Contact Lists Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="lists_get_single.html">Get a Contact List</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="lists_get_all.html">Get All Contact Lists</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="lists_post.html">Create a Contact List</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="lists_put.html">Update a Contact List</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="lists_delete.html">Delete a Contact List</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Contact Tags</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="tags_overview.html">Tags Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="tags_get_single.html">Get a Tag's Details</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="tags_get.html">Get Details about all Tags</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="tags_create.html">Create a Tag</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="tags_update.html">Rename a Tag</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="tags_delete.html">Delete a Tag</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Contact Reporting</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="contact_reporting_overview.html">Contact Reporting Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="activities_summary.html">Get Activity Summary</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="activity_details.html">Get Activity Details</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="open_and_click_rates.html">Get Open and Click Rates</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Email Campaigns</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="email_campaigns_overview.html">Email Campaigns Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaign_create.html">Create an Email Campaign</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="design_code_emails.html">Designing HTML for Custom Code Emails</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaigns_collection.html">Get a Collection of Email Campaigns</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaign_id.html">Get Email Campaign Details for a Single Email Campaign</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaigns_activity_id.html">Get an Email Campaign Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaign_activity_update.html">Update an Email Campaign Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaign_create_schedule.html">Schedule an Email Campaign Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaigns_activity_get_schedules.html">Get the Schedule of an Email Campaign Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaign_activity_delete_schedule.html">Unschedule an Email Campaign Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaign_activity_preview.html">Get an HTML Preview of an Email Campaign Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaign_activity_test_send.html">Test Send an Email Campaign Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaigns_rename.html">Rename an Existing Email Campaign</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaigns_sends_history.html">Get Send History Details for Email Campaign Activities</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaigns_delete.html">Delete an Email Campaign</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaigns_resend_non_openers_post.html">Post (Schedule) a Resend to Non-openers Email Campaign Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaigns_resend_non_openers_get.html">Get Details for a Resend to Non-openers Email Campaign Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaigns_resend_non_openers_delete.html">Delete (Unschedule) a Resend to Non-openers Email Campaign Activity</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Email Campaigns A/B Tests</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="email_campaigns_ab_test_overview.html">Email Campaign Activities A/B Tests Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaigns_ab_test_get.html">Get A/B Test Details for a Email Campaign Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="email_campaigns_ab_test_post.html">Create an A/B Test for a Email Campaign Activity</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_campaigns_ab_test_delete.html">Delete an A/B Test for a Email Campaign Activity</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Email Reporting</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="email_reporting_overview.html">Email Reporting Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_summary_sends_report.html">Get an Email Sends Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_summary_opens_report.html">Get an Email Opens Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_summary_unique_opens_report.html">Get an Email Unique Opens Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_summary_clicks_report.html">Get an Email Clicks Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_summary_non_opens_report.html">Get an Email Did Not Opens Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_summary_forwards_report.html">Get an Email Forwards Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_summary_optouts_report.html">Get an Email Opt-outs Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_links_report.html">Get an Email Link Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_summary_bounces_report.html">Get an Email Bounces Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_campaign_stats_report.html">Get an Email Campaign Stats Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_campaign_activities_stats_report.html">Get an Email Campaign Activities Stats Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/email_bulk_campaign_summary_report.html">Get an Email Campaigns Summary Report</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Segments</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/segments_overview.html">Segments Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/segment_create.html">Create a Segment</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/segment_get_all.html">Get all Segments</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/segment_get.html">Get a Segment's Details</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/segment_delete.html">Delete a Segment</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/segment_update.html">Update a Segment</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/segment_rename.html">Rename a Segment</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Landing Page Reports</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/lp_reports_overview.html">Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/lp_reports_unique_contact_clicks.html">Get a Unique Contacts Clicks Landing Page Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/lp_reports_contact_opens.html">Get all Contact Opens Landing Page Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/lp_reports_unique_contact_opens.html">Get a Unique Contacts Opens Landing Page Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/lp_reports_unique_contact_adds.html">Get a Unique Contact Adds Landing Page Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/lp_reports_unique_contact_sms_optins.html">Get a Unique Contact SMS Opt-in Opens Landing Page Report</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/lp_reports_unique_contact_updates.html">Get a Unique Contact Updates Landing Page Report</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Technology Partners</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partners_overview.html">Technology Partner Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partners_dev_accts.html">Signup for a Technology Partner Developer Account</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partners_reg_creds.html">Technology Partner Registration</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partners_auth.html">Technology Partner Authentication</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partner_sso_config.html">Configuring Single Sign On</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partners_accts_create.html">Create a Partner Client Account</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partners_accts_get.html">Get all Partner Client Accounts</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partners_plans_get.html">Get Billing Plan Details for a Client Account</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partners_plans_update.html">Update the Billing Plan for a Client Account</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partners_plans_cancel.html">Cancel the Billing Plan for a Client Account</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partners_master_token.html">Send API Requests on Behalf of Managed Client Accounts</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">Technology Partner Webhooks</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/partner_webhook_overview.html">Partner Webhooks Overview</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/webhook_single.html">Get a Partner Webhook</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/webhook_collection.html">Get all Partner Webhooks</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/webhook_put.html">Subscribe (PUT) to a Partner Webhook</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/webhook_delete.html">Unsubscribe (Delete) a Partner Webhook</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/webhooks_post.html">Test (POST) Webhook Subscriptions</a></li>
+                
+                
+                
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/webhook_authenticity.html">Webhook Authenticity</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">HTTP Status Response Codes</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/glossary_responses.html">Response Codes</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+        
+        <li>
+            
+            
+            <a href="#">V3 API Schema</a>
+            
+            
+            <ul class="List--unstyled">
+                
+                
+                
+                <li><a href="https://developer.constantcontact.com/api_guide/v3api_schema.html">V3 API Schema Download</a></li>
+                
+                
+                
+                
+            </ul>
+            
+            
+            
+            <!-- if you aren't using the accordion, uncomment this block:
+               <p class="external">
+                   <a href="#" id="collapseAll">Collapse All</a> | <a href="#" id="expandAll">Expand All</a>
+               </p>
+               -->
+        </li>
+    </ul>
+</nav>
+
+<!-- this highlights the active parent class in the navgoco sidebar. this is critical so that the parent expands when you're viewing a page. This must appear below the sidebar code above. Otherwise, if placed inside customscripts.js, the script runs before the sidebar code runs and the class never gets inserted.-->
+<script>$("li.active").parents('li').toggleClass("active");</script>
+
+            </div>
+
+            <!-- Content Column -->
+            <div class="content">
+                <div class="inner">
+                    <div class="post-header">
+   <h1 class="post-title-main">User Roles and Privileges Overview</h1>
+</div>
+
+
+
+<div class="post-content">
+
+   
+    <div class="summary">Describes how Constant Contact controls access to API resources.</div>
+   
+
+    
+    
+<!-- this handles the automatic toc. use ## for subheads to auto-generate the on-page minitoc. if you use html tags, you must supply an ID for the heading element in order for it to appear in the minitoc. -->
+<script>
+$( document ).ready(function() {
+  // Handler for .ready() called.
+$('#toc').toc({ minimumHeaders: 0, listType: 'ul', showSpeed: 0, headers: 'h1,h2,h3,h4' });
+
+/* this offset helps account for the space taken up by the floating toolbar. */
+$('#toc').on('click', 'a', function() {
+  var target = DOMPurify.sanitize(this.getAttribute('href')),
+      scroll_target = document.getElementById(target).offset().top
+
+  $('html, body').scrollTop(scroll_target - 41);
+  return false
+})
+  
+});
+</script>
+
+<div id="toc" class="Well toc"></div>
+
+    
+
+  <p>Constant Contact allows multiple users to work together using a single account. To accommodate multiple users, Constant Contact uses user roles and privileges. User roles are types of users in Constant Contact that have collections of privileges associated with them. Privileges permit users to access different endpoints and methods in the V3 API. Constant Contact currently has three user roles:</p>
+
+<ul>
+  <li>
+    <p>Account Owner: The user that currently has ownership of an account. In the V3 API, account owners have privileges that allow them to access all currently available endpoints and methods. This includes access to campaigns, contacts, contact lists, and reporting data.</p>
+  </li>
+  <li>
+    <p>Account Manager: A user that the account owner appoints to manage the account. In the V3 API, account managers have privileges that allow them to access all currently available endpoints and methods. This includes access to campaigns, contacts, contact lists, and reporting data.</p>
+  </li>
+  <li>
+    <p>Campaign Creator: A user that the account owner appoints to create and edit campaigns. In the V3 API, campaign creators only have privileges that allow them to create campaigns, edit campaigns, view campaigns, and view contact lists. Campaign creators lack the privileges necessary to access contacts, access reports, or modify contact lists.</p>
+  </li>
+</ul>
+
+<div class="Msg"><span class="Msg-heading" data-qe-id="Msg-ID5-heading">Account Owner and Account Manager Differences</span> Account owners can use the Constant Contact UI to add users, modify user roles, and change billing information. Account managers cannot add users, modify user roles, or change billing information.</div>
+
+<p>Because the users roles have different levels of access to data in Constant Contact, you should take the user roles into account when you build your application. Use the <a href="https://developer.constantcontact.com/api_reference/index.html#!/Account_Services/getUserPrivileges">GET /account/user/privileges</a> endpoint to return the user privileges associated with your access token.</p>
+
+<h1 id="user-roles-and-privileges-reference-table">User Roles and Privileges Reference Table</h1>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>User Role</th>
+      <th>Role Description</th>
+      <th>Role Privileges</th>
+    </tr>
+  </thead>
+    <tbody>
+      <tr>
+        <td>Account Owner</td>
+        <td>Account owners can access all resources and operations that are currently available in the V3 API.</td>
+        <td><ul>
+        <li>contacts:read</li>
+        <li>contacts:write</li>
+        <li>contacts:lists:read</li>
+        <li>contacts:lists:write</li>
+        <li>ui:campaign:metrics</li>
+        <li>campaign:read</li>
+        <li>campaign:create</li>
+        <li>campaign:write</li>
+        <li>campaign:send</li>
+        <li>account:read</li>
+        <li>account:update</li></ul></td>
+      </tr>
+      <tr>
+        <td>Account Manager</td>
+        <td>Account managers can access all resources and operations that are currently available in the V3 API.</td>
+<td><ul>
+        <li>contacts:read</li>
+        <li>contacts:write</li>
+        <li>contacts:lists:read</li>
+        <li>contacts:lists:write</li>
+        <li>ui:campaign:metrics</li>
+        <li>campaign:read</li>
+        <li>campaign:create</li>
+        <li>campaign:write</li>
+        <li>campaign:send</li>
+        <li>account:read</li></ul></td>
+        </tr>
+      <tr>
+        <td>Campaign Creator</td>
+        <td>Campaign creators are limited to creating campaigns, updating campaigns, viewing campaigns, and viewing contact lists. Campaign creators cannot send campaigns, access contacts, view reports, or modify contact lists.</td>
+        <td><ul>
+        <li>campaign:read</li>
+        <li>campaign:create</li>
+        <li>campaign:write </li>
+        <li>contacts:lists:read</li></ul></td></tr>
+      </tbody></table>
+
+<h1 id="v3-api-endpoint-privileges">V3 API Endpoint Privileges</h1>
+<h2 id="account-services">Account Services</h2>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Description</th>
+      <th>Endpoint Method and Route</th>
+      <th>Required Privileges</th>
+    </tr>
+ </thead>
+   <tbody>
+     <tr>
+       <td>Get details about a Constant Contact user account.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Account_Services/getAccountById">GET /account/summary</a></td>
+       <td>account:read</td>
+     </tr>
+     <tr>
+       <td>Update details about a Constant Contact user account.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Account_Services/putCustomerById">PUT /account/summary</a></td>
+       <td>account:update</td>
+     </tr>
+     <tr>
+       <td>Get the organization's physical address that is associated with a Constant Contact user account.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Account_Services/getPhysicalAddress">GET /account/summary/physical_address</a></td>
+       <td>account:read</td>
+    </tr>
+    <tr>
+       <td>Update the organization's physical address that is associated with a Constant Contact user account.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Account_Services/putPhysicalAddress">PUT /account/summary/physical_address</a></td>
+       <td>account:update</td>
+    </tr> 
+    <tr>
+       <td>Get user privileges.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Account_Services/getUserPrivileges">GET /account/user/privileges</a></td>
+       <td>None</td>
+     </tr>
+    <tr>
+       <td>Add a new email address to an account.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Account_Services/addAccountEmailAddress">POST /account/emails</a></td>
+       <td>account:update</td>
+    </tr> 
+    <tr>
+       <td>Get a collection of account emails.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Account_Services/retrieveEmailAddresses">GET /account/emails</a></td>
+       <td>account:read</td>
+    </tr>      
+</tbody></table>
+
+<h2 id="contacts-privileges">Contacts Privileges</h2>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Description</th>
+      <th>Endpoint Method and Route</th>
+      <th>Required Privileges</th>
+    </tr>
+  </thead>
+    <tbody>
+      <tr>
+        <td>Get a collection of contacts.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contacts/getContacts">GET /contacts</a></td>
+        <td>contacts:read</td>
+      </tr>
+      <tr>
+        <td>Create a contact.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contacts/createContact">POST /contacts</a></td>
+        <td>contacts:write</td>
+      </tr>
+      <tr>
+        <td>Create or update a contact using a single method.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contacts/createOrUpdateContact">POST /contacts/sign_up_form</a></td>
+        <td>contacts:write</td>
+      </tr>
+      <tr>
+        <td>Get a collection of V2 and V3 contact ids.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contacts/getContactIdXrefs">GET /contacts/contact_id_xrefs</a></td>
+        <td>contacts:read</td>
+      </tr>
+      <tr>
+        <td>Get a single contact.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contacts/getContact">GET /contacts/{contact_id}</a></td>
+        <td>contacts:read</td>
+      </tr>
+      <tr>
+        <td>Update a contact.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contacts/putContact">PUT /contacts/{contact_id}</a></td>
+        <td>contacts:write</td>
+      </tr>
+      <tr>
+        <td>Delete a contact.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contacts/deleteContact">DELETE /contacts/{contact_id}</a></td>
+        <td>contacts:write</td>
+      </tr>
+      <tr>
+         <td>Get contact consent counts by consent state.</td>
+         <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contacts/countContact">GET /contacts/counts</a></td>
+         <td>contacts:read</td>
+       </tr>      
+      <tr>
+         <td>Get contact sms engagment details.</td>
+         <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contacts/getSmsEngagementHistory">GET /contacts/sms_engagement_history/{contact_id}</a></td>
+         <td>contacts:read</td>
+      </tr>      
+    </tbody>
+</table>
+
+<h2 id="contact-lists-privileges">Contact Lists Privileges</h2>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Description</th>
+      <th>Endpoint Method and Route</th>
+      <th>Required Privileges</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>Get a collection of contact lists.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contact_Lists/getLists">GET /contact_lists</a></td>
+        <td>contacts:lists:read</td>
+      </tr>
+      <tr>
+        <td>Create a contact list.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contact_Lists/createList">POST /contact_lists</a></td>
+        <td>contacts:lists:write</td>
+      </tr>
+      <tr>
+        <td>Get a collection of V2 and V3 list ids.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contact_Lists/getListIdXrefs">GET /contact_lists/list_id_xrefs</a></td>
+        <td>contacts:lists:read</td>
+      </tr>
+      <tr>
+        <td>Get a single contact list.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contact_Lists/getList">GET /contact_lists/{list_id}</a></td>
+        <td>contacts:lists:read</td>
+      </tr>
+      <tr>
+        <td>Update a contact list.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contact_Lists/putList">PUT /contact_lists/{list_id}</a></td>
+        <td>contacts:lists:write</td>
+      </tr>
+      <tr>
+        <td>Delete a contact list.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contact_Lists/deleteList">DELETE /contact_lists/{list_id}</a></td>
+        <td>contacts:lists:write</td>
+      </tr>
+    </tbody>
+</table>
+
+<h2 id="contact-custom-fields-privileges">Contact Custom Fields Privileges</h2>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Description</th>
+      <th>Endpoint Method and Route</th>
+      <th>Required Privileges</th>
+    </tr>
+  </thead>
+    <tbody>
+      <tr>
+        <td>Get a collection of contact custom fields.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Custom_Fields/getCustomFields">GET /contact_custom_fields</a></td>
+        <td>contacts:read</td>
+      </tr>
+      <tr>
+        <td>Create a contact custom field.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Custom_Fields/postCustomFields">POST /contact_custom_fields</a></td>
+        <td>contacts:write</td>
+      </tr>
+      <tr>
+        <td>Get a contact single custom field.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Custom_Fields/getCustomField">GET /contact_custom_fields/{custom_field_id}</a></td>
+        <td>contacts:read</td>
+      </tr>
+      <tr>
+        <td>Update a contact custom field.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Custom_Fields/putCustomField">PUT /contact_custom_fields/{custom_field_id}</a></td>
+        <td>contacts:write</td>
+      </tr>
+      <tr>
+        <td>Delete a contact custom field.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Custom_Fields/delete_contact_custom_fields_custom_field_id">DELETE /contact_custom_fields/{custom_field_id}</a></td>
+        <td>contacts:write</td>
+      </tr>
+    </tbody>
+ </table>
+
+<h2 id="contact-tags-privileges">Contact Tags Privileges</h2>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Description</th>
+      <th>Endpoint Method and Route</th>
+      <th>Required Privileges</th>
+    </tr>
+ </thead>
+   <tbody>
+     <tr>
+       <td>Get details about a specific tag.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contact_Tags/getTag">GET /contact_tags/{tag_id}</a></td>
+       <td>contacts:read</td>
+     </tr>
+     <tr>
+       <td>Get details about all tags.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contact_Tags/getTag">GET /contact_tags</a></td>
+       <td>contacts:read</td>
+     </tr>  
+     <tr>
+       <td>Create a tag.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contact_Tags/postTag">POST /contact_tags</a></td>
+       <td>contacts:write</td>
+     </tr>
+     <tr>
+       <td>Rename a tag.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contact_Tags/putTag">PUT /contact_tags/{tag_id}</a></td>
+       <td>contacts:write</td>
+     </tr>  
+     <tr>
+       <td>Delete a tag.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contact_Tags/deleteTag">DELETE /contact_tags/{tag_id}</a></td>
+       <td>contacts:write</td>
+     </tr>    
+   </tbody>
+</table>
+
+<h2 id="bulk-activity-operation-privileges">Bulk Activity Operation Privileges</h2>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Description</th>
+      <th>Endpoint Method and Route</th>
+      <th>Required Privileges</th>
+    </tr>
+ </thead>
+   <tbody>
+     <tr>
+       <td>Get a collection of bulk activities.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Bulk_Activities/get_activities">GET /activities</a></td>
+       <td>contacts:write</td>
+     </tr>
+     <tr>
+       <td>Get the status of a single bulk activity.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Bulk_Activities/getActivity">GET /activities/{activity_id}</a></td>
+       <td>contacts:write</td>
+     </tr>
+     <tr>
+       <td>Add contacts to contact lists bulk activity.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Bulk_Activities/postListAddContact">POST /activities/add_list_memberships</a></td>
+       <td>contacts:write</td>
+     </tr>
+     <tr>
+       <td>Remove contacts from contact lists bulk activity.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Bulk_Activities/postContactDelete">POST /activities/remove_list_memberships</a></td>
+       <td>contacts:write</td>
+     </tr>
+    <tr>
+       <td>Remove custom fields from an account bulk activity.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Bulk_Activities/postCustomFieldDelete">POST /activities/custom_fields_delete</a></td>
+       <td>contacts:write</td>
+     </tr>
+     <tr>
+       <td>Import contacts from a CSV file.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Bulk_Activities/post_activities_contacts_file_import">POST /activities/contacts_file_import</a></td>
+       <td>contacts:write</td>
+     </tr>
+     <tr>
+       <td>Import contacts from a JSON payload.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Bulk_Activities/post_activities_contacts_json_import">POST /activities/contacts_json_import</a></td>
+       <td>contacts:write</td>
+     </tr>
+     <tr>
+       <td>Delete contacts bulk activity.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Bulk_Activities/postContactDelete">POST /activities/contact_delete</a></td>
+       <td>contacts:write</td>
+     </tr>
+     <tr>
+       <td>Export contacts to a CSV file.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Bulk_Activities/postContactsExport">POST /activities/contact_exports</a></td>
+       <td>contacts:write</td>
+     </tr>
+     <tr>  
+       <td>Delete lists</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Bulk_Activities/postListDelete"> POST /activities/list_delete</a></td>
+       <td>contacts:write</td>
+     </tr>       
+     <tr>  
+       <td>Add tags</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Bulk_Activities/postTagAddContact"> POST /activities/contacts_taggings_add</a></td>
+       <td>contacts:write</td>
+     </tr>       
+     <tr>
+       <td>Remove tags from contacts.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Bulk_Activities/postTagRemoveContact">POST /activities/contacts_taggings_remove</a></td>
+       <td>contacts:write</td>
+     </tr>   
+     <tr>  
+       <td>Delete tags</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Bulk_Activities/postTagDelete"> POST /activities/contacts_tags_delete</a></td>
+       <td>contacts:write</td>
+     </tr> 
+   </tbody>
+</table>
+
+<h2 id="reports-privileges">Reports Privileges</h2>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Description</th>
+      <th>Endpoint Method and Route</th>
+      <th>Required Privileges</th>
+    </tr>
+ </thead>
+   <tbody>
+     <tr>
+       <td>Get the tracking activity data for a contact.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contacts_Reporting/getContactTracking">GET /reports/contact_reports/{contact_id}/activity_details</a></td>
+       <td>ui:campaign:metrics</td>
+     </tr>
+     <tr>
+       <td>Get the contact action summary for a contact.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contacts_Reporting/getContactTrackingCount">GET /reports/contact_reports/{contact_id}/activity_summary</a></td>
+       <td>ui:campaign:metrics</td>
+     </tr>
+     <tr>
+        <td>Get an Email Campaigns Statistics Report.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getEmailSummary">GET /reports/stats/email_campaigns/{campaign_ids}</a></td>
+        <td>ui:campaign:metrics</td>
+     </tr>
+     <tr>
+        <td>Get an Email Campaign Activity Statistics Report.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getEmailCampaignActivitySummary">GET /reports/stats/email_campaign_activity/{campaign_activity_ids}</a></td>
+        <td>ui:campaign:metrics</td>
+     </tr>     
+     <tr>
+        <td>Get an Email Campaigns Summary Report.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getAllBulkEmailCampaignSummaries">GET /reports/summary_reports/email_campaign_summaries</a></td>
+        <td>ui:campaign:metrics</td>
+     </tr>
+     <tr>
+       <td>Get the average open and click rate for a contact.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Contacts_Reporting/get_reports_contact_reports_contact_id_open_and_click_rates">GET /reports/contact_reports/{contact_id}/open_and_click_rates</a></td>
+       <td>ui:campaign:metrics</td>
+     </tr>\
+     <tr>
+       <td>Get a links report for an email campaign activity.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getCampaignActivityLinkStats">GET /reports/email_reports/{email_campaign_activity_id}/links</a></td>
+       <td>ui:campaign:metrics</td>
+     </tr>
+     <tr>
+       <td>Get a opens report for an email campaign activity.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getOpens">GET /reports/email_reports/{email_campaign_activity_id}/tracking/opens</a></td>
+       <td>ui:campaign:metrics</td>
+     </tr>
+     <tr>
+       <td>Get a unique opens report listing the last time each unique contact opened the email campaign activity.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getUniqueOpens"> GET/reports/email_reports/{campaign_activity_id}/tracking/unique_opens</a></td>
+       <td>ui:campaign:metrics</td>
+     </tr>
+     <tr>
+       <td>Get a sends report for an email campaign activity.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getSends">GET /reports/email_reports/{email_campaign_activity_id}/tracking/sends</a></td>
+       <td>ui:campaign:metrics</td>
+     </tr>
+     <tr>
+       <td>Get a clicks report for an email campaign activity.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getClicks">GET /reports/email_reports/{email_campaign_activity_id}/tracking/clicks</a></td>
+       <td>ui:campaign:metrics</td>
+     </tr>
+     <tr>
+       <td>Get a did not opens report for an email campaign activity.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getDidNotOpens">GET /reports/email_reports/{email_campaign_activity_id}/tracking/didnotopens</a></td>
+       <td>ui:campaign:metrics</td>
+     </tr>
+     <tr>
+       <td>Get a forwards report for an email campaign activity.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getForwards">GET /reports/email_reports/{email_campaign_activity_id}/tracking/forwards</a></td>
+       <td>ui:campaign:metrics</td>
+     </tr>
+     <tr>
+       <td>Get an opt-outs (unsubscribe) report for an email campaign activity.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getOptouts">GET /reports/email_reports/{email_campaign_activity_id}/tracking/optouts</a></td>
+       <td>ui:campaign:metrics</td>
+     </tr>
+     <tr>
+       <td>Get a bounces report for an email campaign activity.</td>
+       <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Reporting/getBounces">GET /reports/email_reports/{email_campaign_activity_id}/tracking/bounces</a></td>
+       <td>ui:campaign:metrics</td>
+     </tr>
+   </tbody>
+</table>
+
+<h2 id="emails-privileges">Emails Privileges</h2>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Description</th>
+      <th>Endpoint Method and Route</th>
+      <th>Required Privileges</th>
+    </tr>
+  </thead>
+    <tbody>
+      <tr>
+        <td>Get a collection of email campaigns.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/retrieveEmailCampaignsUsingGET">GET /emails</a></td>
+        <td>campaign:read</td>
+      </tr>
+      <tr>
+        <td>Create a new email campaign in your email campaign collection.</td>
+        <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/createEmailCampaignUsingPOST">POST /emails</a></td>
+        <td>campaign:write</td>
+      </tr>
+      <tr>
+        <td>Rename an existing email campaign.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/renameEmailCampaignUsingPATCH">PATCH /emails</a></td>
+        <td>campaign:write</td>
+      </tr>
+      <tr>
+        <td>Get a collection of V2 and V3 campaign ids.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/retrieveXrefMappingsUsingGET">GET /emails/campaign_id_xrefs</a></td>
+        <td>campaign:read</td>
+      </tr>
+      <tr>
+        <td>Get a single email campaign and a list of associated campaign activities.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/retrieveEmailCampaignUsingGET">GET /emails/{campaign_id}</a></td>
+        <td>campaign:read</td>
+      </tr>
+      <tr>
+        <td>Get a single email campaign activity.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/retrieveEmailCampaignActivityUsingGET">GET /emails/activities/{campaign_activity_id}</a></td>
+        <td>campaign:read</td>
+      </tr>
+      <tr>
+        <td>Update a single email campaign activity.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/updateEmailCampaignActivityUsingPUT">PUT /emails/activities/{campaign_activity_id}</a></td>
+        <td>campaign:write</td>
+      </tr>
+      <tr>
+        <td>Get the send history for a single email campaign activity.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Scheduling/retrieveEmailSendHistoryUsingGET">GET /emails/activities/{campaign_activity_id}/send_history</a></td>
+        <td>campaign:read</td>
+      </tr>
+      <tr>
+        <td>Schedule an email campaign activity.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Scheduling/scheduleEmailCampaignActivityUsingPOST">POST /emails/activities/{campaign_activity_id}/schedules</a></td>
+        <td>campaign:send</td>
+      </tr>
+      <tr>
+        <td>Get the schedule of an email campaign activity.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Scheduling/retrieveEmailSchedulesUsingGET">GET /emails/activities/{campaign_activity_id}/schedules</a></td>
+        <td>campaign:read</td>
+      </tr>
+      <tr>  
+        <td>Unschedule an email campaign activity.</td>
+        <td> <a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Scheduling/unscheduleEmailCampaignActivityUsingDELETE"> DELETE /emails/activities/{campaign_activity_id}/schedules</a></td>
+        <td>campaign:send</td>
+      </tr>
+      <tr>
+         <td>Delete an email campaign and all associated email campaign activities.</td>
+         <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/removeEmailCampaignUsingDELETE"> DELETE /emails/{campaign_id}</a></td>
+         <td>campaign:write</td>
+      </tr>
+      <tr>
+        <td>Get an HTML preview of an email campaign activity.</td>
+         <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Scheduling/retrieveEmailCampaignActivityPreviewUsingGET"> GET /emails/activities/{campaign_activity_id}/previews</a></td>
+        <td>campaign:read</td>
+      </tr>
+      <tr>
+        <td>Test send an email campaign activity.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Scheduling/testSendCampaignActivityUsingPOST"> GET /emails/activities/{campaign_activity_id}/tests</a></td>
+        <td>campaign:send</td>
+      </tr>
+      <tr>
+        <td>Resend (schedule) a primary email campaign activity to non-openers.
+        </td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/createResendToNonOpenersUsingPOST"> POST /emails/activities/{campaign_activity_id}/non_opener_resends. </a>
+        </td>
+        <td>campaign:send</td>
+      </tr>      
+      <tr>
+        <td>Get details for a single resend to non-openers email campaign activity.
+        </td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/retrieveResendToNonOpenersUsingGET"> GET /emails/activities/{campaign_activity_id}/non_opener_resends. </a>
+        </td>
+        <td>campaign:read</td>
+      </tr>
+      <tr>
+        <td>Delete (unschedule) a resend to non-openers email campaign activity.
+        </td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns/deleteResendToNonOpenersUsingDELETE"> DELETE /emails/activities/{campaign_activity_id}/non_opener_resends/{resend_request_id}. </a>
+        </td>
+        <td>campaign:send</td>
+      </tr> 
+      <tr>
+        <td>Get A/B test details for a primary email campaign activity.
+        </td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns_AB_Tests%20git%20push%20origin%20git%20push%20origin/retrieveEmailCampaignABTestUsingGET">GET /emails/activities/{campaign_activity_id}/abtest</a>
+        </td>
+        <td>campaign:read</td>
+      </tr>
+      <tr>
+      <td>Delete an A/B test for a primary email campaign activity.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns_AB_Tests/deleteEmailCampaignABTestUsingDELETE"> DELETE /emails/activities/{campaign_activity_id}/abtest</a>
+        </td>
+        <td>campaign:write</td>
+      </tr>
+      <tr>
+        <td>Create an A/B test for a primary email campaign activity.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Email_Campaigns_AB_Tests/createEmailCampaignABTestUsingPOST"> POST /emails/activities/{campaign_activity_id}/abtest</a>
+        </td>
+        <td>campaign:write</td>
+        </tr>
+<!--      <tr>
+        <td>Update an A/B test for a primary email campaign activity.</td>
+        <td><a href="/api_reference/index.html#!/Email_Campaigns_AB_Tests/updateEmailCampaignABTestUsingPUT"> PUT /emails/activities/{campaign_activity_id}/abtest</a>
+        </td>
+        <td>campaign:write</td>
+      </tr>  -->     
+    </tbody>
+</table>
+
+<h2 id="segment-privileges">Segment Privileges</h2>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Description</th>
+      <th>Endpoint Method and Route</th>
+      <th>Required Privileges</th>
+    </tr>
+  </thead>
+    <tbody>
+      <tr>
+        <td>Create a segment.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Segments/createSegment">POST /segments</a></td>
+        <td>contacts:lists:write</td>
+      </tr>
+      <tr>
+        <td>Get a list of segments for an account.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Segments/getAccountSegments">GET /segments</a></td>
+        <td>contacts:lists:read</td>
+      </tr>
+      <tr>
+        <td>Get details about a segment.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Segments/getSegmentDetail">GET /segments/{segment_id}</a></td>
+        <td>contacts:lists:read</td>
+      </tr>
+      <tr>
+        <td>Delete a segment.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Segments/deleteSegment">DELETE /segments/{segment_id}</a></td>
+        <td>contacts:lists:write</td>
+      </tr>
+      <tr>
+        <td>Update a segment's name and/or contact selection criteria.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Segments/updateSegment">UPDATE /segments/{segment_id}</a></td>
+        <td>contacts:lists:write</td>
+      </tr>
+      <tr>
+        <td>Rename a segment.</td>
+         <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Segments/updateSegmentName">PATCH /segments/{segment_id}/name</a></td>
+         <td>contacts:lists:write</td>
+      </tr>
+    </tbody>
+</table>
+
+<h2 id="landing-page-reporting-privileges">Landing Page Reporting Privileges</h2>
+
+<table class="Table Table--bodyBorder">
+ <thead class="Table-head">
+    <tr>
+      <th>Description</th>
+      <th>Endpoint Method and Route</th>
+      <th>Required Privileges</th>
+    </tr>
+  </thead>
+    <tbody>
+      <tr>
+        <td>Get details for contacts that uniquely click a link on a specific landing page.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Landing_Pages_Reporting/getUniqueContactClicks">GET /reports/landing_pages/campaign_details/{campaign_activity_id}/p_unique_contact_clicks</a></td>
+        <td>ui:campaign:metrics</td>
+      </tr>
+      <tr>
+        <td>Get details for contacts that uniquely click a link on a specific landing page to opt in to receiving SMS messages.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Landing_Pages_Reporting/getUniqueContactSMSOptIns">GET /reports/landing_pages/campaign_details/{campaign_activity_id}/p_unique_contact_sms_optins</a></td>
+        <td>ui:campaign:metrics</td>
+      </tr>
+      <tr>
+        <td>Get details for contacts that uniquely open a specific landing page.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Landing_Pages_Reporting/getUniqueContactOpens">GET /reports/landing_pages/campaign_details/{campaign_activity_id}/p_unique_contact_opens</a></td>
+        <td>ui:campaign:metrics</td>
+      </tr>
+      <tr>
+        <td>Get details for each time contacts open a specific landing page.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Landing_Pages_Reporting/getContactOpens">GET /reports/landing_pages/campaign_details/{campaign_activity_id}/p_contact_opens</a></td>
+        <td>ui:campaign:metrics</td>
+      </tr>
+      <tr>
+        <td>Get contact details for each contact added to the account from a specific landing page.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Landing_Pages_Reporting/getUniqueContactAdds">GET /reports/landing_pages/campaign_details/{campaign_activity_id}/p_unique_contact_adds</a></td>
+        <td>ui:campaign:metrics</td>
+      </tr>
+      <tr>
+        <td>Get contact details for each contact in an account that was updated from a specific landing page.</td>
+        <td><a href="https://developer.constantcontact.com/api_reference/index.html#!/Landing_Pages_Reporting/getUniqueContactUpdates">GET /reports/landing_pages/campaign_details/{campaign_activity_id}/p_unique_contact_updates</a></td>
+        <td>ui:campaign:metrics</td>
+      </tr>
+    </tbody>
+</table>
+
+<h1 id="error-behavior-for-user-privileges">Error Behavior for User Privileges</h1>
+
+<p>The V3 API returns a 403 Forbidden error when you attempt to access an endpoint on behalf of a user that lacks the necessary privileges for the endpoint. Use the <a href="https://developer.constantcontact.com/api_reference/index.html#!/Account_Services/getUserPrivileges">GET /account/user/privileges</a> endpoint and the <a href="#v3-api-endpoint-privileges">V3 API Endpoint Privileges table</a> to determine which privileges you are missing.</p>
+
+<div class="Msg"><span class="Msg-heading" data-qe-id="Msg-ID5-heading">OAuth Scopes</span> In addition to the restrictions imposed by roles and their associated privileges, you can also use OAuth2 scopes to further restrict your application's access to Constant Contact resources. For more information, see the <a href="scopes.html">Authorization Scopes Overview</a>.</div>
+
+
+    <script src="https://static.ctctcdn.com/h/fed-framework/1.3.0/fed.min.js"></script>
+
+    <script type="text/javascript">
+    $(".js-tab").fedTab();
+    </script>
+
+
+    <div class="tags">
+        
+        <b>Tags: </b>
+        
+        
+        
+        <a href="https://developer.constantcontact.com/api_guide/tag_authorization.html"  style="text-transform: none;"class="Badge Badge--teal" role="button" data-qe-id="tag-authorization-link">authorization</a>
+        
+        
+        
+        <a href="https://developer.constantcontact.com/api_guide/tag_privileges.html"  style="text-transform: none;"class="Badge Badge--teal" role="button" data-qe-id="tag-privileges-link">privileges</a>
+        
+        
+        
+        <a href="https://developer.constantcontact.com/api_guide/tag_roles.html"  style="text-transform: none;"class="Badge Badge--teal" role="button" data-qe-id="tag-roles-link">roles</a>
+        
+        
+        
+    </div>
+
+</div>
+
+<div class="shaded"/>
+
+                </div>
+            </div>
+
+        </section>
+
+        <dev-portal-footer></dev-portal-footer>
+
+
+    </div>
+
+</body>
+
+</html>
