@@ -8,7 +8,18 @@ import axios from 'axios';
 dotenv.config();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+
+// Configure CORS
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://your-frontend-domain.com'] // Replace with your actual frontend domain
+    : ['http://localhost:5173'],
+  credentials: true
+}));
+
+// Parse JSON bodies
+app.use(express.json());
 
 // Store states for OAuth flow
 const states = new Set<string>();
@@ -103,10 +114,6 @@ const squareClient = new Client({
     ? Environment.Production 
     : Environment.Sandbox,
 });
-
-// Middleware
-app.use(cors());
-app.use(express.json());
 
 // OAuth Routes
 app.get('/auth/constantcontact', (req, res) => {
@@ -315,6 +322,12 @@ app.post('/api/process-payment', async (req, res) => {
       error: error instanceof Error ? error.message : 'Payment processing failed'
     });
   }
+});
+
+// Basic error handling
+app.use((err: Error, req: Request, res: Response, next: any) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
 });
 
 // Default route

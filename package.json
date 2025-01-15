@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "concurrently \"vite\" \"npm run server\"",
     "server": "tsx watch src/server/server.ts",
-    "build": "tsc && vite build",
+    "start": "node dist/server/server.js",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "tsc && vite build",
+    "build:server": "tsc -p tsconfig.server.json",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
